@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion '19.1.0'
+
+  defaultConfig {
+    applicationId "com.fernandocejas.android10.sample.presentation"
+    minSdkVersion 15
+    targetSdkVersion 19
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/ASL2.0'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+
+  lintOptions {
+    abortOnError false;
+    disable 'InvalidPackage' // Some libraries have issues with this.
+    disable 'OldTargetApi'   // Lint gives this warning but SDK 20 would be Android L Beta.
+    disable 'IconDensities'  // For testing purpose. This is safe to remove.
+  }
+
+  buildTypes {
+    release {
+      runProguard false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+dependencies {
+  androidTestCompile fileTree(dir: 'testLibs', include: '*.jar')
+}
