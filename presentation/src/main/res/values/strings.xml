@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Android Clean Architecture</string>
+  <string name="url">http://www.android10.org/</string>
+
+  <string name="btn_text_load_data">Load Sample Data</string>
 </resources>
