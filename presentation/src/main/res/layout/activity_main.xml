@@ -21,13 +21,13 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:src="@drawable/logo"
+      android:contentDescription="@string/string_content_description"
       />
 
   <Button
       android:id="@+id/btn_LoadData"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
       android:text="@string/btn_text_load_data"
       />
 

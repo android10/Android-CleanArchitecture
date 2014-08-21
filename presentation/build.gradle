@@ -35,7 +35,10 @@ android {
     }
   }
 }
+
 dependencies {
+  def domainLayer = project(':domain')
+  compile domainLayer
 
   //compile this only for testing. I had to use a workaround for using Espresso (it is not in the
   //maven central repository): since both Mockito and Espresso use 'hamcrest' I had to remove them
