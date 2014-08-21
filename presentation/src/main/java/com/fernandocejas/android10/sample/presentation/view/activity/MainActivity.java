@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
    * Maps the graphical user interface controls.
    */
   private void mapGUI() {
-    btn_LoadData = (Button)findViewById(R.id.btn_LoadData);
+    btn_LoadData = (Button) findViewById(R.id.btn_LoadData);
     btn_LoadData.setOnClickListener(loadDataOnClickListener);
   }
 

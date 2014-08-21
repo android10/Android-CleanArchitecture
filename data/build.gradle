@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion '19.1.0'
+
+  defaultConfig {
+    applicationId "com.fernandocejas.android10.sample.data"
+    minSdkVersion 15
+    targetSdkVersion 19
+  }
+
+  packagingOptions {
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/ASL2.0'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+
+  lintOptions {
+    abortOnError false;
+    disable 'InvalidPackage' // Some libraries have issues with this
+    disable 'OldTargetApi'   // Due to Robolectric that modifies the manifest when running tests
+  }
+}
+
+dependencies {
+  def domainLayer = project(':domain')
+
+  //project dependencies
+  compile domainLayer
+
+  //library dependencies
+  compile('com.google.code.gson:gson:2.2.4')
+}
