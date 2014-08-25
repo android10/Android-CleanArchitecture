@@ -12,7 +12,7 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
  * By convention this use case ({@link Interactor}) implementation will return the result using a
  * callback that should be executed in the UI thread.
  */
-public interface GetUserUseCase {
+public interface GetUserDetailsUseCase {
   /**
    * Callback used to be notified when either a user has been loaded or an error happened.
    */
@@ -24,7 +24,7 @@ public interface GetUserUseCase {
   /**
    * Executes this user case.
    * @param userId The user id to retrieve.
-   * @param callback A {@link GetUserUseCase.Callback} used for notify the client.
+   * @param callback A {@link GetUserDetailsUseCase.Callback} used for notify the client.
    */
   public void execute(int userId, Callback callback);
 }

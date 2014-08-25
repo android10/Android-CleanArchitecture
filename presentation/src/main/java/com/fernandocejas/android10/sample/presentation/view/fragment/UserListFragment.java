@@ -4,17 +4,24 @@
  */
 package com.fernandocejas.android10.sample.presentation.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
+import com.fernandocejas.android10.sample.presentation.view.UserListView;
+import java.util.Collection;
 
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseFragment {
+public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListPresenter userListPresenter;
 
@@ -35,10 +42,43 @@ public class UserListFragment extends BaseFragment {
     this.userListPresenter.pause();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override protected void initializePresenter() {
-    this.userListPresenter = new UserListPresenter();
+    // All these dependency initialization could have been avoided using a
+    // dependency injection framework. But in this case are used this way for
+    // learning example purpose.
+    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(null);
+    this.userListPresenter = new UserListPresenter(this, getUserListUseCase);
+  }
+
+  @Override public void showLoading() {
+
+  }
+
+  @Override public void hideLoading() {
+
+  }
+
+  @Override public void showRetry() {
+
+  }
+
+  @Override public void hideRetry() {
+
+  }
+
+  @Override public void renderUserList(Collection<UserModel> userModelCollection) {
+
+  }
+
+  @Override public void showError(String message) {
+
+  }
+
+  @Override public Context getContext() {
+    return this.getActivity().getApplicationContext();
+  }
+
+  private void showToastMessage(String message) {
+    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
   }
 }
