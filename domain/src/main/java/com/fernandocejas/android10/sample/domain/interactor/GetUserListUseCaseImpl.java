@@ -14,6 +14,9 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
   private final UserRepository userRepository;
 
   public GetUserListUseCaseImpl(UserRepository userRepository) {
+    if (userRepository == null) {
+      throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
+    }
     this.userRepository = userRepository;
   }
 

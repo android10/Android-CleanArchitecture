@@ -10,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
+import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
+import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
+import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
@@ -46,7 +50,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
     // All these dependency initialization could have been avoided using a
     // dependency injection framework. But in this case are used this way for
     // learning example purpose.
-    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(null);
+    UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext());
+    UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
+    UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
+        userEntityDataMapper);
+    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository);
     this.userListPresenter = new UserListPresenter(this, getUserListUseCase);
   }
 
