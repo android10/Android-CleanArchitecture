@@ -7,5 +7,12 @@ package com.fernandocejas.android10.sample.presentation.presenter;
 /**
  *
  */
-public class UserListPresenter {
+public class UserListPresenter implements Presenter {
+  @Override public void resume() {
+
+  }
+
+  @Override public void pause() {
+
+  }
 }
