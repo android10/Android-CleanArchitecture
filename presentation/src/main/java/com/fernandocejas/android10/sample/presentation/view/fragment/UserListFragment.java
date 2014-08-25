@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
@@ -29,10 +31,20 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListPresenter userListPresenter;
 
+  private RelativeLayout rl_progress;
+  private RelativeLayout rl_retry;
+  private Button bt_retry;
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, true);
+
+    this.rl_progress = (RelativeLayout) fragmentView.findViewById(R.id.rl_progress);
+    this.rl_retry = (RelativeLayout) fragmentView.findViewById(R.id.rl_retry);
+    this.bt_retry = (Button) fragmentView.findViewById(R.id.bt_retry);
+    this.bt_retry.setOnClickListener(retryOnClickListener);
+
     return fragmentView;
   }
 
@@ -79,14 +91,33 @@ public class UserListFragment extends BaseFragment implements UserListView {
   }
 
   @Override public void showError(String message) {
-
+    this.showToastMessage(message);
   }
 
   @Override public Context getContext() {
     return this.getActivity().getApplicationContext();
   }
 
+  /**
+   * Shows a {@link android.widget.Toast} message.
+   * @param message An string representing a message to be shown.
+   */
   private void showToastMessage(String message) {
     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
   }
+
+  /**
+   * Loads all users.
+   */
+  private void loadUserList() {
+    if (this.userListPresenter != null) {
+      this.userListPresenter.loadUserList();
+    }
+  }
+
+  final View.OnClickListener retryOnClickListener = new View.OnClickListener() {
+    @Override public void onClick(View view) {
+      UserListFragment.this.loadUserList();
+    }
+  };
 }

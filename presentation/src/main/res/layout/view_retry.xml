@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_retry"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    >
+
+  <Button
+      android:id="@+id/bt_retry"
+      style="@style/AppTheme.Button"
+      android:text="@string/btn_text_retry"
+      />
+
+</RelativeLayout>

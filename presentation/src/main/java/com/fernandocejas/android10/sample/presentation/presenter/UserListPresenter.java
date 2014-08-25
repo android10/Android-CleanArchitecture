@@ -31,7 +31,10 @@ public class UserListPresenter implements Presenter {
     //nothing to do here
   }
 
-  private void loadUserList() {
+  /**
+   * Loads all users.
+   */
+  public void loadUserList() {
     this.viewListView.hideRetry();
     this.viewListView.showLoading();
   }

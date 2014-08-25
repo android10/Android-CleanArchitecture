@@ -4,4 +4,20 @@
   <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
   </style>
 
+  <style name="AppTheme.ProgressBar">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_centerInParent">true</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:visibility">visible</item>
+  </style>
+
+  <style name="AppTheme.Button">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_centerVertical">true</item>
+    <item name="android:layout_centerHorizontal">true</item>
+    <item name="android:layout_gravity">center</item>
+  </style>
+
 </resources>

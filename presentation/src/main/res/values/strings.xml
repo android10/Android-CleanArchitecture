@@ -7,6 +7,7 @@
   <string name="activity_title_user_details">User Details</string>
 
   <string name="btn_text_load_data">Load Sample Data</string>
+  <string name="btn_text_retry">Retry</string>
 
   <string name="string_content_description">Non accessible view</string>
 
