@@ -19,8 +19,6 @@ public class UserDataStoreFactory {
 
   /**
    * Create {@link UserDataStore} from a user id.
-   * @param userId
-   * @return
    */
   public UserDataStore create(int userId) {
     UserDataStore userDataStore = null;

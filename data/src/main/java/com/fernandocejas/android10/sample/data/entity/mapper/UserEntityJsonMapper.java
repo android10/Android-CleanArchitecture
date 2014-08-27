@@ -30,11 +30,10 @@ public class UserEntityJsonMapper {
    */
   public UserEntity transform(String userJsonResponse) throws JsonSyntaxException {
     try {
-      Type userEntityType = new TypeToken<UserEntity>(){}.getType();
+      Type userEntityType = new TypeToken<UserEntity>() {}.getType();
       UserEntity userEntity = this.gson.fromJson(userJsonResponse, userEntityType);
 
       return userEntity;
-
     } catch (JsonSyntaxException jsonException) {
       throw jsonException;
     }

@@ -19,6 +19,7 @@ public class UserEntityDataMapper {
 
   /**
    * Transform a {@link UserEntity} into an {@link User}.
+   *
    * @param userEntity Object to be transformed.
    * @return {@link User}.
    */

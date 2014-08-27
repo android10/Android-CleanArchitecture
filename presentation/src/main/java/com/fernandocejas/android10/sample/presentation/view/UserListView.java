@@ -36,12 +36,14 @@ public interface UserListView {
 
   /**
    * Render a user list in the UI.
+   *
    * @param userModelCollection The collection of {@link UserModel} that will be shown.
    */
   void renderUserList(Collection<UserModel> userModelCollection);
 
   /**
    * Show an error message
+   *
    * @param message A string representing an error.
    */
   void showError(String message);

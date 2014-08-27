@@ -18,11 +18,13 @@ public interface GetUserDetailsUseCase {
    */
   interface Callback {
     void onUserDataLoaded(User user);
+
     void onError(ErrorBundle errorBundle);
   }
 
   /**
    * Executes this user case.
+   *
    * @param userId The user id to retrieve.
    * @param callback A {@link GetUserDetailsUseCase.Callback} used for notify the client.
    */

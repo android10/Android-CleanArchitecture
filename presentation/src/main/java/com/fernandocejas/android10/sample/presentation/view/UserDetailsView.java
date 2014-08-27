@@ -35,12 +35,14 @@ public interface UserDetailsView {
 
   /**
    * Render a user in the UI.
+   *
    * @param user The {@link UserModel} that will be shown.
    */
   void renderUser(UserModel user);
 
   /**
    * Show an error message
+   *
    * @param message A string representing an error.
    */
   void showError(String message);

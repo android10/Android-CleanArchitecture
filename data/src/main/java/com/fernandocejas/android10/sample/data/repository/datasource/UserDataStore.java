@@ -16,11 +16,13 @@ public interface UserDataStore {
    */
   interface Callback {
     void onUserEntityLoaded(UserEntity userEntity);
+
     void onError(Exception exception);
   }
 
   /**
    * Get a {@link UserEntity} by its id.
+   *
    * @param id The id to retrieve user data.
    * @param callback A {@link UserDataStore.Callback} for notifications.
    */

@@ -17,6 +17,7 @@ public interface UserRepository {
    */
   interface UserCallback {
     void onUserLoaded(User user);
+
     void onError(ErrorBundle errorBundle);
   }
 
@@ -25,17 +26,20 @@ public interface UserRepository {
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<User> user);
+
     void onError(ErrorBundle errorBundle);
   }
 
   /**
    * Get a collection of {@link User}.
+   *
    * @param userListCallback A {@link UserListCallback} used for notifying clients.
    */
   void getUserList(UserListCallback userListCallback);
 
   /**
    * Get an {@link User} by id.
+   *
    * @param userId The user id used to retrieve user data.
    * @param userCallback A {@link UserCallback} used for notifying clients.
    */

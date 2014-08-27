@@ -46,6 +46,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Set an image from a remote url.
+   *
    * @param imageUrl The url of the resource to load.
    */
   public void setImageUrl(final String imageUrl) {
@@ -59,6 +60,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Set a place holder used for loading when an image is being downloaded from the internet.
+   *
    * @param resourceId The resource id to use as a place holder.
    */
   public void setImagePlaceHolder(int resourceId) {
@@ -77,6 +79,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Loads and image from the internet (and cache it) or from the internal cache.
+   *
    * @param imageUrl The remote image url to load.
    */
   private void loadImageFromUrl(final String imageUrl) {
@@ -85,7 +88,6 @@ public class AutoLoadImageView extends ImageView {
         final Bitmap bitmap = AutoLoadImageView.this.getFromCache(getFileNameFromUrl(imageUrl));
         if (bitmap != null) {
           AutoLoadImageView.this.loadBitmap(bitmap);
-
         } else {
           if (isThereInternetConnection()) {
             final ImageDownloader imageDownloader = new ImageDownloader();
@@ -94,11 +96,11 @@ public class AutoLoadImageView extends ImageView {
                 AutoLoadImageView.this.cacheBitmap(bitmap, getFileNameFromUrl(imageUrl));
                 AutoLoadImageView.this.loadBitmap(bitmap);
               }
+
               @Override public void onError() {
                 AutoLoadImageView.this.loadImagePlaceHolder();
               }
             });
-
           } else {
             AutoLoadImageView.this.loadImagePlaceHolder();
           }
@@ -109,10 +111,11 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Run the operation of loading a bitmap on the UI thread.
+   *
    * @param bitmap The image to load.
    */
   private void loadBitmap(final Bitmap bitmap) {
-    ((Activity)getContext()).runOnUiThread(new Runnable() {
+    ((Activity) getContext()).runOnUiThread(new Runnable() {
       @Override public void run() {
         AutoLoadImageView.this.setImageBitmap(bitmap);
       }
@@ -124,9 +127,10 @@ public class AutoLoadImageView extends ImageView {
    */
   private void loadImagePlaceHolder() {
     if (this.imagePlaceHolderResourceId != -1) {
-      ((Activity)getContext()).runOnUiThread(new Runnable() {
+      ((Activity) getContext()).runOnUiThread(new Runnable() {
         @Override public void run() {
-          AutoLoadImageView.this.setImageResource(AutoLoadImageView.this.imagePlaceHolderResourceId);
+          AutoLoadImageView.this.setImageResource(
+              AutoLoadImageView.this.imagePlaceHolderResourceId);
         }
       });
     }
@@ -134,6 +138,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Get a {@link android.graphics.Bitmap} from the internal cache or null if it does not exist.
+   *
    * @param fileName The name of the file to look for in the cache.
    * @return A valid cached bitmap, otherwise null.
    */
@@ -147,6 +152,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Cache an image using the internal cache.
+   *
    * @param bitmap The bitmap to cache.
    * @param fileName The file name used for caching the bitmap.
    */
@@ -158,13 +164,14 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Checks if the device has any active internet connection.
+   *
    * @return true device with internet connection, otherwise false.
    */
   private boolean isThereInternetConnection() {
     boolean isConnected;
 
     ConnectivityManager connectivityManager =
-        (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
     isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
 
@@ -173,6 +180,7 @@ public class AutoLoadImageView extends ImageView {
 
   /**
    * Creates a file name from an image url
+   *
    * @param imageUrl The image url used to build the file name.
    * @return An String representing a unique file name.
    */
@@ -191,6 +199,7 @@ public class AutoLoadImageView extends ImageView {
   private static class ImageDownloader {
     interface Callback {
       void onImageDownloaded(Bitmap bitmap);
+
       void onError();
     }
 
@@ -198,6 +207,7 @@ public class AutoLoadImageView extends ImageView {
 
     /**
      * Download an image from an url.
+     *
      * @param imageUrl The url of the image to download.
      * @param callback A callback used to be reported when the task is finished.
      */
@@ -205,11 +215,10 @@ public class AutoLoadImageView extends ImageView {
       try {
         URLConnection conn = new URL(imageUrl).openConnection();
         conn.connect();
-        Bitmap bitmap =  BitmapFactory.decodeStream(conn.getInputStream());
+        Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
         if (callback != null) {
           callback.onImageDownloaded(bitmap);
         }
-
       } catch (MalformedURLException e) {
         reportError(callback);
       } catch (IOException e) {
@@ -219,6 +228,7 @@ public class AutoLoadImageView extends ImageView {
 
     /**
      * Report an error to the caller
+     *
      * @param callback Caller implementing {@link Callback}
      */
     private void reportError(Callback callback) {
@@ -243,6 +253,7 @@ public class AutoLoadImageView extends ImageView {
 
     /**
      * Get an element from the cache.
+     *
      * @param fileName The name of the file to look for.
      * @return A valid element, otherwise false.
      */
@@ -250,13 +261,14 @@ public class AutoLoadImageView extends ImageView {
       Bitmap bitmap = null;
       File file = buildFileFromFilename(fileName);
       if (file.exists()) {
-          bitmap = BitmapFactory.decodeFile(file.getPath());
+        bitmap = BitmapFactory.decodeFile(file.getPath());
       }
       return bitmap;
     }
 
     /**
      * Cache an element.
+     *
      * @param bitmap The bitmap to be put in the cache.
      * @param fileName A string representing the name of the file to be cached.
      */
@@ -268,7 +280,6 @@ public class AutoLoadImageView extends ImageView {
           bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
           fileOutputStream.flush();
           fileOutputStream.close();
-
         } catch (FileNotFoundException e) {
           Log.e(TAG, e.getMessage());
         } catch (IOException e) {
@@ -290,6 +301,7 @@ public class AutoLoadImageView extends ImageView {
 
     /**
      * Creates a file name from an image url
+     *
      * @param fileName The image url used to build the file name.
      * @return A {@link java.io.File} representing a unique element.
      */

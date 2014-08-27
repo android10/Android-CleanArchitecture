@@ -28,6 +28,7 @@ public class UserDataRepository implements UserRepository {
 
   /**
    * Constructs a {@link UserRepository}.
+   *
    * @param dataStoreFactory A factory to construct different data source implementations.
    * @param userEntityDataMapper {@link UserEntityDataMapper}.
    */
