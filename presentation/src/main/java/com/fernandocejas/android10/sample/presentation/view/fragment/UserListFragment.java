@@ -19,6 +19,7 @@ import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -61,13 +62,14 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override protected void initializePresenter() {
     // All these dependency initialization could have been avoided using a
     // dependency injection framework. But in this case are used this way for
-    // learning example purpose.
+    // LEARNING EXAMPLE PURPOSE.
     UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext());
     UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
     UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
         userEntityDataMapper);
     GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository);
-    this.userListPresenter = new UserListPresenter(this, getUserListUseCase);
+    UserModelDataMapper userModelDataMapper = new UserModelDataMapper();
+    this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
   }
 
   @Override public void showLoading() {

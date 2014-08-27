@@ -24,7 +24,7 @@ public abstract class BaseFragment extends Fragment {
   }
 
   /**
-   * Initializes the {@link com.fernandocejas.android10.sample.presentation.presenter.Presenter}
+   * Initializes the {@link com.fernandocejas.android10.sample.presentation.presenter.BasePresenter}
    * for this fragment in a MVP pattern used to architect the application presentation layer.
    */
   abstract void initializePresenter();

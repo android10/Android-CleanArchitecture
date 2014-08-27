@@ -4,23 +4,32 @@
  */
 package com.fernandocejas.android10.sample.presentation.presenter;
 
+import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
+import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
+import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
+import java.util.Collection;
 
 /**
  *
  */
-public class UserListPresenter implements Presenter {
+public class UserListPresenter extends BasePresenter {
 
   private final UserListView viewListView;
-  private final GetUserListUseCase getUserListUserCase;
+  private final GetUserListUseCase getUserListUseCase;
+  private final UserModelDataMapper userModelDataMapper;
 
-  public UserListPresenter(UserListView userListView, GetUserListUseCase getUserListUserCase) {
-    if (userListView == null || getUserListUserCase == null) {
+  public UserListPresenter(UserListView userListView, GetUserListUseCase getUserListUserCase,
+      UserModelDataMapper userModelDataMapper) {
+    if (userListView == null || getUserListUserCase == null || userModelDataMapper == null) {
       throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
     }
     this.viewListView = userListView;
-    this.getUserListUserCase = getUserListUserCase;
+    this.getUserListUseCase = getUserListUserCase;
+    this.userModelDataMapper = userModelDataMapper;
   }
 
   @Override public void resume() {
@@ -35,7 +44,53 @@ public class UserListPresenter implements Presenter {
    * Loads all users.
    */
   public void loadUserList() {
-    this.viewListView.hideRetry();
+    this.hideViewRetry();
+    this.showViewLoading();
+    this.getUserList();
+  }
+
+  private void showViewLoading() {
     this.viewListView.showLoading();
   }
+
+  private void hideViewLoading() {
+    this.viewListView.hideLoading();
+  }
+
+  private void showViewRetry() {
+    this.viewListView.showRetry();
+  }
+
+  private void hideViewRetry() {
+    this.viewListView.hideRetry();
+  }
+
+  private void showErrorMessage(ErrorBundle errorBundle) {
+    String errorMessage = ErrorMessageFactory.create(this.viewListView.getContext(),
+        errorBundle.getException());
+    this.viewListView.showError(errorMessage);
+  }
+
+  private void showUsersCollectionInView(Collection<User> usersCollection) {
+    final Collection<UserModel> userModelsCollection =
+        this.userModelDataMapper.transform(usersCollection);
+    this.viewListView.renderUserList(userModelsCollection);
+  }
+
+  private void getUserList() {
+    this.getUserListUseCase.getUserList(userListCallback);
+  }
+
+  private final GetUserListUseCase.Callback userListCallback = new GetUserListUseCase.Callback() {
+    @Override public void onUserListLoaded(Collection<User> usersCollection) {
+      UserListPresenter.this.showUsersCollectionInView(usersCollection);
+      UserListPresenter.this.hideViewLoading();
+    }
+
+    @Override public void onError(ErrorBundle errorBundle) {
+      UserListPresenter.this.hideViewLoading();
+      UserListPresenter.this.showErrorMessage(errorBundle);
+      UserListPresenter.this.showViewRetry();
+    }
+  };
 }
