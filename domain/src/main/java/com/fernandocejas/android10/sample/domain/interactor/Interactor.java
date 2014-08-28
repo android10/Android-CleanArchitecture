@@ -5,13 +5,14 @@
 package com.fernandocejas.android10.sample.domain.interactor;
 
 /**
- * Common interface for an interactor declared in the application.
- * This interface represents a execution unit for different use cases.
+ * Common interface for an Interactor {@link java.lang.Runnable} declared in the application.
+ * This interface represents a execution unit for different use cases (this means any use case
+ * in the application should implement this contract).
  *
- * By convention each interactor implementation will return the result using a Callback should be
- * executed in the UI thread.
+ * By convention each Interactor implementation will return the result using a Callback that should
+ * be executed in the UI thread.
  */
-public interface Interactor {
+public interface Interactor extends Runnable {
   /**
    * Everything inside this method will be executed asynchronously.
    */

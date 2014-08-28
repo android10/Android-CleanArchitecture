@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
+import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
+import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
+import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.UIThread;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
@@ -65,10 +69,18 @@ public class UserListFragment extends BaseFragment implements UserListView {
     // LEARNING EXAMPLE PURPOSE.
     UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext());
     UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
+
     UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
         userEntityDataMapper);
-    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository);
+
+    ThreadExecutor threadExecutor = JobExecutor.getInstance();
+    PostExecutionThread postExecutionThread = UIThread.getInstance();
+
+    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository,
+        threadExecutor, postExecutionThread);
+
     UserModelDataMapper userModelDataMapper = new UserModelDataMapper();
+
     this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
   }
 

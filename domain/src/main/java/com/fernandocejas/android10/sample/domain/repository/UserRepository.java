@@ -17,7 +17,6 @@ public interface UserRepository {
    */
   interface UserCallback {
     void onUserLoaded(User user);
-
     void onError(ErrorBundle errorBundle);
   }
 
@@ -25,8 +24,7 @@ public interface UserRepository {
    * Callback used to be notified when either a user list has been loaded or an error happened.
    */
   interface UserListCallback {
-    void onUserListLoaded(Collection<User> user);
-
+    void onUserListLoaded(Collection<User> usersCollection);
     void onError(ErrorBundle errorBundle);
   }
 

@@ -13,10 +13,7 @@ import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import java.util.Collection;
 
-/**
- *
- */
-public class UserListPresenter extends BasePresenter {
+public class UserListPresenter implements Presenter {
 
   private final UserListView viewListView;
   private final GetUserListUseCase getUserListUseCase;
@@ -36,9 +33,7 @@ public class UserListPresenter extends BasePresenter {
     this.loadUserList();
   }
 
-  @Override public void pause() {
-    //nothing to do here
-  }
+  @Override public void pause() {}
 
   /**
    * Loads all users.
@@ -78,7 +73,7 @@ public class UserListPresenter extends BasePresenter {
   }
 
   private void getUserList() {
-    this.getUserListUseCase.getUserList(userListCallback);
+    this.getUserListUseCase.execute(userListCallback);
   }
 
   private final GetUserListUseCase.Callback userListCallback = new GetUserListUseCase.Callback() {

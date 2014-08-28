@@ -12,13 +12,7 @@ import com.fernandocejas.android10.sample.domain.interactor.Interactor;
  *
  * Use this class to execute an {@link Interactor}.
  */
-public interface Executor {
-  /**
-   * Executes an {@link Interactor} by creating a new runnable and execute its run() method.
-   * @param interactor The {@link Interactor} to execute.
-   */
-  void execute(final Interactor interactor);
-
+public interface ThreadExecutor {
   /**
    * Executes a {@link Runnable}.
    * @param runnable The class that implements {@link Runnable} interface.
