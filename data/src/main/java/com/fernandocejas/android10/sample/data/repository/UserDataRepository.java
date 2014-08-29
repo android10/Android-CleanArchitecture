@@ -45,7 +45,7 @@ public class UserDataRepository implements UserRepository {
 
   }
 
-  @Override public void getUserById(int userId, UserCallback userCallback) {
+  @Override public void getUserById(int userId, UserDetailsCallback userCallback) {
 
   }
 }

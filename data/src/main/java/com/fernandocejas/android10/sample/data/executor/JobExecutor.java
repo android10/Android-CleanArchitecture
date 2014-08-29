@@ -45,6 +45,7 @@ public class JobExecutor implements ThreadExecutor {
 
   /**
    * {@inheritDoc}
+   *
    * @param runnable The class that implements {@link Runnable} interface.
    */
   @Override public void execute(Runnable runnable) {

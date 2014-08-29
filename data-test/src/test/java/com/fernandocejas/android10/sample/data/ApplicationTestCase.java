@@ -16,7 +16,8 @@ public class ApplicationTestCase {
 
   /**
    * Resets a Singleton class.
-   * This works using reflection and looking for a private field in the singleton called "INSTANCE".
+   * This works using reflection and looking for a private field in the singleton called
+   * "INSTANCE".
    * It is actually a workaround (hack?) to avoid global state when testing in isolation.
    *
    * @param clazz The class to reset.

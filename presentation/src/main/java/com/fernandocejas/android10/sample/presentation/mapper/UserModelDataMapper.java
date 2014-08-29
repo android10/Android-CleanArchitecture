@@ -22,6 +22,7 @@ public class UserModelDataMapper {
 
   /**
    * Transform a {@link User} into an {@link UserModel}.
+   *
    * @param user Object to be transformed.
    * @return {@link UserModel}.
    */
@@ -41,6 +42,7 @@ public class UserModelDataMapper {
 
   /**
    * Transform a Collection of {@link User} into a Collection of {@link UserModel}.
+   *
    * @param usersCollection Objects to be transformed.
    * @return List of {@link UserModel}.
    */

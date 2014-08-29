@@ -79,5 +79,4 @@ public class UserModel {
 
     return stringBuilder.toString();
   }
-
 }

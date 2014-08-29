@@ -15,8 +15,9 @@ public interface UserRepository {
   /**
    * Callback used to be notified when either a user has been loaded or an error happened.
    */
-  interface UserCallback {
+  interface UserDetailsCallback {
     void onUserLoaded(User user);
+
     void onError(ErrorBundle errorBundle);
   }
 
@@ -25,6 +26,7 @@ public interface UserRepository {
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<User> usersCollection);
+
     void onError(ErrorBundle errorBundle);
   }
 
@@ -39,7 +41,7 @@ public interface UserRepository {
    * Get an {@link User} by id.
    *
    * @param userId The user id used to retrieve user data.
-   * @param userCallback A {@link UserCallback} used for notifying clients.
+   * @param userCallback A {@link UserDetailsCallback} used for notifying clients.
    */
-  void getUserById(final int userId, UserCallback userCallback);
+  void getUserById(final int userId, UserDetailsCallback userCallback);
 }

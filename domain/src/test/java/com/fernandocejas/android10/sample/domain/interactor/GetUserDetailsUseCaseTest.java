@@ -6,6 +6,4 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 public class GetUserDetailsUseCaseTest {
 
-
-
 }

@@ -28,8 +28,10 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
    * Constructor of the class.
    *
    * @param userRepository A {@link UserRepository} as a source for retrieving data.
-   * @param threadExecutor {@link ThreadExecutor} used to execute this use case in a background thread.
-   * @param postExecutionThread {@link PostExecutionThread} used to post updates when the use case has been executed.
+   * @param threadExecutor {@link ThreadExecutor} used to execute this use case in a background
+   * thread.
+   * @param postExecutionThread {@link PostExecutionThread} used to post updates when the use case
+   * has been executed.
    */
   public GetUserListUseCaseImpl(UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
@@ -55,14 +57,14 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
 
   private final UserRepository.UserListCallback repositoryCallback =
       new UserRepository.UserListCallback() {
-    @Override public void onUserListLoaded(Collection<User> usersCollection) {
-      notifyGetUserListSuccessfully(usersCollection);
-    }
+        @Override public void onUserListLoaded(Collection<User> usersCollection) {
+          notifyGetUserListSuccessfully(usersCollection);
+        }
 
-    @Override public void onError(ErrorBundle errorBundle) {
-      notifyError(errorBundle);
-    }
-  };
+        @Override public void onError(ErrorBundle errorBundle) {
+          notifyError(errorBundle);
+        }
+      };
 
   private void notifyGetUserListSuccessfully(final Collection<User> usersCollection) {
     this.postExecutionThread.post(new Runnable() {

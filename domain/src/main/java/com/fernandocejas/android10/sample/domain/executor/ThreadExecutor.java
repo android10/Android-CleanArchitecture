@@ -15,6 +15,7 @@ import com.fernandocejas.android10.sample.domain.interactor.Interactor;
 public interface ThreadExecutor {
   /**
    * Executes a {@link Runnable}.
+   *
    * @param runnable The class that implements {@link Runnable} interface.
    */
   void execute(final Runnable runnable);

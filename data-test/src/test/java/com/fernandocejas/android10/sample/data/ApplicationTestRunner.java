@@ -24,7 +24,6 @@ public class ApplicationTestRunner extends RobolectricTestRunner {
   /**
    * Call this constructor to specify the location of resources and AndroidManifest.xml.
    *
-   * @param testClass
    * @throws org.junit.runners.model.InitializationError
    */
   public ApplicationTestRunner(Class<?> testClass) throws InitializationError {

@@ -76,13 +76,15 @@ public class GetUserListUseCaseTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testUserListUseCaseCallbackSuccessful() {
-    final GetUserListUseCase.Callback mockGetUserListCallback = mock(GetUserListUseCase.Callback.class);
-    final Collection<User> mockResponseUserList = (Collection<User>)mock(Collection.class);
+    final GetUserListUseCase.Callback mockGetUserListCallback =
+        mock(GetUserListUseCase.Callback.class);
+    final Collection<User> mockResponseUserList = (Collection<User>) mock(Collection.class);
 
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
     doAnswer(new Answer() {
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
-        ((UserRepository.UserListCallback)invocation.getArguments()[0]).onUserListLoaded(mockResponseUserList);
+        ((UserRepository.UserListCallback) invocation.getArguments()[0]).onUserListLoaded(
+            mockResponseUserList);
         return null;
       }
     }).when(mockUserRepository).getUserList(any(UserRepository.UserListCallback.class));
@@ -97,13 +99,14 @@ public class GetUserListUseCaseTest {
 
   @Test
   public void testUserListUseCaseCallbackError() {
-    final GetUserListUseCase.Callback mockGetUserListUseCaseCallback = mock(GetUserListUseCase.Callback.class);
+    final GetUserListUseCase.Callback mockGetUserListUseCaseCallback =
+        mock(GetUserListUseCase.Callback.class);
     final ErrorBundle mockErrorBundle = mock(ErrorBundle.class);
 
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
     doAnswer(new Answer() {
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
-        ((UserRepository.UserListCallback)invocation.getArguments()[0]).onError(mockErrorBundle);
+        ((UserRepository.UserListCallback) invocation.getArguments()[0]).onError(mockErrorBundle);
         return null;
       }
     }).when(mockUserRepository).getUserList(any(UserRepository.UserListCallback.class));
