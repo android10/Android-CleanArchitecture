@@ -4,6 +4,7 @@
  */
 package com.fernandocejas.android10.sample.data.exception;
 
+import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-public class RepositoryErrorBundleTest {
+public class RepositoryErrorBundleTest extends ApplicationTestCase {
 
   private RepositoryErrorBundle repositoryErrorBundle;
 
