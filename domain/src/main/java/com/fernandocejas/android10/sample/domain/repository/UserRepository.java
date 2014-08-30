@@ -13,20 +13,18 @@ import java.util.Collection;
  */
 public interface UserRepository {
   /**
-   * Callback used to be notified when either a user has been loaded or an error happened.
-   */
-  interface UserDetailsCallback {
-    void onUserLoaded(User user);
-
-    void onError(ErrorBundle errorBundle);
-  }
-
-  /**
    * Callback used to be notified when either a user list has been loaded or an error happened.
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<User> usersCollection);
+    void onError(ErrorBundle errorBundle);
+  }
 
+  /**
+   * Callback used to be notified when either a user has been loaded or an error happened.
+   */
+  interface UserDetailsCallback {
+    void onUserLoaded(User user);
     void onError(ErrorBundle errorBundle);
   }
 

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Collection;
 
 /**
  * Class used to transform from Strings representing json to valid objects.
@@ -28,7 +29,7 @@ public class UserEntityJsonMapper {
    * @return {@link UserEntity}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public UserEntity transform(String userJsonResponse) throws JsonSyntaxException {
+  public UserEntity transformUserEntity(String userJsonResponse) throws JsonSyntaxException {
     try {
       Type userEntityType = new TypeToken<UserEntity>() {}.getType();
       UserEntity userEntity = this.gson.fromJson(userJsonResponse, userEntityType);
@@ -37,5 +38,10 @@ public class UserEntityJsonMapper {
     } catch (JsonSyntaxException jsonException) {
       throw jsonException;
     }
+  }
+
+  public Collection<UserEntity> transformUserEntityCollection(String userJsonResponse)
+      throws JsonSyntaxException {
+    return null;
   }
 }

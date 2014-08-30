@@ -14,7 +14,7 @@ package com.fernandocejas.android10.sample.domain.interactor;
  */
 public interface Interactor extends Runnable {
   /**
-   * Everything inside this method will be executed asynchronously.
-   */
+  * Everything inside this method will be executed asynchronously.
+  */
   void run();
 }

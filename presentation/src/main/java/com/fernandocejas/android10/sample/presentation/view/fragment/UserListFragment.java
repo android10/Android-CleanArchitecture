@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import com.fernandocejas.android10.sample.data.cache.FileManager;
+import com.fernandocejas.android10.sample.data.cache.UserCache;
+import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
+import com.fernandocejas.android10.sample.data.cache.serializer.JsonSerializer;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
@@ -72,18 +76,20 @@ public class UserListFragment extends BaseFragment implements UserListView {
     // All these dependency initialization could have been avoided using a
     // dependency injection framework. But in this case are used this way for
     // LEARNING EXAMPLE PURPOSE.
-    UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext());
-    UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
-
-    UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
-        userEntityDataMapper);
-
     ThreadExecutor threadExecutor = JobExecutor.getInstance();
     PostExecutionThread postExecutionThread = UIThread.getInstance();
 
+    JsonSerializer userCacheSerializer = new JsonSerializer();
+    UserCache userCache = UserCacheImpl.getInstance(getActivity(), userCacheSerializer,
+        FileManager.getInstance(), threadExecutor);
+    UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext(),
+        userCache, threadExecutor);
+    UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
+    UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
+        userEntityDataMapper);
+
     GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository,
         threadExecutor, postExecutionThread);
-
     UserModelDataMapper userModelDataMapper = new UserModelDataMapper();
 
     this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
