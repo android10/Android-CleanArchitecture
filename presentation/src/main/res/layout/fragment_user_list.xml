@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     >
 
+  <ListView
+      android:id="@+id/lv_users"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      />
+
   <include
       layout="@layout/view_progress"
       />

@@ -2,4 +2,15 @@
   <!-- Default screen margins, per the Android Design guidelines. -->
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
+
+  <!--Header stuff-->
+  <dimen name="header_text_size">18sp</dimen>
+  <dimen name="header_margin">5dp</dimen>
+  <dimen name="header_padding">2dp</dimen>
+
+  <!--Listview rows stuff-->
+  <dimen name="lv_row_padding">5dp</dimen>
+  <dimen name="lv_row_text_size">16sp</dimen>
+  <dimen name="lv_row_icon_width">36dp</dimen>
+  <dimen name="lv_row_icon_padding">5dp</dimen>
 </resources>

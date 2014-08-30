@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
@@ -27,6 +27,7 @@ import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMappe
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
+import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import java.util.Collection;
 
 /**
@@ -36,15 +37,19 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListPresenter userListPresenter;
 
+  private ListView lv_users;
   private RelativeLayout rl_progress;
   private RelativeLayout rl_retry;
   private Button bt_retry;
+
+  private UsersAdapter usersAdapter;
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, true);
 
+    this.lv_users = (ListView) fragmentView.findViewById(R.id.lv_users);
     this.rl_progress = (RelativeLayout) fragmentView.findViewById(R.id.rl_progress);
     this.rl_retry = (RelativeLayout) fragmentView.findViewById(R.id.rl_retry);
     this.bt_retry = (Button) fragmentView.findViewById(R.id.bt_retry);
@@ -103,7 +108,14 @@ public class UserListFragment extends BaseFragment implements UserListView {
   }
 
   @Override public void renderUserList(Collection<UserModel> userModelCollection) {
-
+    if (userModelCollection != null) {
+      if (this.usersAdapter == null) {
+        this.usersAdapter = new UsersAdapter(getActivity(), userModelCollection);
+      } else {
+        this.usersAdapter.setUsersCollection(userModelCollection);
+      }
+      this.lv_users.setAdapter(usersAdapter);
+    }
   }
 
   @Override public void showError(String message) {
@@ -112,15 +124,6 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public Context getContext() {
     return this.getActivity().getApplicationContext();
-  }
-
-  /**
-   * Shows a {@link android.widget.Toast} message.
-   *
-   * @param message An string representing a message to be shown.
-   */
-  private void showToastMessage(String message) {
-    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
   }
 
   /**
