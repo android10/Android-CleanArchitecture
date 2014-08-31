@@ -5,6 +5,7 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.cache.UserCache;
+import com.fernandocejas.android10.sample.data.entity.UserEntity;
 
 /**
  * {@link UserDataStore} implementation based on file system data store.
@@ -22,11 +23,32 @@ public class DiskUserDataStore implements UserDataStore {
     this.userCache = userCache;
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @param userListCallback A {@link UserListCallback} used for notifying clients.
+   */
   @Override public void getUsersEntityList(UserListCallback userListCallback) {
-
+    //TODO: implement simple cache for storing/retrieving collections of users.
+    throw new UnsupportedOperationException("Operation is not available!!!");
   }
 
-  @Override public void getUserEntityDetails(int id, UserDetailsCallback userDetailsCallback) {
+  /**
+   * {@inheritDoc}
+   *
+   * @param id The id to retrieve user data.
+   * @param userDetailsCallback A {@link UserDataStore.UserDetailsCallback} to notify the client.
+   */
+  @Override public void getUserEntityDetails(int id,
+      final UserDetailsCallback userDetailsCallback) {
+    this.userCache.get(id, new UserCache.UserCacheCallback() {
+      @Override public void onUserEntityLoaded(UserEntity userEntity) {
+        userDetailsCallback.onUserEntityLoaded(userEntity);
+      }
 
+      @Override public void onError(Exception exception) {
+        userDetailsCallback.onError(exception);
+      }
+    });
   }
 }
