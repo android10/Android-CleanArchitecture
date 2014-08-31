@@ -71,7 +71,8 @@ public class UserDataRepository implements UserRepository {
    * {@inheritDoc}
    *
    * @param userId The user id used to retrieve user data.
-   * @param userCallback A {@link com.fernandocejas.android10.sample.domain.repository.UserRepository.UserDetailsCallback} used for notifying clients.
+   * @param userCallback A {@link com.fernandocejas.android10.sample.domain.repository.UserRepository.UserDetailsCallback}
+   * used for notifying clients.
    */
   @Override public void getUserById(final int userId, final UserDetailsCallback userCallback) {
     UserDataStore userDataStore = this.userDataStoreFactory.create(userId);

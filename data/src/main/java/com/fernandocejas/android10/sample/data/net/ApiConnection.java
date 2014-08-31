@@ -42,6 +42,7 @@ public class ApiConnection implements Callable<String> {
   /**
    * Do a request to an api asynchronously.
    * It should not be executed in the main thread of the application.
+   *
    * @return A string response
    */
   public String requestSyncCall() {
@@ -60,10 +61,8 @@ public class ApiConnection implements Callable<String> {
       if (responseCode == HttpURLConnection.HTTP_OK) {
         response = getStringFromInputStream(urlConnection.getInputStream());
       } else { response = getStringFromInputStream(urlConnection.getErrorStream()); }
-
     } catch (Exception e) {
       e.printStackTrace();
-
     } finally {
       if (urlConnection != null) { urlConnection.disconnect(); }
     }

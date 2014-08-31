@@ -22,7 +22,6 @@ public class JsonSerializer {
    * Serialize an object to Json.
    *
    * @param userEntity {@link UserEntity} to serialize.
-   * @return
    */
   public String serialize(UserEntity userEntity) {
     String jsonString = gson.toJson(userEntity, UserEntity.class);

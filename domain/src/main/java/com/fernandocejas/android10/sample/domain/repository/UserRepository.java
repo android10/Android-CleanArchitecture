@@ -17,6 +17,7 @@ public interface UserRepository {
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<User> usersCollection);
+
     void onError(ErrorBundle errorBundle);
   }
 
@@ -25,6 +26,7 @@ public interface UserRepository {
    */
   interface UserDetailsCallback {
     void onUserLoaded(User user);
+
     void onError(ErrorBundle errorBundle);
   }
 

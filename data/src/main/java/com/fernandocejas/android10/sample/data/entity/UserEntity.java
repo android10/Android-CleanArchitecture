@@ -80,4 +80,19 @@ public class UserEntity {
   public void setEmail(String email) {
     this.email = email;
   }
+
+  @Override public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+
+    stringBuilder.append("***** User Entity Details *****\n");
+    stringBuilder.append("id=" + this.getUserId() + "\n");
+    stringBuilder.append("cover url=" + this.getCoverUrl() + "\n");
+    stringBuilder.append("fullname=" + this.getFullname() + "\n");
+    stringBuilder.append("email=" + this.getEmail() + "\n");
+    stringBuilder.append("description=" + this.getDescription() + "\n");
+    stringBuilder.append("followers=" + this.getFollowers() + "\n");
+    stringBuilder.append("*******************************");
+
+    return stringBuilder.toString();
+  }
 }

@@ -49,7 +49,8 @@ public class GetUserDetailsUseCaseTest {
   public void testGetUserDetailsUseCaseExecution() {
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
 
-    GetUserDetailsUseCase.Callback mockGetUserDetailsCallback = mock(GetUserDetailsUseCase.Callback.class);
+    GetUserDetailsUseCase.Callback mockGetUserDetailsCallback =
+        mock(GetUserDetailsUseCase.Callback.class);
 
     getUserDetailsUseCase.execute(FAKE_USER_ID, mockGetUserDetailsCallback);
 
@@ -61,10 +62,12 @@ public class GetUserDetailsUseCaseTest {
 
   @Test
   public void testGetUserDetailsUseCaseInteractorRun() {
-    GetUserDetailsUseCase.Callback mockGetUserDetailsCallback = mock(GetUserDetailsUseCase.Callback.class);
+    GetUserDetailsUseCase.Callback mockGetUserDetailsCallback =
+        mock(GetUserDetailsUseCase.Callback.class);
 
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
-    doNothing().when(mockUserRepository).getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
+    doNothing().when(mockUserRepository)
+        .getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
 
     getUserDetailsUseCase.execute(FAKE_USER_ID, mockGetUserDetailsCallback);
     getUserDetailsUseCase.run();
@@ -77,16 +80,19 @@ public class GetUserDetailsUseCaseTest {
 
   @Test
   public void testUserDetailsUseCaseCallbackSuccessful() {
-    final GetUserDetailsUseCase.Callback mockGetUserDetailsCallback = mock(GetUserDetailsUseCase.Callback.class);
+    final GetUserDetailsUseCase.Callback mockGetUserDetailsCallback =
+        mock(GetUserDetailsUseCase.Callback.class);
     final User mockResponseUser = mock(User.class);
 
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
     doAnswer(new Answer() {
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
-        ((UserRepository.UserDetailsCallback)invocation.getArguments()[1]).onUserLoaded(mockResponseUser);
+        ((UserRepository.UserDetailsCallback) invocation.getArguments()[1]).onUserLoaded(
+            mockResponseUser);
         return null;
       }
-    }).when(mockUserRepository).getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
+    }).when(mockUserRepository)
+        .getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
 
     getUserDetailsUseCase.execute(FAKE_USER_ID, mockGetUserDetailsCallback);
     getUserDetailsUseCase.run();
@@ -98,16 +104,19 @@ public class GetUserDetailsUseCaseTest {
 
   @Test
   public void testUserDetailsUseCaseCallbackError() {
-    final GetUserDetailsUseCase.Callback mockGetUserDetailsCallback = mock(GetUserDetailsUseCase.Callback.class);
+    final GetUserDetailsUseCase.Callback mockGetUserDetailsCallback =
+        mock(GetUserDetailsUseCase.Callback.class);
     final ErrorBundle mockErrorHandler = mock(ErrorBundle.class);
 
     doNothing().when(mockThreadExecutor).execute(any(Interactor.class));
     doAnswer(new Answer() {
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
-        ((UserRepository.UserDetailsCallback)invocation.getArguments()[1]).onError(mockErrorHandler);
+        ((UserRepository.UserDetailsCallback) invocation.getArguments()[1]).onError(
+            mockErrorHandler);
         return null;
       }
-    }).when(mockUserRepository).getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
+    }).when(mockUserRepository)
+        .getUserById(anyInt(), any(UserRepository.UserDetailsCallback.class));
 
     getUserDetailsUseCase.execute(FAKE_USER_ID, mockGetUserDetailsCallback);
     getUserDetailsUseCase.run();

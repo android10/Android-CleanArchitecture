@@ -52,11 +52,10 @@ public class UserEntityJsonMapper {
 
     Collection<UserEntity> userEntityCollection;
     try {
-      Type listOfUserEntityType = new TypeToken<Collection<UserEntity>>(){}.getType();
+      Type listOfUserEntityType = new TypeToken<Collection<UserEntity>>() {}.getType();
       userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
 
       return userEntityCollection;
-
     } catch (JsonSyntaxException jsonException) {
       throw jsonException;
     }

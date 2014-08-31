@@ -41,7 +41,6 @@ public class FileManager {
         FileWriter writer = new FileWriter(file);
         writer.write(fileContent);
         writer.close();
-
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -72,7 +71,6 @@ public class FileManager {
         }
         bufferedReader.close();
         fileReader.close();
-
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {

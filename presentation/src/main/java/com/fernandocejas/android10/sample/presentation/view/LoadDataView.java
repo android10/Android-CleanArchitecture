@@ -36,6 +36,7 @@ public interface LoadDataView {
    * @param message A string representing an error.
    */
   void showError(String message);
+
   /**
    * Get a {@link android.content.Context}.
    */

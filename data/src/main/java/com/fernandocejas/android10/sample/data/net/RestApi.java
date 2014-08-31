@@ -17,6 +17,7 @@ public interface RestApi {
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<UserEntity> usersCollection);
+
     void onError(Exception exception);
   }
 
@@ -25,6 +26,7 @@ public interface RestApi {
    */
   interface UserDetailsCallback {
     void onUserEntityLoaded(UserEntity userEntity);
+
     void onError(Exception exception);
   }
 
@@ -46,7 +48,8 @@ public interface RestApi {
    * Retrieves a user by id from the network.
    *
    * @param userId The user id used to get user data.
-   * @param userDetailsCallback {@link UserDetailsCallback} to be notified when user data has been retrieved.
+   * @param userDetailsCallback {@link UserDetailsCallback} to be notified when user data has been
+   * retrieved.
    */
   void getUserById(final int userId, final UserDetailsCallback userDetailsCallback);
 }

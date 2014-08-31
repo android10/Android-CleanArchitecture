@@ -41,7 +41,8 @@ public class RestApiImpl implements RestApi {
 
     if (isThereInternetConnection()) {
       try {
-        ApiConnection getUserListConnection = ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST);
+        ApiConnection getUserListConnection =
+            ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST);
         String responseUserList = getUserListConnection.requestSyncCall();
         Collection<UserEntity> userEntityList =
             this.userEntityJsonMapper.transformUserEntityCollection(responseUserList);

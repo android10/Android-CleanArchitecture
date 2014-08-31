@@ -15,6 +15,7 @@ public class DiskUserDataStore implements UserDataStore {
 
   /**
    * Construct a {@link UserDataStore} based file system data store.
+   *
    * @param userCache A {@link UserCache} to cache data retrieved from the api.
    */
   public DiskUserDataStore(UserCache userCache) {

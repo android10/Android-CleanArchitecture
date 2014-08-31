@@ -16,11 +16,13 @@ public interface UserCache {
    */
   interface UserCacheCallback {
     void onUserEntityLoaded(UserEntity userEntity);
+
     void onError(Exception exception);
   }
 
   /**
    * Gets an element from the cache using a {@link UserCacheCallback}.
+   *
    * @param userId The user id to retrieve data.
    * @param callback The {@link UserCacheCallback} to notify the client.
    */
@@ -28,12 +30,14 @@ public interface UserCache {
 
   /**
    * Puts and element into the cache.
+   *
    * @param userEntity Element to insert in the cache.
    */
   void put(UserEntity userEntity);
 
   /**
    * Checks if an element (User) exists in the cache.
+   *
    * @param userId The id used to look for inside the cache.
    * @return true if the element is cached, otherwise false.
    */
@@ -41,6 +45,7 @@ public interface UserCache {
 
   /**
    * Checks if the cache is expired.
+   *
    * @return true, the cache is expired, otherwise false.
    */
   boolean isExpired();

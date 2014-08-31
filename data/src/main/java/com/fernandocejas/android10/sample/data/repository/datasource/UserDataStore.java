@@ -17,6 +17,7 @@ public interface UserDataStore {
    */
   interface UserListCallback {
     void onUserListLoaded(Collection<UserEntity> usersCollection);
+
     void onError(Exception exception);
   }
 
@@ -26,6 +27,7 @@ public interface UserDataStore {
    */
   interface UserDetailsCallback {
     void onUserEntityLoaded(UserEntity userEntity);
+
     void onError(Exception exception);
   }
 
