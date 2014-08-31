@@ -10,7 +10,6 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * This class is an implementation of {@link GetUserListUseCase} that represents a use case for
@@ -69,7 +68,7 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
   private void notifyGetUserListSuccessfully(final Collection<User> usersCollection) {
     this.postExecutionThread.post(new Runnable() {
       @Override public void run() {
-        callback.onUserListLoaded(Collections.unmodifiableCollection(usersCollection));
+        callback.onUserListLoaded(usersCollection);
       }
     });
   }

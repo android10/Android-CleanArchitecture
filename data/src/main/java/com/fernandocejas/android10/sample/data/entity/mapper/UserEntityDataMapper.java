@@ -8,7 +8,6 @@ import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.User;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ public class UserEntityDataMapper {
    */
   public Collection<User> transform(Collection<UserEntity> userEntityCollection) {
     List<User> userList = new ArrayList<User>(20);
-    User user = null;
+    User user;
     for (UserEntity userEntity : userEntityCollection) {
       user = transform(userEntity);
       if (user != null) {
@@ -57,6 +56,6 @@ public class UserEntityDataMapper {
       }
     }
 
-    return Collections.unmodifiableCollection(userList);
+    return userList;
   }
 }

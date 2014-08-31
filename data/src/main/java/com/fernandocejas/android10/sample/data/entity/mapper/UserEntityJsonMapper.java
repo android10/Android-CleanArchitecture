@@ -23,7 +23,7 @@ public class UserEntityJsonMapper {
   }
 
   /**
-   * Transform from valid json strings to {@link UserEntity}.
+   * Transform from valid json string to {@link UserEntity}.
    *
    * @param userJsonResponse A json representing a user profile.
    * @return {@link UserEntity}.
@@ -40,8 +40,25 @@ public class UserEntityJsonMapper {
     }
   }
 
-  public Collection<UserEntity> transformUserEntityCollection(String userJsonResponse)
+  /**
+   * Transform from valid json string to Collection of {@link UserEntity}.
+   *
+   * @param userListJsonResponse A json representing a collection of users.
+   * @return Collection of {@link UserEntity}.
+   * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
+   */
+  public Collection<UserEntity> transformUserEntityCollection(String userListJsonResponse)
       throws JsonSyntaxException {
-    return null;
+
+    Collection<UserEntity> userEntityCollection;
+    try {
+      Type listOfUserEntityType = new TypeToken<Collection<UserEntity>>(){}.getType();
+      userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
+
+      return userEntityCollection;
+
+    } catch (JsonSyntaxException jsonException) {
+      throw jsonException;
+    }
   }
 }

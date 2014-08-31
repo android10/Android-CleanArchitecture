@@ -25,7 +25,7 @@ public class DiskUserDataStore implements UserDataStore {
 
   }
 
-  @Override public void getUserEntityDetails(int id, Callback callback) {
+  @Override public void getUserEntityDetails(int id, UserDetailsCallback userDetailsCallback) {
 
   }
 }

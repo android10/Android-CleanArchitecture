@@ -24,7 +24,7 @@ public interface UserDataStore {
    * Callback used for clients to be notified when either user data has been retrieved successfully
    * or any error occurred.
    */
-  interface Callback {
+  interface UserDetailsCallback {
     void onUserEntityLoaded(UserEntity userEntity);
     void onError(Exception exception);
   }
@@ -40,7 +40,7 @@ public interface UserDataStore {
    * Get a {@link UserEntity} by its id.
    *
    * @param id The id to retrieve user data.
-   * @param callback A {@link UserDataStore.Callback} for notifications.
+   * @param userDetailsCallback A {@link UserDetailsCallback} for notifications.
    */
-  void getUserEntityDetails(int id, Callback callback);
+  void getUserEntityDetails(int id, UserDetailsCallback userDetailsCallback);
 }

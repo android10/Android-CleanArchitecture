@@ -58,6 +58,6 @@ public class UserModelDataMapper {
       userModelsCollection = Collections.emptyList();
     }
 
-    return Collections.unmodifiableCollection(userModelsCollection);
+    return userModelsCollection;
   }
 }
