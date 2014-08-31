@@ -36,7 +36,7 @@ public class DiskUserDataStoreTest extends ApplicationTestCase {
   private ArgumentCaptor<UserCache.UserCacheCallback> userCacheCallbackArgumentCaptor;
 
   @Rule
-  ExpectedException expectedException = ExpectedException.none();
+  public ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void setUp() {
@@ -73,6 +73,6 @@ public class DiskUserDataStoreTest extends ApplicationTestCase {
   @Test
   public void testGetUserEntityListUnsupported() {
     expectedException.expect(UnsupportedOperationException.class);
-    diskUserDataStore.getUsersEntityList(any(UserDataStore.UserListCallback.class));
+    diskUserDataStore.getUsersEntityList(null);
   }
 }

@@ -7,6 +7,7 @@ package com.fernandocejas.android10.sample.data.repository;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.exception.RepositoryErrorBundle;
+import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.User;
@@ -79,7 +80,11 @@ public class UserDataRepository implements UserRepository {
     userDataStore.getUserEntityDetails(userId, new UserDataStore.UserDetailsCallback() {
       @Override public void onUserEntityLoaded(UserEntity userEntity) {
         User user = UserDataRepository.this.userEntityDataMapper.transform(userEntity);
-        userCallback.onUserLoaded(user);
+        if (user != null) {
+          userCallback.onUserLoaded(user);
+        } else {
+          userCallback.onError(new RepositoryErrorBundle(new UserNotFoundException()));
+        }
       }
 
       @Override public void onError(Exception exception) {
