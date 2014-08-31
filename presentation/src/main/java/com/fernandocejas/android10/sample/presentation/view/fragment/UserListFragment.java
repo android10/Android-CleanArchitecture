@@ -82,8 +82,8 @@ public class UserListFragment extends BaseFragment implements UserListView {
     JsonSerializer userCacheSerializer = new JsonSerializer();
     UserCache userCache = UserCacheImpl.getInstance(getActivity(), userCacheSerializer,
         FileManager.getInstance(), threadExecutor);
-    UserDataStoreFactory userDataStoreFactory = new UserDataStoreFactory(this.getContext(),
-        userCache, threadExecutor);
+    UserDataStoreFactory userDataStoreFactory =
+        new UserDataStoreFactory(this.getContext(), userCache);
     UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
     UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
         userEntityDataMapper);

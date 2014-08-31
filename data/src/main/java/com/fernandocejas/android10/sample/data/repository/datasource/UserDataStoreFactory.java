@@ -9,7 +9,6 @@ import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.net.RestApi;
 import com.fernandocejas.android10.sample.data.net.RestApiImpl;
-import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 
 /**
  * Factory that creates different implementations of {@link UserDataStore}.
@@ -18,15 +17,13 @@ public class UserDataStoreFactory {
 
   private final Context context;
   private final UserCache userCache;
-  private final ThreadExecutor threadExecutor;
 
-  public UserDataStoreFactory(Context context, UserCache userCache, ThreadExecutor threadExecutor) {
-    if (context == null || userCache == null || threadExecutor == null) {
+  public UserDataStoreFactory(Context context, UserCache userCache) {
+    if (context == null || userCache == null) {
       throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
     this.userCache = userCache;
-    this.threadExecutor = threadExecutor;
   }
 
   /**
