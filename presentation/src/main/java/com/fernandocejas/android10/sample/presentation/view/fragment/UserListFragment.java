@@ -88,10 +88,6 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.initialize();
   }
 
-  @Override public void onStart() {
-    super.onStart();
-  }
-
   @Override public void onResume() {
     super.onResume();
     this.userListPresenter.resume();
