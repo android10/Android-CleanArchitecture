@@ -9,6 +9,7 @@
     >
 
   <ImageView
+      android:id="@+id/avatar"
       android:layout_width="@dimen/lv_row_icon_width"
       android:layout_height="@dimen/lv_row_icon_width"
       android:src="@drawable/ic_launcher"
