@@ -18,7 +18,6 @@ public interface GetUserDetailsUseCase extends Interactor {
    */
   interface Callback {
     void onUserDataLoaded(User user);
-
     void onError(ErrorBundle errorBundle);
   }
 

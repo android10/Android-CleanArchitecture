@@ -20,7 +20,6 @@ public interface GetUserListUseCase extends Interactor {
    */
   interface Callback {
     void onUserListLoaded(Collection<User> usersCollection);
-
     void onError(ErrorBundle errorBundle);
   }
 
