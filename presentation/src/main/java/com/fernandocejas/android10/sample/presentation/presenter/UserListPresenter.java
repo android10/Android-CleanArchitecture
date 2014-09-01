@@ -29,19 +29,28 @@ public class UserListPresenter implements Presenter {
     this.userModelDataMapper = userModelDataMapper;
   }
 
-  @Override public void resume() {
-    this.loadUserList();
-  }
+  @Override public void resume() {}
 
   @Override public void pause() {}
 
   /**
+   * Initializes the presenter by start retrieving the user list.
+   */
+  public void initialize() {
+    this.loadUserList();
+  }
+
+  /**
    * Loads all users.
    */
-  public void loadUserList() {
+  private void loadUserList() {
     this.hideViewRetry();
     this.showViewLoading();
     this.getUserList();
+  }
+
+  public void onUserClicked(UserModel userModel) {
+    this.viewListView.viewUser(userModel);
   }
 
   private void showViewLoading() {

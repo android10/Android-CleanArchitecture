@@ -1,6 +1,5 @@
 package com.fernandocejas.android10.sample.presentation.view.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,7 @@ import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 /**
  * Main application screen. This is the app entry point.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
   private Navigator navigator;
 

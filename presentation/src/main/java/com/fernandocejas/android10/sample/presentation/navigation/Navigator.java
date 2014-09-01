@@ -6,6 +6,7 @@ package com.fernandocejas.android10.sample.presentation.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import com.fernandocejas.android10.sample.presentation.view.activity.UserDetailsActivity;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
 
 /**
@@ -24,20 +25,20 @@ public class Navigator {
    */
   public void navigateToUserList(Context context) {
     if (context != null) {
-      Intent intentToLaunch = createIntentToLaunch(context, UserListActivity.class);
+      Intent intentToLaunch = UserListActivity.getCallingIntent(context);
       context.startActivity(intentToLaunch);
     }
   }
 
   /**
-   * Create a navigation intent to be launched.
+   * Goes to the user details screen.
    *
-   * @param context A context is needed.
-   * @param destinyClass The {@link android.app.Activity} class to be open.
-   * @return A valid {@link android.content.Intent}
+   * @param context A Context needed to open the destiny activity.
    */
-  private Intent createIntentToLaunch(Context context, Class destinyClass) {
-    Intent intent = new Intent(context, destinyClass);
-    return intent;
+  public void navigateToUserDetails(Context context, int userId) {
+    if (context != null) {
+      Intent intentToLaunch = UserDetailsActivity.getCallingIntent(context, userId);
+      context.startActivity(intentToLaunch);
+    }
   }
 }
