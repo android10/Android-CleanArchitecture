@@ -67,7 +67,7 @@ public class RestApiImpl implements RestApi {
 
     if (isThereInternetConnection()) {
       try {
-        String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + "json";
+        String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + ".json";
         ApiConnection getUserDetailsConnection = ApiConnection.createGET(apiUrl);
         String responseUserDetails = getUserDetailsConnection.requestSyncCall();
         UserEntity userEntity = this.userEntityJsonMapper.transformUserEntity(responseUserDetails);

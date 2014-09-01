@@ -20,4 +20,21 @@
     <item name="android:layout_gravity">center</item>
   </style>
 
+  <style name="AppTheme.TextViewHeader">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginBottom">@dimen/header_margin</item>
+    <item name="android:textSize">@dimen/header_text_size</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:gravity">center</item>
+    <item name="android:background">@android:color/background_light</item>
+  </style>
+
+  <style name="AppTheme.TextViewTitle">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">@dimen/header_margin</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
 </resources>

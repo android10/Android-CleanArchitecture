@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.fernandocejas.android10.sample.data.cache.FileManager;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
@@ -30,6 +31,7 @@ import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMappe
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
 
 /**
  * Fragment that shows details of a certain user.
@@ -41,6 +43,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   private int userId;
   private UserDetailsPresenter userDetailsPresenter;
 
+  private AutoLoadImageView iv_cover;
+  private TextView tv_fullname;
+  private TextView tv_email;
+  private TextView tv_followers;
+  private TextView tv_description;
   private RelativeLayout rl_progress;
   private RelativeLayout rl_retry;
   private Button bt_retry;
@@ -67,6 +74,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
 
+    this.iv_cover = (AutoLoadImageView) fragmentView.findViewById(R.id.iv_cover);
+    this.tv_fullname = (TextView) fragmentView.findViewById(R.id.tv_fullname);
+    this.tv_email = (TextView) fragmentView.findViewById(R.id.tv_email);
+    this.tv_followers = (TextView) fragmentView.findViewById(R.id.tv_followers);
+    this.tv_description = (TextView) fragmentView.findViewById(R.id.tv_description);
     this.rl_progress = (RelativeLayout) fragmentView.findViewById(R.id.rl_progress);
     this.rl_retry = (RelativeLayout) fragmentView.findViewById(R.id.rl_retry);
     this.bt_retry = (Button) fragmentView.findViewById(R.id.bt_retry);
@@ -77,7 +89,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.userDetailsPresenter.initialize();
+    this.userDetailsPresenter.initialize(this.userId);
   }
 
   @Override public void onResume() {
@@ -111,11 +123,17 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     UserModelDataMapper userModelDataMapper = new UserModelDataMapper();
 
     this.userDetailsPresenter =
-        new UserDetailsPresenter(this.userId, this, getUserDetailsUseCase, userModelDataMapper);
+        new UserDetailsPresenter(this, getUserDetailsUseCase, userModelDataMapper);
   }
 
   @Override public void renderUser(UserModel user) {
-
+    if (user != null) {
+      this.iv_cover.setImageUrl(user.getCoverUrl());
+      this.tv_fullname.setText(user.getFullName());
+      this.tv_email.setText(user.getEmail());
+      this.tv_followers.setText(String.valueOf(user.getFollowers()));
+      this.tv_description.setText(user.getDescription());
+    }
   }
 
   @Override public void showLoading() {
@@ -156,7 +174,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
    */
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize();
+      this.userDetailsPresenter.initialize(this.userId);
     }
   }
 

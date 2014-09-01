@@ -18,17 +18,18 @@ import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
  */
 public class UserDetailsPresenter implements Presenter {
 
-  private final int userId;
+  /** id used to retrieve user details */
+  private int userId;
+
   private final UserDetailsView viewDetailsView;
   private final GetUserDetailsUseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  public UserDetailsPresenter(int userId, UserDetailsView userDetailsView,
+  public UserDetailsPresenter(UserDetailsView userDetailsView,
       GetUserDetailsUseCase getUserDetailsUseCase, UserModelDataMapper userModelDataMapper) {
     if (userDetailsView == null || getUserDetailsUseCase == null || userModelDataMapper == null) {
       throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
     }
-    this.userId = userId;
     this.viewDetailsView = userDetailsView;
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -41,7 +42,8 @@ public class UserDetailsPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving user details.
    */
-  public void initialize() {
+  public void initialize(int userId) {
+    this.userId = userId;
     this.loadUserDetails();
   }
 

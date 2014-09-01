@@ -5,6 +5,10 @@
     >
 
   <include
+      layout="@layout/view_user_details"
+      />
+
+  <include
       layout="@layout/view_progress"
       />
 
