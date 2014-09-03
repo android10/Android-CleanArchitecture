@@ -38,3 +38,5 @@ License
 
 
 ![http://www.fernandocejas.com](http://www.android10.org/myimages/android10_logo_big_github.png)
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--CleanArchitecture-brightgreen.svg?style=flat)](https://android-arsenal.com/details/3/909)
