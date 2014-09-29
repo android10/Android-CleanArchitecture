@@ -26,6 +26,7 @@ android {
     disable 'InvalidPackage' // Some libraries have issues with this.
     disable 'OldTargetApi' // Lint gives this warning but SDK 20 would be Android L Beta.
     disable 'IconDensities' // For testing purpose. This is safe to remove.
+    disable  'MissingPrefix'
   }
 
   buildTypes {
@@ -36,6 +37,10 @@ android {
   }
 }
 
+ext {
+    robobindingVersion = 'latest.integration'
+}
+
 dependencies {
   def domainLayer = project(':domain')
   def dataLayer = project(':data')
@@ -43,6 +48,9 @@ dependencies {
   //project dependencies
   compile domainLayer
   compile dataLayer
+    compile ("org.robobinding:robobinding:$robobindingVersion:with-dependencies") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
 
   //compile this only for testing. I had to use a workaround for using Espresso (it is not in the
   //maven central repository): since both Mockito and Espresso use 'hamcrest' I had to remove them

@@ -2,9 +2,11 @@
  * Copyright (C) 2014 android10.org. All rights reserved.
  * @author Fernando Cejas (the android10 coder)
  */
-package com.fernandocejas.android10.sample.presentation.view;
+package com.fernandocejas.android10.sample.presentation.viewmodel;
 
 import android.content.Context;
+
+import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 
 /**
  * Interface representing a View that will use to load data.
@@ -21,24 +23,9 @@ public interface LoadDataView {
   void hideLoading();
 
   /**
-   * Show a retry view in case of an error when retrieving data.
-   */
-  void showRetry();
-
-  /**
-   * Hide a retry view shown if there was an error when retrieving data.
-   */
-  void hideRetry();
-
-  /**
    * Show an error message
    *
-   * @param message A string representing an error.
+   * @param errorBundle An errorBundle representing an error.
    */
-  void showError(String message);
-
-  /**
-   * Get a {@link android.content.Context}.
-   */
-  Context getContext();
+  void showError(ErrorBundle errorBundle);
 }

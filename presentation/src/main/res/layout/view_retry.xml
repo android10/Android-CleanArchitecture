@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
     android:id="@+id/rl_retry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +10,7 @@
       android:id="@+id/bt_retry"
       style="@style/AppTheme.Button"
       android:text="@string/btn_text_retry"
+      bind:onClick="onRetryClicked"
       />
 
 </RelativeLayout>

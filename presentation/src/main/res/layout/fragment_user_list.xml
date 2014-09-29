@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-    >
-
-<ListView
-    android:id="@+id/lv_users"
+    xmlns:bind="http://robobinding.org/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    />
+    android:layout_height="match_parent">
 
-<include
-    layout="@layout/view_progress"
-    />
+    <ListView
+        android:id="@+id/lv_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        bind:source="{userModels}"
+        bind:itemLayout="@layout/row_user"
+        bind:onItemClick="onUserClicked"/>
 
-<include
-    layout="@layout/view_retry"
-    />
+    <include layout="@layout/view_progress" />
+
+    <include layout="@layout/view_retry" />
 
 </RelativeLayout>

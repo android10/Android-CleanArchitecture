@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +11,13 @@
       android:layout_width="match_parent"
       android:layout_height="@dimen/iv_cover_height"
       android:background="@android:color/darker_gray"
+      bind:imageUrl="{coverUrl}"
       />
 
   <TextView
       android:id="@+id/tv_fullname"
       style="@style/AppTheme.TextViewHeader"
+      bind:text="{fullName}"
       />
 
   <LinearLayout
@@ -32,6 +35,7 @@
         android:id="@+id/tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        bind:text="{email}"
         />
 
     <TextView
@@ -42,6 +46,7 @@
         android:id="@+id/tv_followers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        bind:text="{followers}"
         />
 
     <TextView
@@ -52,6 +57,7 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        bind:text="{description}"
         />
   </LinearLayout>
 

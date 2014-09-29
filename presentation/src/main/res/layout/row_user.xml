@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://robobinding.org/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="UseCompoundDrawables"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="@dimen/lv_row_padding"
-    >
+    tools:ignore="UseCompoundDrawables">
 
-  <ImageView
-      android:id="@+id/avatar"
-      android:layout_width="@dimen/lv_row_icon_width"
-      android:layout_height="@dimen/lv_row_icon_width"
-      android:src="@drawable/ic_launcher"
-      android:paddingLeft="@dimen/lv_row_icon_padding"
-      android:paddingRight="@dimen/lv_row_icon_padding"
-      android:contentDescription="@string/string_content_description"
-      />
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/lv_row_icon_width"
+        android:layout_height="@dimen/lv_row_icon_width"
+        android:contentDescription="@string/string_content_description"
+        android:paddingLeft="@dimen/lv_row_icon_padding"
+        android:paddingRight="@dimen/lv_row_icon_padding"
+        android:src="@drawable/ic_launcher" />
 
-  <TextView
-      android:id="@+id/title"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:textSize="@dimen/lv_row_text_size"
-      android:gravity="center_vertical"
-      android:singleLine="true"
-      android:ellipsize="end"
-      />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textSize="@dimen/lv_row_text_size"
+        bind:text="{fullName}" />
 
 </LinearLayout>
