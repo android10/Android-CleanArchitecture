@@ -1,5 +1,6 @@
 Android-CleanArchitecture [![Build Status](https://travis-ci.org/android10/Android-CleanArchitecture.svg?branch=master)](https://travis-ci.org/android10/Android-CleanArchitecture)
 =========================
+**Note that:** this is a modified version - the presentation layer employs **MVVM** pattern based on [RoboBinding](https://github.com/RoboBinding/RoboBinding) instead of MVP.
 
 This is a sample app that is part of a blog post I have written about how to architect android application using the Uncle Bob's clean architecture approach. 
 
