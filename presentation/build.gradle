@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
   compileSdkVersion 19
@@ -41,6 +51,14 @@ ext {
     robobindingVersion = 'latest.integration'
 }
 
+repositories {
+    mavenCentral()
+    maven() {
+        name 'SonaType snapshot repository'
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
 dependencies {
   def domainLayer = project(':domain')
   def dataLayer = project(':data')
@@ -51,6 +69,8 @@ dependencies {
     compile ("org.robobinding:robobinding:$robobindingVersion:with-dependencies") {
         exclude group: 'com.google.guava', module: 'guava'
     }
+
+    apt "org.robobinding:codegen:$robobindingVersion"
 
   //compile this only for testing. I had to use a workaround for using Espresso (it is not in the
   //maven central repository): since both Mockito and Espresso use 'hamcrest' I had to remove them

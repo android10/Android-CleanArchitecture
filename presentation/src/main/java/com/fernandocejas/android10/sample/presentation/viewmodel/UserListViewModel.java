@@ -8,7 +8,9 @@ import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMappe
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 
 import org.robobinding.annotation.ItemPresentationModel;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.annotation.PresentationModel;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
 import java.util.ArrayList;
@@ -19,13 +21,16 @@ import java.util.List;
 /**
  * Created by Cheng Wei on 2014/9/29.
  */
-public class UserListViewModel extends AbstractPresentationModel {
+@PresentationModel
+public class UserListViewModel implements HasPresentationModelChangeSupport {
     private final UserListView userListView;
     private final GetUserListUseCase getUserListUseCase;
     private final UserModelDataMapper userModelDataMapper;
 
     private boolean retryVisible;
     private List<UserModel> userModels;
+
+    private final PresentationModelChangeSupport changeSupport;
 
     public UserListViewModel(UserListView userListView, GetUserListUseCase getUserListUserCase,
                              UserModelDataMapper userModelDataMapper) {
@@ -34,6 +39,7 @@ public class UserListViewModel extends AbstractPresentationModel {
         this.userModelDataMapper = userModelDataMapper;
 
         userModels = Collections.emptyList();
+        changeSupport = new PresentationModelChangeSupport(this);
     }
 
     /**
@@ -58,7 +64,7 @@ public class UserListViewModel extends AbstractPresentationModel {
 
     private void setRetryVisible(boolean retryVisible) {
         this.retryVisible = retryVisible;
-        firePropertyChange("retryVisible");
+        changeSupport.firePropertyChange("retryVisible");
     }
 
     public boolean isRetryVisible() {
@@ -96,7 +102,7 @@ public class UserListViewModel extends AbstractPresentationModel {
 
     private void renderUserList(Collection<UserModel> newUserModels) {
         userModels = new ArrayList<UserModel>(newUserModels);
-        firePropertyChange("userModels");
+        changeSupport.firePropertyChange("userModels");
     }
 
     @ItemPresentationModel(value = UserItemViewModel.class)
@@ -123,5 +129,10 @@ public class UserListViewModel extends AbstractPresentationModel {
 
     public void onRetryClicked() {
         loadUserList();
+    }
+
+    @Override
+    public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+        return changeSupport;
     }
 }

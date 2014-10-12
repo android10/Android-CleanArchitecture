@@ -8,12 +8,15 @@ import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMappe
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 
 import org.robobinding.annotation.DependsOnStateOf;
-import org.robobinding.presentationmodel.AbstractPresentationModel;
+import org.robobinding.annotation.PresentationModel;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 /**
  * Created by Cheng Wei on 2014/9/29.
  */
-public class UserDetailsViewModel extends AbstractPresentationModel {
+@PresentationModel
+public class UserDetailsViewModel implements HasPresentationModelChangeSupport {
     /**
      * id used to retrieve user details
      */
@@ -26,11 +29,14 @@ public class UserDetailsViewModel extends AbstractPresentationModel {
     private boolean retryVisible;
     private UserModel userModel;
 
+    private final PresentationModelChangeSupport changeSupport;
+
     public UserDetailsViewModel(UserDetailsView userDetailsView,
                                 GetUserDetailsUseCase getUserDetailsUseCase, UserModelDataMapper userModelDataMapper) {
         this.viewDetailsView = userDetailsView;
         this.getUserDetailsUseCase = getUserDetailsUseCase;
         this.userModelDataMapper = userModelDataMapper;
+        changeSupport = new PresentationModelChangeSupport(this);
     }
 
     /**
@@ -56,7 +62,7 @@ public class UserDetailsViewModel extends AbstractPresentationModel {
 
     private void setRetryVisible(boolean retryVisible) {
         this.retryVisible = retryVisible;
-        firePropertyChange("retryVisible");
+        changeSupport.firePropertyChange("retryVisible");
     }
 
     public boolean isRetryVisible() {
@@ -88,7 +94,7 @@ public class UserDetailsViewModel extends AbstractPresentationModel {
 
     private void showUserDetailsInView(User user) {
         userModel = this.userModelDataMapper.transform(user);
-        firePropertyChange("userModel");
+        changeSupport.firePropertyChange("userModel");
     }
 
     public  UserModel getUserModel() {
@@ -134,5 +140,10 @@ public class UserDetailsViewModel extends AbstractPresentationModel {
 
     public void onRetryClicked() {
         loadUserDetails();
+    }
+
+    @Override
+    public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+        return changeSupport;
     }
 }
