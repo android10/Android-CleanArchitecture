@@ -2,10 +2,9 @@ apply plugin: 'com.android.library'
 
 android {
   compileSdkVersion 19
-  buildToolsVersion '19.1.0'
+  buildToolsVersion '21.1.1'
 
   defaultConfig {
-    applicationId "com.fernandocejas.android10.sample.data"
     minSdkVersion 15
     targetSdkVersion 19
   }
