@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 19
-  buildToolsVersion '21.1'
+  buildToolsVersion '21.0.2'
 
   defaultConfig {
     applicationId "com.fernandocejas.android10.sample.presentation"
