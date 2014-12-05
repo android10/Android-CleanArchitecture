@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import com.fernandocejas.android10.sample.data.cache.FileManager;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
@@ -43,14 +46,14 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   private int userId;
   private UserDetailsPresenter userDetailsPresenter;
 
-  private AutoLoadImageView iv_cover;
-  private TextView tv_fullname;
-  private TextView tv_email;
-  private TextView tv_followers;
-  private TextView tv_description;
-  private RelativeLayout rl_progress;
-  private RelativeLayout rl_retry;
-  private Button bt_retry;
+  @InjectView(R.id.iv_cover) AutoLoadImageView iv_cover;
+  @InjectView(R.id.tv_fullname) TextView tv_fullname;
+  @InjectView(R.id.tv_email) TextView tv_email;
+  @InjectView(R.id.tv_followers) TextView tv_followers;
+  @InjectView(R.id.tv_description) TextView tv_description;
+  @InjectView(R.id.rl_progress) RelativeLayout rl_progress;
+  @InjectView(R.id.rl_retry) RelativeLayout rl_retry;
+  @InjectView(R.id.bt_retry) Button bt_retry;
 
   public UserDetailsFragment() { super(); }
 
@@ -73,16 +76,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
       Bundle savedInstanceState) {
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
-
-    this.iv_cover = (AutoLoadImageView) fragmentView.findViewById(R.id.iv_cover);
-    this.tv_fullname = (TextView) fragmentView.findViewById(R.id.tv_fullname);
-    this.tv_email = (TextView) fragmentView.findViewById(R.id.tv_email);
-    this.tv_followers = (TextView) fragmentView.findViewById(R.id.tv_followers);
-    this.tv_description = (TextView) fragmentView.findViewById(R.id.tv_description);
-    this.rl_progress = (RelativeLayout) fragmentView.findViewById(R.id.rl_progress);
-    this.rl_retry = (RelativeLayout) fragmentView.findViewById(R.id.rl_retry);
-    this.bt_retry = (Button) fragmentView.findViewById(R.id.bt_retry);
-    this.bt_retry.setOnClickListener(this.retryOnClickListener);
+    ButterKnife.inject(this, fragmentView);
 
     return fragmentView;
   }
@@ -178,9 +172,8 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     }
   }
 
-  private final View.OnClickListener retryOnClickListener = new View.OnClickListener() {
-    @Override public void onClick(View view) {
-      UserDetailsFragment.this.loadUserDetails();
-    }
-  };
+  @OnClick(R.id.bt_retry)
+  void onButtonRetryClick() {
+    UserDetailsFragment.this.loadUserDetails();
+  }
 }

@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import com.fernandocejas.android10.sample.data.cache.FileManager;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
@@ -50,10 +53,10 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListPresenter userListPresenter;
 
-  private ListView lv_users;
-  private RelativeLayout rl_progress;
-  private RelativeLayout rl_retry;
-  private Button bt_retry;
+  @InjectView(R.id.lv_users) ListView lv_users;
+  @InjectView(R.id.rl_progress) RelativeLayout rl_progress;
+  @InjectView(R.id.rl_retry) RelativeLayout rl_retry;
+  @InjectView(R.id.bt_retry) Button bt_retry;
 
   private UsersAdapter usersAdapter;
 
@@ -72,20 +75,14 @@ public class UserListFragment extends BaseFragment implements UserListView {
       Bundle savedInstanceState) {
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, true);
-
-    this.lv_users = (ListView) fragmentView.findViewById(R.id.lv_users);
-    this.lv_users.setOnItemClickListener(this.userOnItemClickListener);
-    this.rl_progress = (RelativeLayout) fragmentView.findViewById(R.id.rl_progress);
-    this.rl_retry = (RelativeLayout) fragmentView.findViewById(R.id.rl_retry);
-    this.bt_retry = (Button) fragmentView.findViewById(R.id.bt_retry);
-    this.bt_retry.setOnClickListener(this.retryOnClickListener);
+    ButterKnife.inject(this, fragmentView);
 
     return fragmentView;
   }
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.userListPresenter.initialize();
+    this.loadUserList();
   }
 
   @Override public void onResume() {
@@ -173,29 +170,16 @@ public class UserListFragment extends BaseFragment implements UserListView {
     }
   }
 
-  /**
-   * Views a {@link UserModel} when is clicked.
-   * Uses the presenter via composition to achieve this.
-   *
-   * @param userModel {@link UserModel} to show.
-   */
-  private void onUserClicked(UserModel userModel) {
-    if (this.userListPresenter != null) {
+  @OnClick(R.id.bt_retry)
+  void onButtonRetryClick() {
+    UserListFragment.this.loadUserList();
+  }
+
+  @OnItemClick(R.id.lv_users)
+  void onItemClick(int position) {
+    UserModel userModel = (UserModel) UserListFragment.this.usersAdapter.getItem(position);
+    if (this.userListPresenter != null && userModel != null) {
       this.userListPresenter.onUserClicked(userModel);
     }
   }
-
-  private final View.OnClickListener retryOnClickListener = new View.OnClickListener() {
-    @Override public void onClick(View view) {
-      UserListFragment.this.loadUserList();
-    }
-  };
-
-  private final AdapterView.OnItemClickListener userOnItemClickListener =
-      new AdapterView.OnItemClickListener() {
-        @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          UserModel userModel = (UserModel) UserListFragment.this.usersAdapter.getItem(position);
-          UserListFragment.this.onUserClicked(userModel);
-        }
-      };
 }
