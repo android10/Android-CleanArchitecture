@@ -5,11 +5,13 @@
 package com.fernandocejas.android10.sample.presentation.view.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import java.util.Collection;
@@ -18,7 +20,12 @@ import java.util.List;
 /**
  * Adaptar that manages a collection of {@link UserModel}.
  */
-public class UsersAdapter extends BaseAdapter {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
+
+  //TODO
+  public interface OnItemClickListener {
+    void onUserItemClicked(UserModel userModel);
+  }
 
   private List<UserModel> usersCollection;
   private final LayoutInflater layoutInflater;
@@ -30,7 +37,7 @@ public class UsersAdapter extends BaseAdapter {
     this.usersCollection = (List<UserModel>) usersCollection;
   }
 
-  @Override public int getCount() {
+  @Override public int getItemCount() {
     int count = 0;
     if (this.usersCollection != null && !this.usersCollection.isEmpty()) {
       count = this.usersCollection.size();
@@ -38,37 +45,28 @@ public class UsersAdapter extends BaseAdapter {
     return count;
   }
 
-  @Override
-  public boolean isEmpty() {
-    return (getCount() == 0);
+  @Override public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = this.layoutInflater.inflate(R.layout.row_user, parent, false);
+    UserViewHolder userViewHolder = new UserViewHolder(view);
+
+    return userViewHolder;
   }
 
-  @Override public Object getItem(int position) {
-    return this.usersCollection.get(position);
+  @Override public void onBindViewHolder(UserViewHolder holder, int position) {
+    UserModel userModel = this.usersCollection.get(position);
+    holder.textViewTitle.setText(userModel.getFullName());
   }
 
   @Override public long getItemId(int position) {
     return position;
   }
 
-  @Override public View getView(int position, View convertView, ViewGroup parent) {
-    UserViewHolder userViewHolder;
-
-    if (convertView == null) {
-      convertView = this.layoutInflater.inflate(R.layout.row_user, parent, false);
-
-      userViewHolder = new UserViewHolder();
-      userViewHolder.textViewTitle = (TextView) convertView.findViewById(R.id.title);
-
-      convertView.setTag(userViewHolder);
-    } else {
-      userViewHolder = (UserViewHolder) convertView.getTag();
+  public UserModel getItem(int position) {
+    UserModel userModel = null;
+    if (this.usersCollection != null && !this.usersCollection.isEmpty()) {
+      userModel = this.usersCollection.get(position);
     }
-
-    UserModel userModel = this.usersCollection.get(position);
-    userViewHolder.textViewTitle.setText(userModel.getFullName());
-
-    return convertView;
+    return userModel;
   }
 
   public void setUsersCollection(Collection<UserModel> usersCollection) {
@@ -83,7 +81,16 @@ public class UsersAdapter extends BaseAdapter {
     }
   }
 
-  static class UserViewHolder {
-    TextView textViewTitle;
+  static class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @InjectView(R.id.title) TextView textViewTitle;
+
+    public UserViewHolder(View itemView) {
+      super(itemView);
+      ButterKnife.inject(this, itemView);
+    }
+
+    //TODO
+    @Override public void onClick(View v) {
+    }
   }
 }

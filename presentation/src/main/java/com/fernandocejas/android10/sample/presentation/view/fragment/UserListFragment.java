@@ -7,16 +7,15 @@ package com.fernandocejas.android10.sample.presentation.view.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import com.fernandocejas.android10.sample.data.cache.FileManager;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
@@ -37,6 +36,7 @@ import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
+import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
 import java.util.Collection;
 
 /**
@@ -53,12 +53,13 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListPresenter userListPresenter;
 
-  @InjectView(R.id.lv_users) ListView lv_users;
+  @InjectView(R.id.rv_users) RecyclerView rv_users;
   @InjectView(R.id.rl_progress) RelativeLayout rl_progress;
   @InjectView(R.id.rl_retry) RelativeLayout rl_retry;
   @InjectView(R.id.bt_retry) Button bt_retry;
 
   private UsersAdapter usersAdapter;
+  private UsersLayoutManager usersLayoutManager;
 
   private UserListListener userListListener;
 
@@ -76,6 +77,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
     View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, true);
     ButterKnife.inject(this, fragmentView);
+    setupUI();
 
     return fragmentView;
   }
@@ -118,6 +120,13 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
   }
 
+  private void setupUI () {
+    this.usersLayoutManager = new UsersLayoutManager(getActivity());
+    if (this.rv_users != null) {
+      this.rv_users.setLayoutManager(usersLayoutManager);
+    }
+  }
+
   @Override public void showLoading() {
     this.rl_progress.setVisibility(View.VISIBLE);
     this.getActivity().setProgressBarIndeterminateVisibility(true);
@@ -141,9 +150,9 @@ public class UserListFragment extends BaseFragment implements UserListView {
       if (this.usersAdapter == null) {
         this.usersAdapter = new UsersAdapter(getActivity(), userModelCollection);
       } else {
-        this.usersAdapter.setUsersCollection(userModelCollection);
+        this.usersAdapter.    setUsersCollection(userModelCollection);
       }
-      this.lv_users.setAdapter(usersAdapter);
+      this.rv_users.setAdapter(usersAdapter);
     }
   }
 
@@ -170,16 +179,15 @@ public class UserListFragment extends BaseFragment implements UserListView {
     }
   }
 
-  @OnClick(R.id.bt_retry)
-  void onButtonRetryClick() {
+  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
     UserListFragment.this.loadUserList();
   }
 
-  @OnItemClick(R.id.lv_users)
-  void onItemClick(int position) {
-    UserModel userModel = (UserModel) UserListFragment.this.usersAdapter.getItem(position);
-    if (this.userListPresenter != null && userModel != null) {
-      this.userListPresenter.onUserClicked(userModel);
-    }
-  }
+  //TODO
+  //@OnItemClick(R.id.rv_users) void onItemClick(int position) {
+  //  UserModel userModel = (UserModel) UserListFragment.this.usersAdapter.getItem(position);
+  //  if (this.userListPresenter != null && userModel != null) {
+  //    this.userListPresenter.onUserClicked(userModel);
+  //  }
+  //}
 }
