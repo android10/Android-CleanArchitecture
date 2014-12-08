@@ -30,6 +30,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   private List<UserModel> usersCollection;
   private final LayoutInflater layoutInflater;
 
+  private OnItemClickListener onItemClickListener;
+
   public UsersAdapter(Context context, Collection<UserModel> usersCollection) {
     this.validateUsersCollection(usersCollection);
     this.layoutInflater =
@@ -52,21 +54,20 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     return userViewHolder;
   }
 
-  @Override public void onBindViewHolder(UserViewHolder holder, int position) {
-    UserModel userModel = this.usersCollection.get(position);
+  @Override public void onBindViewHolder(UserViewHolder holder, final int position) {
+    final UserModel userModel = this.usersCollection.get(position);
     holder.textViewTitle.setText(userModel.getFullName());
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (UsersAdapter.this.onItemClickListener != null) {
+          UsersAdapter.this.onItemClickListener.onUserItemClicked(userModel);
+        }
+      }
+    });
   }
 
   @Override public long getItemId(int position) {
     return position;
-  }
-
-  public UserModel getItem(int position) {
-    UserModel userModel = null;
-    if (this.usersCollection != null && !this.usersCollection.isEmpty()) {
-      userModel = this.usersCollection.get(position);
-    }
-    return userModel;
   }
 
   public void setUsersCollection(Collection<UserModel> usersCollection) {
@@ -75,22 +76,22 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     this.notifyDataSetChanged();
   }
 
+  public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+    this.onItemClickListener = onItemClickListener;
+  }
+
   private void validateUsersCollection(Collection<UserModel> usersCollection) {
     if (usersCollection == null) {
       throw new IllegalArgumentException("The track list cannot be null");
     }
   }
 
-  static class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  static class UserViewHolder extends RecyclerView.ViewHolder {
     @InjectView(R.id.title) TextView textViewTitle;
 
     public UserViewHolder(View itemView) {
       super(itemView);
       ButterKnife.inject(this, itemView);
-    }
-
-    //TODO
-    @Override public void onClick(View v) {
     }
   }
 }

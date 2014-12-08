@@ -120,7 +120,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
   }
 
-  private void setupUI () {
+  private void setupUI() {
     this.usersLayoutManager = new UsersLayoutManager(getActivity());
     if (this.rv_users != null) {
       this.rv_users.setLayoutManager(usersLayoutManager);
@@ -150,8 +150,9 @@ public class UserListFragment extends BaseFragment implements UserListView {
       if (this.usersAdapter == null) {
         this.usersAdapter = new UsersAdapter(getActivity(), userModelCollection);
       } else {
-        this.usersAdapter.    setUsersCollection(userModelCollection);
+        this.usersAdapter.setUsersCollection(userModelCollection);
       }
+      this.usersAdapter.setOnItemClickListener(onItemClickListener);
       this.rv_users.setAdapter(usersAdapter);
     }
   }
@@ -183,11 +184,12 @@ public class UserListFragment extends BaseFragment implements UserListView {
     UserListFragment.this.loadUserList();
   }
 
-  //TODO
-  //@OnItemClick(R.id.rv_users) void onItemClick(int position) {
-  //  UserModel userModel = (UserModel) UserListFragment.this.usersAdapter.getItem(position);
-  //  if (this.userListPresenter != null && userModel != null) {
-  //    this.userListPresenter.onUserClicked(userModel);
-  //  }
-  //}
+  private UsersAdapter.OnItemClickListener onItemClickListener =
+      new UsersAdapter.OnItemClickListener() {
+        @Override public void onUserItemClicked(UserModel userModel) {
+            if (UserListFragment.this.userListPresenter != null && userModel != null) {
+              UserListFragment.this.userListPresenter.onUserClicked(userModel);
+            }
+        }
+      };
 }
