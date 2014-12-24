@@ -122,9 +122,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private void setupUI() {
     this.usersLayoutManager = new UsersLayoutManager(getActivity());
-    if (this.rv_users != null) {
-      this.rv_users.setLayoutManager(usersLayoutManager);
-    }
+    this.rv_users.setLayoutManager(usersLayoutManager);
   }
 
   @Override public void showLoading() {
@@ -175,9 +173,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
    * Loads all users.
    */
   private void loadUserList() {
-    if (this.userListPresenter != null) {
-      this.userListPresenter.initialize();
-    }
+    this.userListPresenter.initialize();
   }
 
   @OnClick(R.id.bt_retry) void onButtonRetryClick() {

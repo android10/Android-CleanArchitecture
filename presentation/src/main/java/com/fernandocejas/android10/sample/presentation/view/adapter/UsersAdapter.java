@@ -40,11 +40,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   }
 
   @Override public int getItemCount() {
-    int count = 0;
-    if (this.usersCollection != null && !this.usersCollection.isEmpty()) {
-      count = this.usersCollection.size();
-    }
-    return count;
+    return (this.usersCollection != null) ? this.usersCollection.size() : 0;
   }
 
   @Override public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -82,7 +78,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   private void validateUsersCollection(Collection<UserModel> usersCollection) {
     if (usersCollection == null) {
-      throw new IllegalArgumentException("The track list cannot be null");
+      throw new IllegalArgumentException("The list cannot be null");
     }
   }
 
