@@ -8,6 +8,16 @@ buildscript {
 }
 
 allprojects {
+  ext {
+    androidBuildToolsVersion = "21.1.2"
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 19
+    androidCompileSdkVersion = 19
+    androidApplicationId = 'com.fernandocejas.android10.sample.presentation'
+    androidVersionCode = 1
+    androidVersionName = "1.0"
+    androidTestInstrumentationRunner = "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+  }
   repositories {
     jcenter()
   }

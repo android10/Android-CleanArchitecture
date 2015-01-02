@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion '21.0.2'
+  def globalConfiguration = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+  buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
   defaultConfig {
-    applicationId "com.fernandocejas.android10.sample.presentation"
-    minSdkVersion 15
-    targetSdkVersion 19
-    versionCode 1
-    versionName "1.0"
-    testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+    targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+    applicationId globalConfiguration.getAt("androidApplicationId")
+    versionCode globalConfiguration.getAt("androidVersionCode")
+    versionName globalConfiguration.getAt("androidVersionName")
+    testInstrumentationRunner globalConfiguration.getAt("androidTestInstrumentationRunner")
   }
 
   compileOptions {

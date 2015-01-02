@@ -1,13 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion '21.0.2'
+  def globalConfiguration = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+  buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
   defaultConfig {
-    minSdkVersion 15
-    targetSdkVersion 19
-    versionCode 1
+    minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+    targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+    versionCode globalConfiguration.getAt("androidVersionCode")
   }
 
   compileOptions {
