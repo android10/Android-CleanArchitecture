@@ -11,8 +11,8 @@ allprojects {
   ext {
     androidBuildToolsVersion = "21.1.2"
     androidMinSdkVersion = 15
-    androidTargetSdkVersion = 19
-    androidCompileSdkVersion = 19
+    androidTargetSdkVersion = 21
+    androidCompileSdkVersion = 21
     androidApplicationId = 'com.fernandocejas.android10.sample.presentation'
     androidVersionCode = 1
     androidVersionName = "1.0"
