@@ -40,4 +40,6 @@ dependencies {
 
   //library dependencies
   compile('com.google.code.gson:gson:2.2.4')
+  compile 'io.reactivex:rxjava:1.0.3'
+  compile 'io.reactivex:rxandroid:0.23.0'
 }
