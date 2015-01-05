@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
-  //TODO
   public interface OnItemClickListener {
     void onUserItemClicked(UserModel userModel);
   }
