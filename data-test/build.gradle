@@ -8,8 +8,11 @@ dependencies {
   testCompile project(path: dataLayerProject, configuration: 'debugCompile')
 
   def debugVariant = dataLayer.android.libraryVariants.find({it.name == 'debug'})
+  //noinspection GroovyAssignabilityCheck
   testCompile debugVariant.javaCompile.classpath
+  //noinspection GroovyAssignabilityCheck
   testCompile debugVariant.javaCompile.outputs.files
+  //noinspection GroovyAssignabilityCheck
   testCompile files(dataLayer.plugins.findPlugin('com.android.library').getBootClasspath())
 
   testCompile 'org.mockito:mockito-core:1.9.5'
