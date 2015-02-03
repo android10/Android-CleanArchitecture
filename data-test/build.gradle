@@ -1,16 +1,19 @@
+evaluationDependsOn(":data")
+
 apply plugin: 'java'
 
 dependencies {
   def dataLayer = project(':data')
-  compile dataLayer
+  testCompile project(path: ':data', configuration: 'debugCompile')
+
+  def debugVariant = dataLayer.android.libraryVariants.find({it.name == 'debug'})
+  testCompile debugVariant.javaCompile.classpath
+  testCompile debugVariant.javaCompile.outputs.files
+  testCompile files(dataLayer.plugins.findPlugin('com.android.library').getBootClasspath())
 
   testCompile 'org.mockito:mockito-core:1.9.5'
   testCompile 'junit:junit:4.11'
   testCompile 'org.robolectric:robolectric:2.2'
-
-  testCompile dataLayer.android.libraryVariants.toList().first().javaCompile.classpath
-  testCompile dataLayer.android.libraryVariants.toList().first().javaCompile.outputs.files
-  testCompile files(dataLayer.plugins.findPlugin("com.android.library").getBootClasspath())
 }
 
 sourceSets {
@@ -24,4 +27,5 @@ tasks.withType(Test) {
   include "**/*Should.class"
   include "**/*Test.class"
   include "**/*Tests.class"
+  exclude "**/*IT.class"
 }
