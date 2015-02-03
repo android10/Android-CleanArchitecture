@@ -1,10 +1,11 @@
-evaluationDependsOn(":data")
+def dataLayerProject = ':data'
+evaluationDependsOn(dataLayerProject)
 
 apply plugin: 'java'
 
 dependencies {
-  def dataLayer = project(':data')
-  testCompile project(path: ':data', configuration: 'debugCompile')
+  def dataLayer = project(dataLayerProject)
+  testCompile project(path: dataLayerProject, configuration: 'debugCompile')
 
   def debugVariant = dataLayer.android.libraryVariants.find({it.name == 'debug'})
   testCompile debugVariant.javaCompile.classpath
