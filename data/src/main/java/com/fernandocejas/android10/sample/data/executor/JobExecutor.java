@@ -7,6 +7,7 @@ package com.fernandocejas.android10.sample.data.executor;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -37,10 +38,13 @@ public class JobExecutor implements ThreadExecutor {
 
   private final ThreadPoolExecutor threadPoolExecutor;
 
+  private final ThreadFactory threadFactory;
+
   private JobExecutor() {
-    this.workQueue = new LinkedBlockingQueue<Runnable>();
+    this.workQueue = new LinkedBlockingQueue<>();
+    this.threadFactory = new JobThreadFactory();
     this.threadPoolExecutor = new ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,
-        KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, this.workQueue);
+        KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, this.workQueue, this.threadFactory);
   }
 
   /**
@@ -53,5 +57,14 @@ public class JobExecutor implements ThreadExecutor {
       throw new IllegalArgumentException("Runnable to execute cannot be null");
     }
     this.threadPoolExecutor.execute(runnable);
+  }
+
+  private static class JobThreadFactory implements ThreadFactory {
+    private static final String THREAD_NAME = "android_";
+    private int counter = 0;
+
+    @Override public Thread newThread(Runnable runnable) {
+      return new Thread(runnable, THREAD_NAME + counter);
+    }
   }
 }
