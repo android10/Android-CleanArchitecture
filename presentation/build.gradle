@@ -46,7 +46,7 @@ dependencies {
 
   //library dependencies
   compile 'com.jakewharton:butterknife:6.0.0'
-  compile 'com.android.support:recyclerview-v7:21.0.+'
+  compile 'com.android.support:recyclerview-v7:21.0.3'
   compile 'io.reactivex:rxjava:1.0.3'
   compile 'io.reactivex:rxandroid:0.23.0'
 
