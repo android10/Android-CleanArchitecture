@@ -53,9 +53,9 @@ dependencies {
   compile 'io.reactivex:rxjava:1.0.3'
   compile 'io.reactivex:rxandroid:0.23.0'
 
-  //Workaround for using Espresso since both Mockito and Espresso use 'hamcrest'
-  //I had to remove them on the mockito library: "zip -d mockito.jar org/hamcrest/*"
-  androidTestCompile fileTree(dir: 'testLibs', include: '*.jar')
+  androidTestCompile 'org.mockito:mockito-core:1.9.5'
+  androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
+  androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
   androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
   androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }
