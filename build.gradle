@@ -17,7 +17,7 @@ allprojects {
     androidApplicationId = 'com.fernandocejas.android10.sample.presentation'
     androidVersionCode = 1
     androidVersionName = "1.0"
-    androidTestInstrumentationRunner = "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
   }
   repositories {
     jcenter()

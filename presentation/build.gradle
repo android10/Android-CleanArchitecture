@@ -13,7 +13,7 @@ android {
     applicationId globalConfiguration.getAt("androidApplicationId")
     versionCode globalConfiguration.getAt("androidVersionCode")
     versionName globalConfiguration.getAt("androidVersionName")
-    testInstrumentationRunner globalConfiguration.getAt("androidTestInstrumentationRunner")
+    testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
   }
 
   compileOptions {
@@ -53,8 +53,9 @@ dependencies {
   compile 'io.reactivex:rxjava:1.0.3'
   compile 'io.reactivex:rxandroid:0.23.0'
 
-  //compile this only for testing. I had to use a workaround for using Espresso (it is not in the
-  //maven central repository): since both Mockito and Espresso use 'hamcrest' I had to remove them
-  //on the mockito library: "zip -d mockito.jar org/hamcrest/*"
+  //Workaround for using Espresso since both Mockito and Espresso use 'hamcrest'
+  //I had to remove them on the mockito library: "zip -d mockito.jar org/hamcrest/*"
   androidTestCompile fileTree(dir: 'testLibs', include: '*.jar')
+  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+  androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
 }
