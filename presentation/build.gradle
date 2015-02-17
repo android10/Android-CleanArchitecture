@@ -34,12 +34,6 @@ android {
     disable 'OldTargetApi' // Lint gives this warning but SDK 20 would be Android L Beta.
     disable 'IconDensities' // For testing purpose. This is safe to remove.
   }
-
-  buildTypes {
-    release {
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
-  }
 }
 
 dependencies {
