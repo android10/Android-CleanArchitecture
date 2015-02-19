@@ -10,5 +10,5 @@ import dagger.Module;
  * Dagger module that provides Presentation layer dependencies.
  */
 @Module
-public class PresentationModule {
+public class ApplicationModule {
 }
