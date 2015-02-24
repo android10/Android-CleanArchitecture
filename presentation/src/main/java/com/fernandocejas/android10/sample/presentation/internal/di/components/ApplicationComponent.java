@@ -5,10 +5,10 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
 import com.fernandocejas.android10.sample.presentation.AndroidApplication;
-import com.fernandocejas.android10.sample.presentation.internal.di.ApplicationModule;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 import dagger.Component;
 
 @Component(modules = ApplicationModule.class)
-interface ApplicationComponent {
+public interface ApplicationComponent {
   AndroidApplication inject(AndroidApplication androidApplication);
 }

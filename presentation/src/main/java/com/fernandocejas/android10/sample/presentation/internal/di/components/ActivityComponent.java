@@ -4,7 +4,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
-import com.fernandocejas.android10.sample.presentation.internal.di.ActivityModule;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 import dagger.Component;
 
