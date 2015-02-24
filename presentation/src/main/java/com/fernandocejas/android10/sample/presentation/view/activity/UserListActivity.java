@@ -18,8 +18,6 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFra
  */
 public class UserListActivity extends BaseActivity implements UserListFragment.UserListListener {
 
-  private Navigator navigator;
-
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, UserListActivity.class);
   }

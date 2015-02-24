@@ -4,10 +4,10 @@
  */
 package com.fernandocejas.android10.sample.presentation;
 
-import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
+import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 import dagger.Component;
 
 @Component(modules = ActivityModule.class)
 public interface ActivityComponent {
-  void inject(MainActivity activity);
+  void inject(BaseActivity activity);
 }
