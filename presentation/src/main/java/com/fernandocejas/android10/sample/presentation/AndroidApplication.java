@@ -19,10 +19,10 @@ public class AndroidApplication extends Application {
     this.applicationComponent = Dagger_ApplicationComponent.builder()
         .applicationModule(new ApplicationModule(this))
         .build();
-    this.applicationComponent.injectApplication(this);
+    this.applicationComponent.inject(this);
   }
 
-  ApplicationComponent getApplicationComponent() {
+  public ApplicationComponent getComponent() {
     return applicationComponent;
   }
 }

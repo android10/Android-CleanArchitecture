@@ -12,7 +12,7 @@ import dagger.Provides;
  * Dagger module that provides objects which will live during the application lifecycle.
  */
 @Module
-public class ApplicationModule {
+final class ApplicationModule {
 
   private final Application application;
 
@@ -20,7 +20,7 @@ public class ApplicationModule {
     this.application = application;
   }
 
-  @Provides Application application() {
+  @Provides Application provideApplication() {
     return this.application;
   }
 }

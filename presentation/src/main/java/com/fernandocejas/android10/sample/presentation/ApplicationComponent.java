@@ -8,5 +8,5 @@ import dagger.Component;
 
 @Component(modules = ApplicationModule.class)
 interface ApplicationComponent {
-  AndroidApplication injectApplication(AndroidApplication androidApplication);
+  AndroidApplication inject(AndroidApplication androidApplication);
 }
