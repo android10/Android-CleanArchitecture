@@ -5,6 +5,9 @@
 package com.fernandocejas.android10.sample.presentation;
 
 import android.app.Application;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 
 /**
  * Android Main Application

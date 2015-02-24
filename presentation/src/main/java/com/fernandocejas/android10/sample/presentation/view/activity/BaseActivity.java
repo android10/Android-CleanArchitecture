@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import com.fernandocejas.android10.sample.presentation.ActivityComponent;
-import com.fernandocejas.android10.sample.presentation.ActivityModule;
-import com.fernandocejas.android10.sample.presentation.Dagger_ActivityComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_ActivityComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 import javax.inject.Inject;
 
