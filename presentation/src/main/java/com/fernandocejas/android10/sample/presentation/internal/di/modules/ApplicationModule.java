@@ -5,6 +5,8 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
 import android.app.Application;
+import android.content.Context;
+import android.view.LayoutInflater;
 import dagger.Module;
 import dagger.Provides;
 
@@ -20,7 +22,11 @@ public final class ApplicationModule {
     this.application = application;
   }
 
-  @Provides Application provideApplication() {
+  @Provides Context provideApplicationContext() {
     return this.application;
+  }
+
+  @Provides LayoutInflater provideLayoutInflater() {
+    return LayoutInflater.from(this.application);
   }
 }
