@@ -24,8 +24,4 @@ public class AndroidApplication extends Application {
         .build();
     this.applicationComponent.inject(this);
   }
-
-  public ApplicationComponent getComponent() {
-    return applicationComponent;
-  }
 }
