@@ -13,7 +13,7 @@ dependencies {
   //noinspection GroovyAssignabilityCheck
   testCompile debugVariant.javaCompile.outputs.files
   //noinspection GroovyAssignabilityCheck
-  testCompile files(dataLayer.plugins.findPlugin('com.android.library').getBootClasspath())
+  testCompile files(dataLayer.android.bootClasspath)
 
   testCompile 'org.mockito:mockito-core:1.9.5'
   testCompile 'junit:junit:4.11'
