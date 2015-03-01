@@ -4,10 +4,11 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-  //library dependencies
-  compile 'io.reactivex:rxjava:1.0.3'
+  def domainDependencies = rootProject.ext.domainDependencies
+  def domainTestDependencies = rootProject.ext.domainTestDependencies
 
-  //test dependencies
-  testCompile 'junit:junit:4.11'
-  testCompile 'org.mockito:mockito-core:1.9.5'
+  compile domainDependencies.rxJava
+
+  testCompile domainTestDependencies.junit
+  testCompile domainTestDependencies.mockito
 }

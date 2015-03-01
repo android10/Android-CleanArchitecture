@@ -1,0 +1,74 @@
+allprojects {
+  repositories {
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+  }
+}
+
+ext {
+  //Android
+  androidBuildToolsVersion = "21.1.2"
+  androidMinSdkVersion = 15
+  androidTargetSdkVersion = 21
+  androidCompileSdkVersion = 21
+
+  //Libraries
+  daggerVersion = '2.0-SNAPSHOT'
+  butterKnifeVersion = '6.0.0'
+  recyclerViewVersion = '21.0.3'
+  rxJavaVersion = '1.0.3'
+  rxAndroidVersion = '0.23.0'
+  javaxAnnotationVersion = '10.0-b28'
+  gsonVersion = '2.3'
+
+  //Testing
+  robolectricVersion = '2.4'
+  jUnitVersion = '4.11'
+  mockitoVersion = '1.9.5'
+  dexmakerVersion = '1.0'
+  espressoVersion = '2.0'
+  testingSupportLibVersion = '0.1'
+
+
+  presentationDependencies = [
+      daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
+      dagger:             "com.google.dagger:dagger:${daggerVersion}",
+      butterKnife:        "com.jakewharton:butterknife:${butterKnifeVersion}",
+      recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+      rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
+      javaxAnnotation:    "org.glassfish:javax.annotation:${javaxAnnotationVersion}",
+  ]
+
+  presentationTestDependencies = [
+      mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+      dexmaker:           "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+      dexmakerMockito:    "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+      espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+      testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+  ]
+
+  domainDependencies = [
+      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+  ]
+
+  domainTestDependencies = [
+      junit:              "junit:junit:${jUnitVersion}",
+      mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+  ]
+
+  dataDependencies = [
+      daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
+      dagger:             "com.google.dagger:dagger:${daggerVersion}",
+      gson:               "com.google.code.gson:gson:${gsonVersion}",
+      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+      rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
+      javaxAnnotation:    "org.glassfish:javax.annotation:${javaxAnnotationVersion}",
+  ]
+
+  dataTestDependencies = [
+      junit:              "junit:junit:${jUnitVersion}",
+      mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+      robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+  ]
+}

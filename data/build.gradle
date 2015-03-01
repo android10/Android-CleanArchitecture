@@ -34,16 +34,14 @@ android {
 }
 
 dependencies {
-  def domainLayer = project(':domain')
+  def dataDependencies = rootProject.ext.dataDependencies
 
-  //project dependencies
-  compile domainLayer
+  compile project(':domain')
 
-  //library dependencies
-  apt "com.google.dagger:dagger-compiler:2.0-SNAPSHOT"
-  provided 'org.glassfish:javax.annotation:10.0-b28'
-  compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
-  compile('com.google.code.gson:gson:2.3')
-  compile 'io.reactivex:rxjava:1.0.3'
-  compile 'io.reactivex:rxandroid:0.23.0'
+  apt dataDependencies.daggerCompiler
+  compile dataDependencies.dagger
+  compile dataDependencies.gson
+  compile dataDependencies.rxJava
+  compile dataDependencies.rxAndroid
+  provided dataDependencies.javaxAnnotation
 }

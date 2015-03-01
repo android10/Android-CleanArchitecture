@@ -1,3 +1,5 @@
+apply from: 'buildsrc/dependencies.gradle'
+
 buildscript {
   repositories {
     jcenter()
@@ -8,21 +10,16 @@ buildscript {
   }
 }
 
+task wrapper(type: Wrapper) {
+  description 'Creates the gradle wrapper.'
+  gradleVersion '2.2.1'
+}
+
 allprojects {
   ext {
-    androidBuildToolsVersion = "21.1.2"
-    androidMinSdkVersion = 15
-    androidTargetSdkVersion = 21
-    androidCompileSdkVersion = 21
     androidApplicationId = 'com.fernandocejas.android10.sample.presentation'
     androidVersionCode = 1
     androidVersionName = "1.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-  }
-  repositories {
-    jcenter()
-    maven {
-      url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
   }
 }

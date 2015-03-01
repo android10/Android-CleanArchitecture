@@ -10,6 +10,7 @@ android {
   defaultConfig {
     minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
     targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
     applicationId globalConfiguration.getAt("androidApplicationId")
     versionCode globalConfiguration.getAt("androidVersionCode")
     versionName globalConfiguration.getAt("androidVersionName")
@@ -39,25 +40,23 @@ android {
 }
 
 dependencies {
-  def domainLayer = project(':domain')
-  def dataLayer = project(':data')
+  def presentationDependencies = rootProject.ext.presentationDependencies
+  def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
-  compile domainLayer
-  compile dataLayer
+  compile project(':domain')
+  compile project(':data')
 
-  apt "com.google.dagger:dagger-compiler:2.0-SNAPSHOT"
+  apt presentationDependencies.daggerCompiler
+  compile presentationDependencies.dagger
+  compile presentationDependencies.butterKnife
+  compile presentationDependencies.recyclerView
+  compile presentationDependencies.rxJava
+  compile presentationDependencies.rxAndroid
+  provided presentationDependencies.javaxAnnotation
 
-  provided 'org.glassfish:javax.annotation:10.0-b28'
-
-  compile 'com.google.dagger:dagger:2.0-SNAPSHOT'
-  compile 'com.jakewharton:butterknife:6.0.0'
-  compile 'com.android.support:recyclerview-v7:21.0.3'
-  compile 'io.reactivex:rxjava:1.0.3'
-  compile 'io.reactivex:rxandroid:0.23.0'
-
-  androidTestCompile 'org.mockito:mockito-core:1.9.5'
-  androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
-  androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
-  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-  androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+  androidTestCompile presentationTestDependencies.mockito
+  androidTestCompile presentationTestDependencies.dexmaker
+  androidTestCompile presentationTestDependencies.dexmakerMockito
+  androidTestCompile presentationTestDependencies.espresso
+  androidTestCompile presentationTestDependencies.testingSupportLib
 }
