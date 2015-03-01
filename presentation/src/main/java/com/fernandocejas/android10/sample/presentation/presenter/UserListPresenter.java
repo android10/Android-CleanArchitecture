@@ -4,6 +4,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.presenter;
 
+import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
@@ -12,25 +13,30 @@ import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMappe
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import java.util.Collection;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
+@Singleton
 public class UserListPresenter implements Presenter {
 
-  private final UserListView viewListView;
+  private UserListView viewListView;
+
   private final GetUserListUseCase getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  public UserListPresenter(UserListView userListView, GetUserListUseCase getUserListUserCase,
+  @Inject
+  public UserListPresenter(GetUserListUseCase getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
-    if (userListView == null || getUserListUserCase == null || userModelDataMapper == null) {
-      throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
-    }
-    this.viewListView = userListView;
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
+  }
+
+  public void setView(@NonNull UserListView view) {
+    this.viewListView = view;
   }
 
   @Override public void resume() {}

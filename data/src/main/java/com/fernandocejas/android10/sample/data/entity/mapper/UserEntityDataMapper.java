@@ -9,13 +9,17 @@ import com.fernandocejas.android10.sample.domain.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Mapper class used to transform {@link UserEntity} (in the data layer) to {@link User} in the
  * domain layer.
  */
+@Singleton
 public class UserEntityDataMapper {
 
+  @Inject
   public UserEntityDataMapper() {
     //empty
   }

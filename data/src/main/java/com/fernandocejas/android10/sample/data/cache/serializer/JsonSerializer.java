@@ -6,14 +6,18 @@ package com.fernandocejas.android10.sample.data.cache.serializer;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.google.gson.Gson;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Class user as Serializer/Deserializer for user entities.
  */
+@Singleton
 public class JsonSerializer {
 
   private final Gson gson = new Gson();
 
+  @Inject
   public JsonSerializer() {
     //empty
   }

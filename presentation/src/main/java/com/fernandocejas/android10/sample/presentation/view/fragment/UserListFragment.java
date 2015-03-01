@@ -16,28 +16,14 @@ import android.widget.RelativeLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import com.fernandocejas.android10.sample.data.cache.FileManager;
-import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
-import com.fernandocejas.android10.sample.data.cache.serializer.JsonSerializer;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
-import com.fernandocejas.android10.sample.data.executor.JobExecutor;
-import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
-import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
-import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
-import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
-import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.UIThread;
-import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
 import java.util.Collection;
+import javax.inject.Inject;
 
 /**
  * Fragment that shows a list of Users.
@@ -51,7 +37,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
     void onUserClicked(final UserModel userModel);
   }
 
-  private UserListPresenter userListPresenter;
+  @Inject UserListPresenter userListPresenter;
 
   @InjectView(R.id.rv_users) RecyclerView rv_users;
   @InjectView(R.id.rl_progress) RelativeLayout rl_progress;
@@ -70,6 +56,12 @@ public class UserListFragment extends BaseFragment implements UserListView {
     if (activity instanceof UserListListener) {
       this.userListListener = (UserListListener) activity;
     }
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    this.getApplication().inject(this);
+    this.initialize();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,27 +89,8 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.pause();
   }
 
-  @Override protected void initializePresenter() {
-    // All these dependency initialization could have been avoided using a
-    // dependency injection framework. But in this case are used this way for
-    // LEARNING EXAMPLE PURPOSE.
-    ThreadExecutor threadExecutor = JobExecutor.getInstance();
-    PostExecutionThread postExecutionThread = UIThread.getInstance();
-
-    JsonSerializer userCacheSerializer = new JsonSerializer();
-    UserCache userCache = UserCacheImpl.getInstance(getActivity(), userCacheSerializer,
-        FileManager.getInstance(), threadExecutor);
-    UserDataStoreFactory userDataStoreFactory =
-        new UserDataStoreFactory(this.getContext(), userCache);
-    UserEntityDataMapper userEntityDataMapper = new UserEntityDataMapper();
-    UserRepository userRepository = UserDataRepository.getInstance(userDataStoreFactory,
-        userEntityDataMapper);
-
-    GetUserListUseCase getUserListUseCase = new GetUserListUseCaseImpl(userRepository,
-        threadExecutor, postExecutionThread);
-    UserModelDataMapper userModelDataMapper = new UserModelDataMapper();
-
-    this.userListPresenter = new UserListPresenter(this, getUserListUseCase, userModelDataMapper);
+  private void initialize() {
+    this.userListPresenter.setView(this);
   }
 
   private void setupUI() {
