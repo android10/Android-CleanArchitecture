@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
-import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
 /**
@@ -26,20 +25,9 @@ public class UserListActivity extends BaseActivity implements UserListFragment.U
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_user_list);
-
-    this.initialize();
   }
 
   @Override public void onUserClicked(UserModel userModel) {
     this.navigator.navigateToUserDetails(this, userModel.getUserId());
-  }
-
-  /**
-   * Initializes activity's private members.
-   */
-  private void initialize() {
-    //This initialization should be avoided by using a dependency injection framework.
-    //But this is an example and for testing purpose.
-    this.navigator = new Navigator();
   }
 }
