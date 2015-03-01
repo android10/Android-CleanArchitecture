@@ -8,14 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserDetailsActivity;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
-import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Class used to navigate through the application.
  */
+@Singleton
 public class Navigator {
 
-  @Inject
   public void Navigator() {
     //empty
   }
