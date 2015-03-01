@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_ActivityComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
+import com.fernandocejas.android10.sample.presentation.AndroidApplication;
 import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 import javax.inject.Inject;
 
@@ -15,19 +13,15 @@ import javax.inject.Inject;
  */
 public abstract class BaseActivity extends Activity {
 
-  ActivityComponent activityComponent;
-
   @Inject Navigator navigator;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    this.activityComponent = Dagger_ActivityComponent.builder()
-        .activityModule(new ActivityModule())
-        .build();
-    this.activityComponent.inject(this);
+    this.initializeInjector();
   }
+
+  private void initializeInjector() {((AndroidApplication)getApplication()).inject(this);}
 
   /**
    * Adds a {@link Fragment} to this activity's layout.

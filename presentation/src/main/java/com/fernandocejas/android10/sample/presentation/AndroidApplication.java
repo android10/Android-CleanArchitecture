@@ -8,6 +8,7 @@ import android.app.Application;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
+import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 
 /**
  * Android Main Application
@@ -18,10 +19,17 @@ public class AndroidApplication extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
+    this.initializeInjector();
+  }
 
+  private void initializeInjector() {
     this.applicationComponent = Dagger_ApplicationComponent.builder()
         .applicationModule(new ApplicationModule(this))
         .build();
     this.applicationComponent.inject(this);
+  }
+
+  public void inject(BaseActivity baseActivity) {
+    this.applicationComponent.inject(baseActivity);
   }
 }
