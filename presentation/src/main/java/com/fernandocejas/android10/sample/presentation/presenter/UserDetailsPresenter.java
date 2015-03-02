@@ -12,11 +12,14 @@ import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFac
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
+@Singleton
 public class UserDetailsPresenter implements Presenter {
 
   /** id used to retrieve user details */
@@ -27,6 +30,7 @@ public class UserDetailsPresenter implements Presenter {
   private final GetUserDetailsUseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
+  @Inject
   public UserDetailsPresenter(GetUserDetailsUseCase getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
