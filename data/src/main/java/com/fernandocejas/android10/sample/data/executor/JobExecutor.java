@@ -10,20 +10,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 
 /**
- * Decorated {@link java.util.concurrent.ThreadPoolExecutor} Singleton class based on
- * 'Initialization on Demand Holder' pattern.
+ * Decorated {@link java.util.concurrent.ThreadPoolExecutor}
  */
 public class JobExecutor implements ThreadExecutor {
-
-  private static class LazyHolder {
-    private static final JobExecutor INSTANCE = new JobExecutor();
-  }
-
-  public static JobExecutor getInstance() {
-    return LazyHolder.INSTANCE;
-  }
 
   private static final int INITIAL_POOL_SIZE = 3;
   private static final int MAX_POOL_SIZE = 5;
@@ -40,7 +32,8 @@ public class JobExecutor implements ThreadExecutor {
 
   private final ThreadFactory threadFactory;
 
-  private JobExecutor() {
+  @Inject
+  public JobExecutor() {
     this.workQueue = new LinkedBlockingQueue<>();
     this.threadFactory = new JobThreadFactory();
     this.threadPoolExecutor = new ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,

@@ -22,7 +22,7 @@ public class FileManagerTest extends ApplicationTestCase {
 
   @Before
   public void setUp() {
-    fileManager = FileManager.getInstance();
+    fileManager = new FileManager();
     cacheDir = Robolectric.application.getCacheDir();
   }
 

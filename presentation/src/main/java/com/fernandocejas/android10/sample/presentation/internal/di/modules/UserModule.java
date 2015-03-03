@@ -26,24 +26,17 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPres
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Singleton;
 
 @Module
 public class UserModule {
 
-  @Provides ThreadExecutor provideThreadExecutor() {
-    return JobExecutor.getInstance();
+  @Provides @Singleton ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+    return jobExecutor;
   }
 
-  @Provides PostExecutionThread providePostExecutionThread() {
-    return UIThread.getInstance();
-  }
-
-  @Provides JsonSerializer provideJsonSerializer() {
-    return new JsonSerializer();
-  }
-
-  @Provides FileManager provideFileManager() {
-    return FileManager.getInstance();
+  @Provides @Singleton PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+    return uiThread;
   }
 
   @Provides UserCache provideUserCache(Context context, JsonSerializer jsonSerializer,
@@ -55,10 +48,6 @@ public class UserModule {
     return new UserDataStoreFactory(context, userCache);
   }
 
-  @Provides UserEntityDataMapper provideUserEntityDataMapper() {
-    return new UserEntityDataMapper();
-  }
-
   @Provides UserRepository provideUserRepository(UserDataStoreFactory userDataStoreFactory,
       UserEntityDataMapper userEntityDataMapper) {
     return UserDataRepository.getInstance(userDataStoreFactory, userEntityDataMapper);
@@ -67,10 +56,6 @@ public class UserModule {
   @Provides GetUserListUseCase provideGetUserListUseCase(UserRepository userRepository,
       ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
     return new GetUserListUseCaseImpl(userRepository, threadExecutor, postExecutionThread);
-  }
-
-  @Provides UserModelDataMapper provideUserModelDataMapper() {
-    return new UserModelDataMapper();
   }
 
   @Provides UserListPresenter provideUserListPresenter(GetUserListUseCase userListUseCase,

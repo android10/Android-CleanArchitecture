@@ -20,9 +20,7 @@ import javax.inject.Singleton;
 public class UserEntityDataMapper {
 
   @Inject
-  public UserEntityDataMapper() {
-    //empty
-  }
+  public UserEntityDataMapper() {}
 
   /**
    * Transform a {@link UserEntity} into an {@link User}.

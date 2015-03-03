@@ -20,9 +20,7 @@ import javax.inject.Singleton;
 public class UserModelDataMapper {
 
   @Inject
-  public UserModelDataMapper() {
-    //empty
-  }
+  public UserModelDataMapper() {}
 
   /**
    * Transform a {@link User} into an {@link UserModel}.

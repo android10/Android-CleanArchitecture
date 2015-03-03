@@ -12,21 +12,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Helper class to do operations on regular files/directories.
  */
+@Singleton
 public class FileManager {
 
-  private FileManager() {}
-
-  private static class LazyHolder {
-    private static final FileManager INSTANCE = new FileManager();
-  }
-
-  public static FileManager getInstance() {
-    return LazyHolder.INSTANCE;
-  }
+  @Inject
+  public FileManager() {}
 
   /**
    * Writes a file to Disk.
