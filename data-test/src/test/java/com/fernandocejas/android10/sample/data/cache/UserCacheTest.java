@@ -40,7 +40,7 @@ public class UserCacheTest extends ApplicationTestCase {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    userCache = UserCacheImpl.getInstance(Robolectric.application, mockJsonSerializer,
+    userCache = new UserCacheImpl(Robolectric.application, mockJsonSerializer,
         mockFileManager, mockThreadExecutor);
   }
 

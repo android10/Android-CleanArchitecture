@@ -57,7 +57,7 @@ public class UserDataRepositoryTest extends ApplicationTestCase {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     resetSingleton(UserDataRepository.class);
-    userDataRepository = UserDataRepository.getInstance(mockUserDataStoreFactory,
+    userDataRepository = new UserDataRepository(mockUserDataStoreFactory,
         mockUserEntityDataMapper);
 
     given(mockUserDataStoreFactory.create(anyInt())).willReturn(mockUserDataStore);
@@ -117,15 +117,5 @@ public class UserDataRepositoryTest extends ApplicationTestCase {
 
     verify(mockUserDetailsRepositoryCallback).onError(any(RepositoryErrorBundle.class));
     verifyZeroInteractions(mockUserEntityDataMapper);
-  }
-
-  @Test
-  public void testInvalidParametersConstructor() {
-    resetSingleton(UserDataRepository.class);
-
-    expectedException.expect(IllegalArgumentException.class);
-    expectedException.expectMessage("Invalid null parameter");
-
-    userDataRepository = UserDataRepository.getInstance(null, null);
   }
 }
