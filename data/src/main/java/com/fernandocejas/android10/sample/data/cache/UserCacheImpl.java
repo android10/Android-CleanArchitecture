@@ -10,21 +10,12 @@ import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import java.io.File;
+import javax.inject.Inject;
 
 /**
  * {@link UserCache} implementation.
  */
 public class UserCacheImpl implements UserCache {
-
-  private static UserCacheImpl INSTANCE;
-
-  public static synchronized UserCacheImpl getInstance(Context context,
-      JsonSerializer userCacheSerializer, FileManager fileManager, ThreadExecutor threadExecutor) {
-    if (INSTANCE == null) {
-      INSTANCE = new UserCacheImpl(context, userCacheSerializer, fileManager, threadExecutor);
-    }
-    return INSTANCE;
-  }
 
   private static final String SETTINGS_FILE_NAME = "com.fernandocejas.android10.SETTINGS";
   private static final String SETTINGS_KEY_LAST_CACHE_UPDATE = "last_cache_update";
@@ -45,7 +36,8 @@ public class UserCacheImpl implements UserCache {
    * @param userCacheSerializer {@link JsonSerializer} for object serialization.
    * @param fileManager {@link FileManager} for saving serialized objects to the file system.
    */
-  private UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
+  @Inject
+  public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
       FileManager fileManager, ThreadExecutor executor) {
     if (context == null || userCacheSerializer == null || fileManager == null || executor == null) {
       throw new IllegalArgumentException("Invalid null parameter");

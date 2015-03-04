@@ -4,15 +4,10 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
-import android.content.Context;
-import com.fernandocejas.android10.sample.data.cache.FileManager;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
-import com.fernandocejas.android10.sample.data.cache.serializer.JsonSerializer;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
-import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetailsUseCase;
@@ -21,9 +16,6 @@ import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseImpl;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.UIThread;
-import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
-import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
-import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -39,18 +31,12 @@ public class UserModule {
     return uiThread;
   }
 
-  @Provides UserCache provideUserCache(Context context, JsonSerializer jsonSerializer,
-      FileManager fileManager, ThreadExecutor threadExecutor) {
-    return UserCacheImpl.getInstance(context, jsonSerializer, fileManager, threadExecutor);
+  @Provides @Singleton UserCache provideUserCache(UserCacheImpl userCache) {
+    return userCache;
   }
 
-  @Provides UserDataStoreFactory provideUserDataStoreFactory(Context context, UserCache userCache) {
-    return new UserDataStoreFactory(context, userCache);
-  }
-
-  @Provides UserRepository provideUserRepository(UserDataStoreFactory userDataStoreFactory,
-      UserEntityDataMapper userEntityDataMapper) {
-    return UserDataRepository.getInstance(userDataStoreFactory, userEntityDataMapper);
+  @Provides @Singleton UserRepository provideUserRepository(UserDataRepository userDataRepository) {
+    return userDataRepository;
   }
 
   @Provides GetUserListUseCase provideGetUserListUseCase(UserRepository userRepository,
@@ -58,19 +44,9 @@ public class UserModule {
     return new GetUserListUseCaseImpl(userRepository, threadExecutor, postExecutionThread);
   }
 
-  @Provides UserListPresenter provideUserListPresenter(GetUserListUseCase userListUseCase,
-      UserModelDataMapper userModelDataMapper) {
-    return new UserListPresenter(userListUseCase, userModelDataMapper);
-  }
-
   @Provides GetUserDetailsUseCase provideGetUserDetailsUseCase(UserRepository userRepository,
       ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
     return  new GetUserDetailsUseCaseImpl(userRepository,
         threadExecutor, postExecutionThread);
-  }
-
-  @Provides UserDetailsPresenter provideUserDetailsPresenter(GetUserDetailsUseCase getUserDetailsUseCase,
-      UserModelDataMapper userModelDataMapper) {
-    return new UserDetailsPresenter(getUserDetailsUseCase, userModelDataMapper);
   }
 }

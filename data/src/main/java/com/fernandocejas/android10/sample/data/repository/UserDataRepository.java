@@ -13,21 +13,12 @@ import com.fernandocejas.android10.sample.data.repository.datasource.UserDataSto
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import java.util.Collection;
+import javax.inject.Inject;
 
 /**
  * {@link UserRepository} for retrieving user data.
  */
 public class UserDataRepository implements UserRepository {
-
-  private static UserDataRepository INSTANCE;
-
-  public static synchronized UserDataRepository getInstance(UserDataStoreFactory dataStoreFactory,
-      UserEntityDataMapper userEntityDataMapper) {
-    if (INSTANCE == null) {
-      INSTANCE = new UserDataRepository(dataStoreFactory, userEntityDataMapper);
-    }
-    return INSTANCE;
-  }
 
   private final UserDataStoreFactory userDataStoreFactory;
   private final UserEntityDataMapper userEntityDataMapper;
@@ -38,11 +29,9 @@ public class UserDataRepository implements UserRepository {
    * @param dataStoreFactory A factory to construct different data source implementations.
    * @param userEntityDataMapper {@link UserEntityDataMapper}.
    */
-  protected UserDataRepository(UserDataStoreFactory dataStoreFactory,
+  @Inject
+  public UserDataRepository(UserDataStoreFactory dataStoreFactory,
       UserEntityDataMapper userEntityDataMapper) {
-    if (dataStoreFactory == null || userEntityDataMapper == null) {
-      throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
-    }
     this.userDataStoreFactory = dataStoreFactory;
     this.userEntityDataMapper = userEntityDataMapper;
   }

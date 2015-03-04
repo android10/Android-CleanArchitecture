@@ -10,10 +10,12 @@ import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMappe
 import com.fernandocejas.android10.sample.data.net.RestApi;
 import com.fernandocejas.android10.sample.data.net.RestApiImpl;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Factory that creates different implementations of {@link UserDataStore}.
  */
+@Singleton
 public class UserDataStoreFactory {
 
   private final Context context;
