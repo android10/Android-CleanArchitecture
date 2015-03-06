@@ -49,6 +49,9 @@ ext {
   ]
 
   domainDependencies = [
+      daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
+      dagger:             "com.google.dagger:dagger:${daggerVersion}",
+      javaxAnnotation:    "org.glassfish:javax.annotation:${javaxAnnotationVersion}",
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
   ]
 
