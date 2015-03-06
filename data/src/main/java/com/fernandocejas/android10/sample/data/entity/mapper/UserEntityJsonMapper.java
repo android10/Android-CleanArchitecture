@@ -10,14 +10,18 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Class used to transform from Strings representing json to valid objects.
  */
+@Singleton
 public class UserEntityJsonMapper {
 
   private final Gson gson;
 
+  @Inject
   public UserEntityJsonMapper() {
     this.gson = new Gson();
   }
