@@ -39,14 +39,11 @@ public class UserModule {
     return userDataRepository;
   }
 
-  @Provides GetUserListUseCase provideGetUserListUseCase(UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
-    return new GetUserListUseCaseImpl(userRepository, threadExecutor, postExecutionThread);
+  @Provides GetUserListUseCase provideGetUserListUseCase(GetUserListUseCaseImpl getUserListUseCase) {
+    return getUserListUseCase;
   }
 
-  @Provides GetUserDetailsUseCase provideGetUserDetailsUseCase(UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
-    return  new GetUserDetailsUseCaseImpl(userRepository,
-        threadExecutor, postExecutionThread);
+  @Provides GetUserDetailsUseCase provideGetUserDetailsUseCase(GetUserDetailsUseCaseImpl getUserDetailsUseCase) {
+    return getUserDetailsUseCase;
   }
 }
