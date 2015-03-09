@@ -11,6 +11,7 @@ import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.presentation.UIThread;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ForApplication;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -27,7 +28,7 @@ public final class ApplicationModule {
     this.application = application;
   }
 
-  @Provides @Singleton Context provideApplicationContext() {
+  @Provides @Singleton @ForApplication Context provideApplicationContext() {
     return this.application;
   }
 
