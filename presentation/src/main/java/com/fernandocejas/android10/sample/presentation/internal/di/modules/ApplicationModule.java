@@ -4,14 +4,13 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
-import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.presentation.AndroidApplication;
 import com.fernandocejas.android10.sample.presentation.UIThread;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.ForApplication;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -20,15 +19,14 @@ import javax.inject.Singleton;
  * Dagger module that provides objects which will live during the application lifecycle.
  */
 @Module
-public final class ApplicationModule {
+public class ApplicationModule {
+  private final AndroidApplication application;
 
-  private final Application application;
-
-  public ApplicationModule(Application application) {
+  public ApplicationModule(AndroidApplication application) {
     this.application = application;
   }
 
-  @Provides @Singleton @ForApplication Context provideApplicationContext() {
+  @Provides @Singleton Context provideApplicationContext() {
     return this.application;
   }
 
