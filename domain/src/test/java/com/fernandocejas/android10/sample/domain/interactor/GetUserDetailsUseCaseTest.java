@@ -125,9 +125,4 @@ public class GetUserDetailsUseCaseTest {
     verifyNoMoreInteractions(mockGetUserDetailsCallback);
     verifyZeroInteractions(mockErrorHandler);
   }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testExecuteUserCaseNullParameter() {
-    getUserDetailsUseCase.execute(FAKE_USER_ID, null);
-  }
 }

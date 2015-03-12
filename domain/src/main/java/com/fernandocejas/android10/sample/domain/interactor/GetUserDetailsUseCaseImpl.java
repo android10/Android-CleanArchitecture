@@ -38,9 +38,6 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
   @Inject
   public GetUserDetailsUseCaseImpl(UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
-    if (userRepository == null || threadExecutor == null || postExecutionThread == null) {
-      throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
-    }
     this.userRepository = userRepository;
     this.threadExecutor = threadExecutor;
     this.postExecutionThread = postExecutionThread;

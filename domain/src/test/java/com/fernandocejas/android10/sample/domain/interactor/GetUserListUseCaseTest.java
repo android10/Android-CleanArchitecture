@@ -118,9 +118,4 @@ public class GetUserListUseCaseTest {
     verifyNoMoreInteractions(mockGetUserListUseCaseCallback);
     verifyZeroInteractions(mockErrorBundle);
   }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testExecuteUserListUseCaseNullParameter() {
-    getUserListUseCase.execute(null);
-  }
 }
