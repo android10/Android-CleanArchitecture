@@ -4,6 +4,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import javax.inject.Qualifier;
 
@@ -14,5 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * it is require to be annotated with ForApplication to explicitly differentiate it from an
  * activity context.
  */
-@Qualifier @Retention(RUNTIME)
+@Qualifier
+@Documented
+@Retention(RUNTIME)
 public @interface ForApplication {}

@@ -27,7 +27,7 @@ public class ApplicationModule {
   }
 
   @Provides @Singleton Context provideApplicationContext() {
-    return this.application;
+    return this.application.getApplicationContext();
   }
 
   @Provides @Singleton LayoutInflater provideLayoutInflater() {
