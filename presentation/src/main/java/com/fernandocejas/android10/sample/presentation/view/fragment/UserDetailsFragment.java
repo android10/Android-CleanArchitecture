@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
@@ -55,12 +55,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     return userDetailsFragment;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    this.initializeInjector();
-    this.initialize();
-  }
-
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
@@ -72,7 +66,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.userDetailsPresenter.initialize(this.userId);
+    this.initialize();
   }
 
   @Override public void onResume() {
@@ -85,17 +79,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.userDetailsPresenter.pause();
   }
 
-  private void initializeInjector() {
-    Dagger_UserComponent.builder()
-      .applicationComponent(getApplicationComponent())
-      .activityModule(getActivityModule())
-      .build()
-      .inject(this);
-  }
-
   private void initialize() {
+    this.getComponent(UserComponent.class).inject(this);
     this.userDetailsPresenter.setView(this);
     this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
+    this.userDetailsPresenter.initialize(this.userId);
   }
 
   @Override public void renderUser(UserModel user) {

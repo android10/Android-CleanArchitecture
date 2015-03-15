@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -59,12 +59,6 @@ public class UserListFragment extends BaseFragment implements UserListView {
     }
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    this.initializeInjector();
-    this.initialize();
-  }
-
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
@@ -77,6 +71,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    this.initialize();
     this.loadUserList();
   }
 
@@ -90,15 +85,8 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.pause();
   }
 
-  private void initializeInjector() {
-    Dagger_UserComponent.builder()
-      .applicationComponent(getApplicationComponent())
-      .activityModule(getActivityModule())
-      .build()
-      .inject(this);
-  }
-
   private void initialize() {
+    this.getComponent(UserComponent.class).inject(this);
     this.userListPresenter.setView(this);
   }
 
