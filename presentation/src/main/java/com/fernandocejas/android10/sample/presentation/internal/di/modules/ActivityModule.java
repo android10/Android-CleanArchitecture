@@ -5,7 +5,6 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
 import android.app.Activity;
-import android.content.Context;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import dagger.Module;
 import dagger.Provides;
@@ -25,10 +24,6 @@ public class ActivityModule {
   * Expose the activity to dependents in the graph.
   */
   @Provides @PerActivity Activity activity() {
-    return this.activity;
-  }
-
-  @Provides @PerActivity Context provideActivityContext() {
     return this.activity;
   }
 }
