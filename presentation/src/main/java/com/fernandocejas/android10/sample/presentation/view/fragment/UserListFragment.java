@@ -18,9 +18,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_UserComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -64,12 +61,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    UserComponent userComponent = Dagger_UserComponent.builder()
-        .applicationComponent(getApplication().getApplicationComponent())
-        .activityModule(new ActivityModule(getActivity()))
-        .userModule(new UserModule())
-        .build();
-    userComponent.inject(this);
+    this.initializeInjector();
     this.initialize();
   }
 
@@ -96,6 +88,14 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public void onPause() {
     super.onPause();
     this.userListPresenter.pause();
+  }
+
+  private void initializeInjector() {
+    Dagger_UserComponent.builder()
+      .applicationComponent(getApplicationComponent())
+      .activityModule(getActivityModule())
+      .build()
+      .inject(this);
   }
 
   private void initialize() {

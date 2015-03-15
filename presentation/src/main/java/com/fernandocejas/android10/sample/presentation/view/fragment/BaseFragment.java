@@ -8,6 +8,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.fernandocejas.android10.sample.presentation.AndroidApplication;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 
 /**
  * Base {@link android.app.Fragment} class for every fragment in this application.
@@ -29,11 +31,20 @@ public abstract class BaseFragment extends Fragment {
   }
 
   /**
-   * Get the Android Main Application.
+   * Get the Android Main Application component for dependency injection.
    *
-   * @return singleton {@link com.fernandocejas.android10.sample.presentation.AndroidApplication}
+   * @return {@link com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent}
    */
-  protected AndroidApplication getApplication() {
-    return (AndroidApplication)getActivity().getApplication();
+  protected ApplicationComponent getApplicationComponent() {
+    return ((AndroidApplication)getActivity().getApplication()).getApplicationComponent();
+  }
+
+  /**
+   * Get an Activity module for dependency injection.
+   *
+   * @return {@link com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule}
+   */
+  protected ActivityModule getActivityModule() {
+    return new ActivityModule(getActivity());
   }
 }
