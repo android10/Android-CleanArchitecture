@@ -9,17 +9,17 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetailsUseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@Singleton
+@PerActivity
 public class UserDetailsPresenter implements Presenter {
 
   /** id used to retrieve user details */

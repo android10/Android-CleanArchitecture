@@ -5,18 +5,18 @@
 package com.fernandocejas.android10.sample.presentation.mapper;
 
 import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Mapper class used to transform {@link User} (in the domain layer) to {@link UserModel} in the
  * presentation layer.
  */
-@Singleton
+@PerActivity
 public class UserModelDataMapper {
 
   @Inject

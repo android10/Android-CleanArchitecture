@@ -10,13 +10,11 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * This class is an implementation of {@link GetUserDetailsUseCase} that represents a use case for
  * retrieving data related to an specific {@link User}.
  */
-@Singleton
 public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
 
   private final UserRepository userRepository;

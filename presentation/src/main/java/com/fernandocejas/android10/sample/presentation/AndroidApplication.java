@@ -9,8 +9,6 @@ import com.fernandocejas.android10.sample.presentation.internal.di.components.Ap
 import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
 /**
  * Android Main Application
@@ -31,15 +29,11 @@ public class AndroidApplication extends Application {
     this.applicationComponent.inject(this);
   }
 
+  public ApplicationComponent getApplicationComponent() {
+    return this.applicationComponent;
+  }
+
   public void inject(BaseActivity baseActivity) {
     this.applicationComponent.inject(baseActivity);
-  }
-
-  public void inject(UserListFragment userListFragment) {
-    this.applicationComponent.inject(userListFragment);
-  }
-
-  public void inject(UserDetailsFragment userDetailsFragment) {
-    this.applicationComponent.inject(userDetailsFragment);
   }
 }

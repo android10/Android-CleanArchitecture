@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserDetailsActivity;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
@@ -16,6 +17,7 @@ import javax.inject.Singleton;
 @Singleton
 public class Navigator {
 
+  @Inject
   public void Navigator() {
     //empty
   }

@@ -4,21 +4,30 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
+import android.content.Context;
+import com.fernandocejas.android10.sample.data.cache.UserCache;
+import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
+import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.AndroidApplication;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 import dagger.Component;
 import javax.inject.Singleton;
 
-@Singleton
-@Component(modules = {ApplicationModule.class, ActivityModule.class, UserModule.class})
+/**
+ * A component whose lifetime is the life of the application.
+ */
+@Singleton // Constraints this component to one-per-application or unscoped bindings.
+@Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
   void inject(AndroidApplication androidApplication);
-  void inject(BaseActivity activity);
-  void inject(UserListFragment userListFragment);
-  void inject(UserDetailsFragment userDetailsFragment);
+  void inject(BaseActivity baseActivity);
+
+  //Exposed to sub-graphs.
+  Context context();
+  ThreadExecutor threadExecutor();
+  PostExecutionThread postExecutionThread();
+  UserCache userCache();
+  UserRepository userRepository();
 }

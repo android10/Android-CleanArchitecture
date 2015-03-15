@@ -8,11 +8,13 @@ import android.os.Handler;
 import android.os.Looper;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * MainThread (UI Thread) implementation based on a Handler instantiated with the main
  * application Looper.
  */
+@Singleton
 public class UIThread implements PostExecutionThread {
 
   private final Handler handler;

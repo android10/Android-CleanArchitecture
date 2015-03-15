@@ -11,10 +11,12 @@ import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import java.io.File;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * {@link UserCache} implementation.
  */
+@Singleton
 public class UserCacheImpl implements UserCache {
 
   private static final String SETTINGS_FILE_NAME = "com.fernandocejas.android10.SETTINGS";

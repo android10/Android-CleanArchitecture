@@ -11,13 +11,11 @@ import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import java.util.Collection;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * This class is an implementation of {@link GetUserListUseCase} that represents a use case for
  * retrieving a collection of all {@link User}.
  */
-@Singleton
 public class GetUserListUseCaseImpl implements GetUserListUseCase {
 
   private final UserRepository userRepository;

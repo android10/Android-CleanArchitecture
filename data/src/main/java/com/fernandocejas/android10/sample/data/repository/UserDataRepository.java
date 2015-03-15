@@ -14,10 +14,12 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import java.util.Collection;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * {@link UserRepository} for retrieving user data.
  */
+@Singleton
 public class UserDataRepository implements UserRepository {
 
   private final UserDataStoreFactory userDataStoreFactory;
