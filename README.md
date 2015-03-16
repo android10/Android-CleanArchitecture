@@ -14,9 +14,9 @@ Local Development
 Here are some useful Gradle/adb commands for executing this example:
 
  * `gradlew clean build` - Build the entire example and execute unit and integration tests plus lint check.
- * `gradlew installDebug` - Install the debug apk in the current connected device.
- * `gradlew test` - Execute domain and data layer tests (both unit and integration)
- * `gradlew connectedAndroidTest` - Execute espresso and instrumentation function tests.
+ * `gradlew installDebug` - Install the debug apk on the current connected device.
+ * `gradlew test` - Execute domain and data layer tests (both unit and integration).
+ * `gradlew connectedAndroidTest` - Execute espresso and instrumentation acceptance tests.
 
 
 License
