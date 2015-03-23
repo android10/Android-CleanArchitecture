@@ -11,6 +11,10 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetails
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 import dagger.Component;
 
+/**
+ * A scope {@link com.fernandocejas.android10.sample.presentation.internal.di.PerActivity} component.
+ * Injects user specific Fragments.
+ */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, UserModule.class})
 public interface UserComponent extends ActivityComponent {

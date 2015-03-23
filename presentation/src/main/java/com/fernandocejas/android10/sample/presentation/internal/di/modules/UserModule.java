@@ -12,6 +12,9 @@ import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Dagger module that provides user related collaborators.
+ */
 @Module
 public class UserModule {
   @Provides @PerActivity GetUserListUseCase provideGetUserListUseCase(GetUserListUseCaseImpl getUserListUseCase) {
