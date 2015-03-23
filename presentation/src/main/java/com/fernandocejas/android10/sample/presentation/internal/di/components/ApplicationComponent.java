@@ -5,7 +5,6 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
 import android.content.Context;
-import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
@@ -28,6 +27,5 @@ public interface ApplicationComponent {
   Context context();
   ThreadExecutor threadExecutor();
   PostExecutionThread postExecutionThread();
-  UserCache userCache();
   UserRepository userRepository();
 }
