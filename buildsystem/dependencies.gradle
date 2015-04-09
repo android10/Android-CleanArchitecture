@@ -1,7 +1,6 @@
 allprojects {
   repositories {
     jcenter()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
   }
 }
 
@@ -13,7 +12,7 @@ ext {
   androidCompileSdkVersion = 21
 
   //Libraries
-  daggerVersion = '2.0-SNAPSHOT'
+  daggerVersion = '2.0'
   butterKnifeVersion = '6.0.0'
   recyclerViewVersion = '21.0.3'
   rxJavaVersion = '1.0.3'
