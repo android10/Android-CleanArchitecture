@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.Dagger_UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
@@ -36,7 +36,7 @@ public class UserListActivity extends BaseActivity implements HasComponent<UserC
   }
 
   private void initializeInjector() {
-    this.userComponent = Dagger_UserComponent.builder()
+    this.userComponent = DaggerUserComponent.builder()
         .applicationComponent(getApplicationComponent())
         .activityModule(getActivityModule())
         .build();
