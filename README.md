@@ -1,4 +1,4 @@
-Android-CleanArchitecture [![Build Status](https://travis-ci.org/android10/Android-CleanArchitecture.svg?branch=master)](https://travis-ci.org/android10/Android-CleanArchitecture)
+Android-CleanArchitecture
 =========================
 
 This is a sample app that is part of a blog post I have written about how to architect android application using the Uncle Bob's clean architecture approach. 
