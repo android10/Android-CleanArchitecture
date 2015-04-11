@@ -3,10 +3,11 @@ Android-CleanArchitecture [![Build Status](https://travis-ci.org/android10/Andro
 
 This is a sample app that is part of a blog post I have written about how to architect android application using the Uncle Bob's clean architecture approach. 
 
-[Here is the blog post](http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/)
+[Architecting Android…The clean way?](http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/)
 
-[Here is a demo video](http://youtu.be/XSjV4sG3ni0)
+[Tasting Dagger 2 on Android](http://fernandocejas.com/2015/04/11/tasting-dagger-2-on-android/)
 
+[Demo video of this sample](http://youtu.be/XSjV4sG3ni0)
 
 Local Development
 -----------------
@@ -17,6 +18,12 @@ Here are some useful Gradle/adb commands for executing this example:
  * `gradlew installDebug` - Install the debug apk on the current connected device.
  * `gradlew test` - Execute domain and data layer tests (both unit and integration).
  * `gradlew connectedAndroidTest` - Execute espresso and instrumentation acceptance tests.
+
+Code style
+-----------
+
+Here you can download and install the java codestyle.
+https://github.com/android10/java-code-styles
 
 
 License
