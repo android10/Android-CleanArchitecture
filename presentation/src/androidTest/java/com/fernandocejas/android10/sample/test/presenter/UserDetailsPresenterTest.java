@@ -37,8 +37,9 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
   @Override protected void setUp() throws Exception {
     super.setUp();
     MockitoAnnotations.initMocks(this);
-    userDetailsPresenter = new UserDetailsPresenter(mockUserDetailsView, mockGetUserDetailsUseCase,
+    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetailsUseCase,
         mockUserModelDataMapper);
+    userDetailsPresenter.setView(mockUserDetailsView);
   }
 
   public void testUserDetailsPresenterInitialize() {
