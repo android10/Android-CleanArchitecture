@@ -70,9 +70,14 @@ public class RestApiImpl implements RestApi {
         String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + ".json";
         ApiConnection getUserDetailsConnection = ApiConnection.createGET(apiUrl);
         String responseUserDetails = getUserDetailsConnection.requestSyncCall();
-        UserEntity userEntity = this.userEntityJsonMapper.transformUserEntity(responseUserDetails);
 
-        userDetailsCallback.onUserEntityLoaded(userEntity);
+        if (responseUserDetails != null) {
+          UserEntity userEntity =
+              this.userEntityJsonMapper.transformUserEntity(responseUserDetails);
+          userDetailsCallback.onUserEntityLoaded(userEntity);
+        } else {
+          userDetailsCallback.onError(new NetworkConnectionException());
+        }
       } catch (Exception e) {
         userDetailsCallback.onError(new NetworkConnectionException(e.getCause()));
       }
