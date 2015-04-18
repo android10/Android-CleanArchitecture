@@ -28,8 +28,8 @@ android {
 
   lintOptions {
     abortOnError false;
-    disable 'InvalidPackage' // Some libraries have issues with this
-    disable 'OldTargetApi' // Due to Robolectric that modifies the manifest when running tests
+    disable 'InvalidPackage'  // Some libraries have issues with this
+    disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
   }
 }
 
@@ -39,9 +39,11 @@ dependencies {
   compile project(':domain')
 
   apt dataDependencies.daggerCompiler
+  provided dataDependencies.javaxAnnotation
   compile dataDependencies.dagger
+  compile dataDependencies.okHttp
   compile dataDependencies.gson
   compile dataDependencies.rxJava
   compile dataDependencies.rxAndroid
-  provided dataDependencies.javaxAnnotation
+  compile dataDependencies.androidAnnotations
 }
