@@ -11,11 +11,6 @@ buildscript {
   }
 }
 
-task wrapper(type: Wrapper) {
-  description 'Creates the gradle wrapper.'
-  gradleVersion '2.2.1'
-}
-
 allprojects {
   ext {
     androidApplicationId = 'com.fernandocejas.android10.sample.presentation'
@@ -24,3 +19,17 @@ allprojects {
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
   }
 }
+
+task wrapper(type: Wrapper) {
+  description 'Creates the gradle wrapper.'
+  gradleVersion '2.2.1'
+}
+
+task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
+  description 'Run application acceptance tests.'
+}
+
+task runUnitTests(dependsOn: [':domain:test', ':data-test:test']) {
+  description 'Run unit tests for both domain and data layers.'
+}
+
