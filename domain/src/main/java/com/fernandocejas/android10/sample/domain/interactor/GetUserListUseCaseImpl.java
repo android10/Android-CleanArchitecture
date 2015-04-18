@@ -10,7 +10,9 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
+import rx.Observer;
 
 /**
  * This class is an implementation of {@link GetUserListUseCase} that represents a use case for
@@ -50,19 +52,24 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
   }
 
   @Override public void run() {
-    this.userRepository.getUserList(this.repositoryCallback);
+    //todo clean this: for now is the first step to move to a reactive approach
+    //For now this is being executed in a separate thread but should be change for schedulers.
+    this.userRepository.getUsers().subscribe(new Observer<List<User>>() {
+      @Override public void onCompleted() {
+        //todo
+        //empty for now.
+      }
+
+      @Override public void onError(Throwable e) {
+        //todo rethink error handling
+        notifyError(null);
+      }
+
+      @Override public void onNext(List<User> users) {
+        notifyGetUserListSuccessfully(users);
+      }
+    });
   }
-
-  private final UserRepository.UserListCallback repositoryCallback =
-      new UserRepository.UserListCallback() {
-        @Override public void onUserListLoaded(Collection<User> usersCollection) {
-          notifyGetUserListSuccessfully(usersCollection);
-        }
-
-        @Override public void onError(ErrorBundle errorBundle) {
-          notifyError(errorBundle);
-        }
-      };
 
   private void notifyGetUserListSuccessfully(final Collection<User> usersCollection) {
     this.postExecutionThread.post(new Runnable() {

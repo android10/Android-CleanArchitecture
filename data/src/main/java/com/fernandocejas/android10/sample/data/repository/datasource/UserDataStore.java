@@ -6,6 +6,8 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import java.util.Collection;
+import java.util.List;
+import rx.Observable;
 
 /**
  * Interface that represents a data store from where data is retrieved.
@@ -32,11 +34,10 @@ public interface UserDataStore {
   }
 
   /**
-   * Get a collection of {@link com.fernandocejas.android10.sample.domain.User}.
-   *
-   * @param userListCallback A {@link UserListCallback} used for notifying clients.
+   * Get an {@link rx.Observable} which will emit a List of
+   * {@link com.fernandocejas.android10.sample.domain.User}.
    */
-  void getUsersEntityList(UserListCallback userListCallback);
+  Observable<List<UserEntity>> getUserEntityList();
 
   /**
    * Get a {@link UserEntity} by its id.

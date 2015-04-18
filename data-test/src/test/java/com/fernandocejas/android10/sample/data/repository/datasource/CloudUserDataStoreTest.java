@@ -8,7 +8,6 @@ import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.net.RestApi;
-import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -76,32 +75,32 @@ public class CloudUserDataStoreTest extends ApplicationTestCase {
     verifyZeroInteractions(mockUserCache);
   }
 
-  @Test
-  @SuppressWarnings("unchecked")
-  public void testGetUserEntityListSuccessfully() {
-    Collection<UserEntity> mockUserEntityCollection = (Collection<UserEntity>)mock(Collection.class);
-
-    cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
-
-    verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
-    verifyZeroInteractions(mockUserListDataStoreCallback);
-    verifyZeroInteractions(mockUserCache);
-
-    restApiUserListCallbackArgumentCaptor.getValue().onUserListLoaded(mockUserEntityCollection);
-
-    verify(mockUserListDataStoreCallback).onUserListLoaded(mockUserEntityCollection);
-  }
-
-  @Test
-  public void testGetUserEntityListError() {
-    cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
-
-    verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
-    verifyZeroInteractions(mockUserListDataStoreCallback);
-
-    restApiUserListCallbackArgumentCaptor.getValue().onError(any(Exception.class));
-
-    verify(mockUserListDataStoreCallback).onError(any(Exception.class));
-    verifyZeroInteractions(mockUserCache);
-  }
+  //@Test
+  //@SuppressWarnings("unchecked")
+  //public void testGetUserEntityListSuccessfully() {
+  //  Collection<UserEntity> mockUserEntityCollection = (Collection<UserEntity>)mock(Collection.class);
+  //
+  //  cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
+  //
+  //  verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
+  //  verifyZeroInteractions(mockUserListDataStoreCallback);
+  //  verifyZeroInteractions(mockUserCache);
+  //
+  //  restApiUserListCallbackArgumentCaptor.getValue().onUserListLoaded(mockUserEntityCollection);
+  //
+  //  verify(mockUserListDataStoreCallback).onUserListLoaded(mockUserEntityCollection);
+  //}
+  //
+  //@Test
+  //public void testGetUserEntityListError() {
+  //  cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
+  //
+  //  verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
+  //  verifyZeroInteractions(mockUserListDataStoreCallback);
+  //
+  //  restApiUserListCallbackArgumentCaptor.getValue().onError(any(Exception.class));
+  //
+  //  verify(mockUserListDataStoreCallback).onError(any(Exception.class));
+  //  verifyZeroInteractions(mockUserCache);
+  //}
 }

@@ -43,12 +43,12 @@ public class UserEntityDataMapper {
   }
 
   /**
-   * Transform a Collection of {@link UserEntity} into a Collection of {@link User}.
+   * Transform a List of {@link UserEntity} into a Collection of {@link User}.
    *
    * @param userEntityCollection Object Collection to be transformed.
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
-  public Collection<User> transform(Collection<UserEntity> userEntityCollection) {
+  public List<User> transform(Collection<UserEntity> userEntityCollection) {
     List<User> userList = new ArrayList<User>(20);
     User user;
     for (UserEntity userEntity : userEntityCollection) {

@@ -7,6 +7,8 @@ package com.fernandocejas.android10.sample.data.net;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.User;
 import java.util.Collection;
+import java.util.List;
+import rx.Observable;
 
 /**
  * RestApi for retrieving data from the network.
@@ -38,11 +40,9 @@ public interface RestApi {
   static final String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
 
   /**
-   * Get a collection of {@link User}.
-   *
-   * @param userListCallback A {@link UserListCallback} used for notifying clients.
+   * Get a Observable which will emit a List of {@link User}.
    */
-  void getUserList(UserListCallback userListCallback);
+  Observable<List<UserEntity>> getUserEntityList();
 
   /**
    * Retrieves a user by id from the network.

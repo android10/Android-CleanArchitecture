@@ -10,7 +10,10 @@ import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import java.util.Collection;
+import java.net.MalformedURLException;
+import java.util.List;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * {@link RestApi} implementation for retrieving data from the network.
@@ -34,31 +37,32 @@ public class RestApiImpl implements RestApi {
     this.userEntityJsonMapper = userEntityJsonMapper;
   }
 
-  @Override public void getUserList(UserListCallback userListCallback) {
-    if (userListCallback == null) {
-      throw new IllegalArgumentException("Callback cannot be null!!!");
-    }
+  @Override public Observable<List<UserEntity>> getUserEntityList() {
+    return Observable.create(new Observable.OnSubscribe<List<UserEntity>>() {
+      @Override public void call(Subscriber<? super List<UserEntity>> subscriber) {
 
-    if (isThereInternetConnection()) {
-      try {
-        ApiConnection getUserListConnection =
-            ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST);
-        String responseUserList = getUserListConnection.requestSyncCall();
-        Collection<UserEntity> userEntityList =
-            this.userEntityJsonMapper.transformUserEntityCollection(responseUserList);
-
-        userListCallback.onUserListLoaded(userEntityList);
-      } catch (Exception e) {
-        userListCallback.onError(new NetworkConnectionException(e.getCause()));
+        if (isThereInternetConnection()) {
+          try {
+            subscriber.onNext(getUserEntitiesFromApi());
+            subscriber.onCompleted();
+          } catch (Exception e) {
+            subscriber.onError(new NetworkConnectionException(e.getCause()));
+          }
+        } else {
+          subscriber.onError(new NetworkConnectionException());
+        }
       }
-    } else {
-      userListCallback.onError(new NetworkConnectionException());
-    }
+    });
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  private List<UserEntity> getUserEntitiesFromApi() throws MalformedURLException {
+    ApiConnection getUserListConnection =
+        ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST);
+    String responseUserList = getUserListConnection.requestSyncCall();
+
+    return userEntityJsonMapper.transformUserEntityCollection(responseUserList);
+  }
+
   @Override public void getUserById(final int userId,
       final UserDetailsCallback userDetailsCallback) {
     if (userDetailsCallback == null) {

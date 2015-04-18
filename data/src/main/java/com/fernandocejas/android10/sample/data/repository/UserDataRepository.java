@@ -12,9 +12,11 @@ import com.fernandocejas.android10.sample.data.repository.datasource.UserDataSto
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
-import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * {@link UserRepository} for retrieving user data.
@@ -24,6 +26,13 @@ public class UserDataRepository implements UserRepository {
 
   private final UserDataStoreFactory userDataStoreFactory;
   private final UserEntityDataMapper userEntityDataMapper;
+
+  private final Func1<List<UserEntity>, List<User>> userEntityMapper =
+      new Func1<List<UserEntity>, List<User>>() {
+        @Override public List<User> call(List<UserEntity> userEntities) {
+          return UserDataRepository.this.userEntityDataMapper.transform(userEntities);
+        }
+      };
 
   /**
    * Constructs a {@link UserRepository}.
@@ -38,34 +47,12 @@ public class UserDataRepository implements UserRepository {
     this.userEntityDataMapper = userEntityDataMapper;
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param userListCallback A {@link UserListCallback} used for notifying clients.
-   */
-  @Override public void getUserList(final UserListCallback userListCallback) {
+  @Override public Observable<List<User>> getUsers() {
     //we always get all users from the cloud
     final UserDataStore userDataStore = this.userDataStoreFactory.createCloudDataStore();
-    userDataStore.getUsersEntityList(new UserDataStore.UserListCallback() {
-      @Override public void onUserListLoaded(Collection<UserEntity> usersCollection) {
-        Collection<User> users =
-            UserDataRepository.this.userEntityDataMapper.transform(usersCollection);
-        userListCallback.onUserListLoaded(users);
-      }
-
-      @Override public void onError(Exception exception) {
-        userListCallback.onError(new RepositoryErrorBundle(exception));
-      }
-    });
+    return userDataStore.getUserEntityList().map(userEntityMapper);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param userId The user id used to retrieve user data.
-   * @param userCallback A {@link com.fernandocejas.android10.sample.domain.repository.UserRepository.UserDetailsCallback}
-   * used for notifying clients.
-   */
   @Override public void getUserById(final int userId, final UserDetailsCallback userCallback) {
     UserDataStore userDataStore = this.userDataStoreFactory.create(userId);
     userDataStore.getUserEntityDetails(userId, new UserDataStore.UserDetailsCallback() {

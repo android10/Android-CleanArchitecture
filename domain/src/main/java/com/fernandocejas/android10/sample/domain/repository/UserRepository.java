@@ -7,6 +7,8 @@ package com.fernandocejas.android10.sample.domain.repository;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import java.util.Collection;
+import java.util.List;
+import rx.Observable;
 
 /**
  * Interface that represents a Repository for getting {@link User} related data.
@@ -31,11 +33,9 @@ public interface UserRepository {
   }
 
   /**
-   * Get a collection of {@link User}.
-   *
-   * @param userListCallback A {@link UserListCallback} used for notifying clients.
+   * Get an {@link rx.Observable} which will emit a List of {@link User}.
    */
-  void getUserList(UserListCallback userListCallback);
+  Observable<List<User>> getUsers();
 
   /**
    * Get an {@link User} by id.

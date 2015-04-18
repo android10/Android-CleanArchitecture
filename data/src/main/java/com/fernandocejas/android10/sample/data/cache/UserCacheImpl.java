@@ -51,12 +51,6 @@ public class UserCacheImpl implements UserCache {
     this.threadExecutor = executor;
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param userId The user id to retrieve data.
-   * @param callback The {@link UserCacheCallback} to notify the client.
-   */
   @Override public synchronized void get(int userId, UserCacheCallback callback) {
     File userEntitiyFile = this.buildFile(userId);
     String fileContent = this.fileManager.readFileContent(userEntitiyFile);
@@ -69,11 +63,6 @@ public class UserCacheImpl implements UserCache {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param userEntity Element to insert in the cache.
-   */
   @Override public synchronized void put(UserEntity userEntity) {
     if (userEntity != null) {
       File userEntitiyFile = this.buildFile(userEntity.getUserId());
@@ -86,22 +75,11 @@ public class UserCacheImpl implements UserCache {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param userId The id used to look for inside the cache.
-   * @return true if the element is cached, otherwise false.
-   */
   @Override public boolean isCached(int userId) {
     File userEntitiyFile = this.buildFile(userId);
     return this.fileManager.exists(userEntitiyFile);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @return true, the cache is expired, otherwise false.
-   */
   @Override public boolean isExpired() {
     long currentTime = System.currentTimeMillis();
     long lastUpdateTime = this.getLastCacheUpdateTimeMillis();
@@ -115,9 +93,6 @@ public class UserCacheImpl implements UserCache {
     return expired;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override public synchronized void evictAll() {
     this.executeAsynchronously(new CacheEvictor(this.fileManager, this.cacheDir));
   }

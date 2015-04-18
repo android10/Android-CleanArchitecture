@@ -73,6 +73,6 @@ public class DiskUserDataStoreTest extends ApplicationTestCase {
   @Test
   public void testGetUserEntityListUnsupported() {
     expectedException.expect(UnsupportedOperationException.class);
-    diskUserDataStore.getUsersEntityList(null);
+    diskUserDataStore.getUserEntityList();
   }
 }

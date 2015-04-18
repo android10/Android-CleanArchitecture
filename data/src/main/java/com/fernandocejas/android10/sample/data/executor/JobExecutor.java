@@ -42,11 +42,6 @@ public class JobExecutor implements ThreadExecutor {
         KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, this.workQueue, this.threadFactory);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param runnable The class that implements {@link Runnable} interface.
-   */
   @Override public void execute(Runnable runnable) {
     if (runnable == null) {
       throw new IllegalArgumentException("Runnable to execute cannot be null");

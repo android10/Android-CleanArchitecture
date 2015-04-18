@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
 
 /**
@@ -43,18 +43,18 @@ public class UserEntityJsonMapper {
   }
 
   /**
-   * Transform from valid json string to Collection of {@link UserEntity}.
+   * Transform from valid json string to List of {@link UserEntity}.
    *
    * @param userListJsonResponse A json representing a collection of users.
-   * @return Collection of {@link UserEntity}.
+   * @return List of {@link UserEntity}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public Collection<UserEntity> transformUserEntityCollection(String userListJsonResponse)
+  public List<UserEntity> transformUserEntityCollection(String userListJsonResponse)
       throws JsonSyntaxException {
 
-    Collection<UserEntity> userEntityCollection;
+    List<UserEntity> userEntityCollection;
     try {
-      Type listOfUserEntityType = new TypeToken<Collection<UserEntity>>() {}.getType();
+      Type listOfUserEntityType = new TypeToken<List<UserEntity>>() {}.getType();
       userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
 
       return userEntityCollection;
