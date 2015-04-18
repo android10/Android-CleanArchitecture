@@ -1,7 +1,16 @@
 def dataLayerProject = ':data'
+def outputDirectory = "${project.buildDir}/classes/test"
+
 evaluationDependsOn(dataLayerProject)
 
 apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+configurations {
+  removableDependency
+}
 
 dependencies {
   def dataLayer = project(dataLayerProject)
@@ -23,14 +32,63 @@ dependencies {
 
 sourceSets {
   test {
+    def testCompileClasspath = compileClasspath
+    def testRuntimeClasspath = runtimeClasspath
+
     java.srcDirs = ['src/test/java']
+    resources.srcDirs = ['src/test/resources']
+    output.resourcesDir = outputDirectory
+    output.classesDir   = outputDirectory
+
+    compileClasspath = setupClasspath(testCompileClasspath)
+    runtimeClasspath = setupClasspath(testRuntimeClasspath)
   }
 }
 
 tasks.withType(Test) {
+  //If we don't do this, Gradle always thinks this task is up to date and skips the tests
+  outputs.upToDateWhen { false }
+
+  jvmArgs '-Dfile.encoding=UTF-8'
+
+  //To avoid OutOfMemoryError
+  jvmArgs '-XX:MaxPermSize=2048m'
+  minHeapSize = '512m'
+  maxHeapSize = '1024m'
+
+  //Robolectric issue:
+  //https://github.com/robolectric/robolectric/issues/1332
+  jvmArgs '-XX:-UseSplitVerifier'
+  jvmArgs '-noverify'
+
   scanForTestClasses = false
+
+  //This has to be done like this because, for some reason,
+  //the IDE and command line are having different working directories.
+  workingDir = new File('../')
+
   include "**/*Should.class"
   include "**/*Test.class"
   include "**/*Tests.class"
   exclude "**/*IT.class"
+}
+
+Object findRuntimeDependency(String name) {
+  project.configurations.testRuntime.find { it.name.startsWith(name) }
+}
+
+FileCollection setupClasspath(FileCollection classPath) {
+  //Gradle does not guarantee dependency order, so we must make sure
+  //Robolectric artifact appears before android artifact
+  def robolectricDependency = findRuntimeDependency('robolectric')
+  def androidDependency = findRuntimeDependency('android.jar')
+
+  //Remove unused dependencies from classpath
+  classPath -= configurations.removableDependency
+
+  //Remove android dependency: must be put at the end
+  //to avoid Stub! Runtime Exception
+  classPath -= files(androidDependency)
+
+  return files(robolectricDependency) + classPath + files(androidDependency)
 }

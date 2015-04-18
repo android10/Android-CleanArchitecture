@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
  * Inherit from this class to create a test.
  */
 @RunWith(ApplicationTestRunner.class)
-public class ApplicationTestCase {
+public abstract class ApplicationTestCase {
 
   /**
    * Resets a Singleton class.

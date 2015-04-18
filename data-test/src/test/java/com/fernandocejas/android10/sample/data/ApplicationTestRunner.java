@@ -18,8 +18,8 @@ public class ApplicationTestRunner extends RobolectricTestRunner {
   //Maximun SDK Robolectric will compile (issues with SDK > 18)
   private static final int MAX_SDK_SUPPORTED_BY_ROBOLECTRIC = 18;
 
-  private static final String ANDROID_MANIFEST_PATH = "../data/src/main/AndroidManifest.xml";
-  private static final String ANDROID_MANIFEST_RES_PATH = "../data/src/main/res";
+  private static final String ANDROID_MANIFEST_PATH = "data/src/main/AndroidManifest.xml";
+  private static final String ANDROID_MANIFEST_RES_PATH = "data/src/main/res";
 
   /**
    * Call this constructor to specify the location of resources and AndroidManifest.xml.
