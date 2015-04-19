@@ -4,15 +4,14 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
+import com.fernandocejas.android10.sample.domain.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
-import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
-import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
-import rx.Observer;
 
 /**
  * This class is an implementation of {@link GetUserListUseCase} that represents a use case for
@@ -52,38 +51,34 @@ public class GetUserListUseCaseImpl implements GetUserListUseCase {
   }
 
   @Override public void run() {
-    //todo clean this: for now is the first step to move to a reactive approach
     //For now this is being executed in a separate thread but should be change for schedulers.
-    this.userRepository.getUsers().subscribe(new Observer<List<User>>() {
-      @Override public void onCompleted() {
-        //todo
-        //empty for now.
-      }
-
-      @Override public void onError(Throwable e) {
-        //todo rethink error handling
-        notifyError(null);
-      }
-
-      @Override public void onNext(List<User> users) {
-        notifyGetUserListSuccessfully(users);
-      }
-    });
+    this.userRepository.getUsers()
+        .subscribe(new GetUserListSubscriber(callback, postExecutionThread));
   }
 
-  private void notifyGetUserListSuccessfully(final Collection<User> usersCollection) {
-    this.postExecutionThread.post(new Runnable() {
-      @Override public void run() {
-        callback.onUserListLoaded(usersCollection);
-      }
-    });
-  }
+  private static class GetUserListSubscriber extends DefaultSubscriber<List<User>> {
+    private final Callback callback;
+    private final PostExecutionThread postExecutionThread;
 
-  private void notifyError(final ErrorBundle errorBundle) {
-    this.postExecutionThread.post(new Runnable() {
-      @Override public void run() {
-        callback.onError(errorBundle);
-      }
-    });
+    public GetUserListSubscriber(Callback callback, PostExecutionThread postExecutionThread) {
+      this.callback = callback;
+      this.postExecutionThread = postExecutionThread;
+    }
+
+    @Override public void onError(final Throwable e) {
+      this.postExecutionThread.post(new Runnable() {
+        @Override public void run() {
+          callback.onError(new DefaultErrorBundle((Exception)e));
+        }
+      });
+    }
+
+    @Override public void onNext(final List<User> users) {
+      this.postExecutionThread.post(new Runnable() {
+        @Override public void run() {
+          callback.onUserListLoaded(users);
+        }
+      });
+    }
   }
 }

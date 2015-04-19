@@ -27,18 +27,12 @@ public class CloudUserDataStoreTest extends ApplicationTestCase {
 
   private CloudUserDataStore cloudUserDataStore;
 
-  @Mock
-  private RestApi mockRestApi;
-  @Mock
-  private UserCache mockUserCache;
-  @Mock
-  private UserDataStore.UserListCallback mockUserListDataStoreCallback;
-  @Mock
-  private UserDataStore.UserDetailsCallback mockUserDetailsDataStoreCallback;
-  @Captor
-  private ArgumentCaptor<RestApi.UserListCallback> restApiUserListCallbackArgumentCaptor;
-  @Captor
-  private ArgumentCaptor<RestApi.UserDetailsCallback> restApiUserDetailsCallbackArgumentCaptor;
+  @Mock private RestApi mockRestApi;
+  @Mock private UserCache mockUserCache;
+  @Mock private UserDataStore.UserListCallback mockUserListDataStoreCallback;
+  @Mock private UserDataStore.UserDetailsCallback mockUserDetailsDataStoreCallback;
+  @Captor private ArgumentCaptor<RestApi.UserListCallback> restApiUserListCallbackArgumentCaptor;
+  @Captor private ArgumentCaptor<RestApi.UserDetailsCallback> restApiUserDetailsCallbackArgumentCaptor;
 
   @Before
   public void setUp() {
@@ -75,32 +69,9 @@ public class CloudUserDataStoreTest extends ApplicationTestCase {
     verifyZeroInteractions(mockUserCache);
   }
 
-  //@Test
-  //@SuppressWarnings("unchecked")
-  //public void testGetUserEntityListSuccessfully() {
-  //  Collection<UserEntity> mockUserEntityCollection = (Collection<UserEntity>)mock(Collection.class);
-  //
-  //  cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
-  //
-  //  verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
-  //  verifyZeroInteractions(mockUserListDataStoreCallback);
-  //  verifyZeroInteractions(mockUserCache);
-  //
-  //  restApiUserListCallbackArgumentCaptor.getValue().onUserListLoaded(mockUserEntityCollection);
-  //
-  //  verify(mockUserListDataStoreCallback).onUserListLoaded(mockUserEntityCollection);
-  //}
-  //
-  //@Test
-  //public void testGetUserEntityListError() {
-  //  cloudUserDataStore.getUsersEntityList(mockUserListDataStoreCallback);
-  //
-  //  verify(mockRestApi).getUserList(restApiUserListCallbackArgumentCaptor.capture());
-  //  verifyZeroInteractions(mockUserListDataStoreCallback);
-  //
-  //  restApiUserListCallbackArgumentCaptor.getValue().onError(any(Exception.class));
-  //
-  //  verify(mockUserListDataStoreCallback).onError(any(Exception.class));
-  //  verifyZeroInteractions(mockUserCache);
-  //}
+  @Test
+  public void testGetUserEntityListFromApi() {
+    cloudUserDataStore.getUserEntityList();
+    verify(mockRestApi).getUserEntityList();
+  }
 }

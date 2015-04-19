@@ -18,7 +18,6 @@ import rx.Observable;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -27,12 +26,10 @@ public class GetUserListUseCaseTest {
 
   private GetUserListUseCase getUserListUseCase;
 
-  @Mock
-  private ThreadExecutor mockThreadExecutor;
-  @Mock
-  private PostExecutionThread mockPostExecutionThread;
-  @Mock
-  private UserRepository mockUserRepository;
+  @Mock private ThreadExecutor mockThreadExecutor;
+  @Mock private PostExecutionThread mockPostExecutionThread;
+  @Mock private UserRepository mockUserRepository;
+  @Mock private GetUserListUseCase.Callback mockGetUserListCallback;
 
   @Before
   public void setUp() {
@@ -43,8 +40,6 @@ public class GetUserListUseCaseTest {
 
   @Test
   public void testGetUserListUseCaseExecution() {
-    GetUserListUseCase.Callback mockGetUserListCallback = mock(GetUserListUseCase.Callback.class);
-
     getUserListUseCase.execute(mockGetUserListCallback);
 
     verify(mockThreadExecutor).execute(any(Interactor.class));
@@ -55,8 +50,7 @@ public class GetUserListUseCaseTest {
 
   @Test
   public void testGetUserListUseCaseInteractorRun() {
-    given(mockUserRepository.getUsers()).willReturn(buildUserListTestObservable());
-    GetUserListUseCase.Callback mockGetUserListCallback = mock(GetUserListUseCase.Callback.class);
+    given(mockUserRepository.getUsers()).willReturn(Observable.just(buildTestUserList()));
 
     getUserListUseCase.execute(mockGetUserListCallback);
     getUserListUseCase.run();
@@ -67,17 +61,12 @@ public class GetUserListUseCaseTest {
     verifyNoMoreInteractions(mockThreadExecutor);
   }
 
-  private Observable<List<User>> buildUserListTestObservable() {
+  private List<User> buildTestUserList() {
     List<User> userList = new ArrayList<>();
-    return Observable.just(userList);
-  }
+    userList.add(new User(1));
+    userList.add(new User(2));
+    userList.add(new User(3));
 
-  //@Test
-  //@SuppressWarnings("unchecked")
-  //public void testUserListUseCaseCallbackSuccessful() {
-  //}
-  //
-  //@Test
-  //public void testUserListUseCaseCallbackError() {
-  //}
+    return userList;
+  }
 }
