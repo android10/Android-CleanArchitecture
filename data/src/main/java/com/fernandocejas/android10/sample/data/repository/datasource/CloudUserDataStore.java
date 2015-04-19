@@ -9,6 +9,7 @@ import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.net.RestApi;
 import java.util.List;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * {@link UserDataStore} implementation based on connections to the api (Cloud).
@@ -17,6 +18,14 @@ public class CloudUserDataStore implements UserDataStore {
 
   private final RestApi restApi;
   private final UserCache userCache;
+
+  private final Action1<UserEntity> saveToCacheAction = new Action1<UserEntity>() {
+    @Override public void call(UserEntity userEntity) {
+      if (userEntity != null) {
+        CloudUserDataStore.this.userCache.put(userEntity);
+      }
+    }
+  };
 
   /**
    * Construct a {@link UserDataStore} based on connections to the api (Cloud).
@@ -33,28 +42,7 @@ public class CloudUserDataStore implements UserDataStore {
     return this.restApi.getUserEntityList();
   }
 
-  @Override public void getUserEntityDetails(int id,
-      final UserDetailsCallback userDetailsCallback) {
-    this.restApi.getUserById(id, new RestApi.UserDetailsCallback() {
-      @Override public void onUserEntityLoaded(UserEntity userEntity) {
-        userDetailsCallback.onUserEntityLoaded(userEntity);
-        CloudUserDataStore.this.putUserEntityInCache(userEntity);
-      }
-
-      @Override public void onError(Exception exception) {
-        userDetailsCallback.onError(exception);
-      }
-    });
-  }
-
-  /**
-   * Saves a {@link UserEntity} into cache.
-   *
-   * @param userEntity The {@link UserEntity} to save.
-   */
-  private void putUserEntityInCache(UserEntity userEntity) {
-    if (userEntity != null) {
-      this.userCache.put(userEntity);
-    }
+  @Override public Observable<UserEntity> getUserEntityDetails(final int userId) {
+    return this.restApi.getUserEntityById(userId).doOnNext(saveToCacheAction);
   }
 }

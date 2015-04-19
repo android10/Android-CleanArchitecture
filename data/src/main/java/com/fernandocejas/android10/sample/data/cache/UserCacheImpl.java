@@ -12,6 +12,8 @@ import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import java.io.File;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * {@link UserCache} implementation.
@@ -51,16 +53,21 @@ public class UserCacheImpl implements UserCache {
     this.threadExecutor = executor;
   }
 
-  @Override public synchronized void get(int userId, UserCacheCallback callback) {
-    File userEntitiyFile = this.buildFile(userId);
-    String fileContent = this.fileManager.readFileContent(userEntitiyFile);
-    UserEntity userEntity = this.serializer.deserialize(fileContent);
+  @Override public synchronized Observable<UserEntity> get(final int userId) {
+    return Observable.create(new Observable.OnSubscribe<UserEntity>() {
+      @Override public void call(Subscriber<? super UserEntity> subscriber) {
+        File userEntityFile = UserCacheImpl.this.buildFile(userId);
+        String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
+        UserEntity userEntity = UserCacheImpl.this.serializer.deserialize(fileContent);
 
-    if (userEntity != null) {
-      callback.onUserEntityLoaded(userEntity);
-    } else {
-      callback.onError(new UserNotFoundException());
-    }
+        if (userEntity != null) {
+          subscriber.onNext(userEntity);
+          subscriber.onCompleted();
+        } else {
+          subscriber.onError(new UserNotFoundException());
+        }
+      }
+    });
   }
 
   @Override public synchronized void put(UserEntity userEntity) {

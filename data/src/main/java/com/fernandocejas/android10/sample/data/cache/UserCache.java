@@ -5,28 +5,18 @@
 package com.fernandocejas.android10.sample.data.cache;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import rx.Observable;
 
 /**
  * An interface representing a user Cache.
  */
 public interface UserCache {
-
   /**
-   * Callback used to be notified when a {@link UserEntity} has been loaded.
-   */
-  interface UserCacheCallback {
-    void onUserEntityLoaded(UserEntity userEntity);
-
-    void onError(Exception exception);
-  }
-
-  /**
-   * Gets an element from the cache using a {@link UserCacheCallback}.
+   * Gets an {@link rx.Observable} which will emit a {@link UserEntity}.
    *
    * @param userId The user id to retrieve data.
-   * @param callback The {@link UserCacheCallback} to notify the client.
    */
-  void get(final int userId, final UserCacheCallback callback);
+  Observable<UserEntity> get(final int userId);
 
   /**
    * Puts and element into the cache.

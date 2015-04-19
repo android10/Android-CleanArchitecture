@@ -4,8 +4,9 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
+import com.fernandocejas.android10.sample.domain.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
-import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
@@ -51,33 +52,34 @@ public class GetUserDetailsUseCaseImpl implements GetUserDetailsUseCase {
   }
 
   @Override public void run() {
-    this.userRepository.getUserById(this.userId, this.repositoryCallback);
+    this.userRepository.getUser(this.userId)
+        .subscribe(new GetUserDetailsSubscriber(this.callback, this.postExecutionThread));
   }
 
-  private final UserRepository.UserDetailsCallback repositoryCallback =
-      new UserRepository.UserDetailsCallback() {
-        @Override public void onUserLoaded(User user) {
-          notifyGetUserDetailsSuccessfully(user);
+  private static class GetUserDetailsSubscriber extends DefaultSubscriber<User> {
+    private final Callback callback;
+    private final PostExecutionThread postExecutionThread;
+
+    public GetUserDetailsSubscriber(Callback callback,
+        PostExecutionThread postExecutionThread) {
+      this.callback = callback;
+      this.postExecutionThread = postExecutionThread;
+    }
+
+    @Override public void onError(final Throwable e) {
+      this.postExecutionThread.post(new Runnable() {
+        @Override public void run() {
+          callback.onError(new DefaultErrorBundle((Exception) e));
         }
+      });
+    }
 
-        @Override public void onError(ErrorBundle errorBundle) {
-          notifyError(errorBundle);
+    @Override public void onNext(final User user) {
+      this.postExecutionThread.post(new Runnable() {
+        @Override public void run() {
+          callback.onUserDataLoaded(user);
         }
-      };
-
-  private void notifyGetUserDetailsSuccessfully(final User user) {
-    this.postExecutionThread.post(new Runnable() {
-      @Override public void run() {
-        callback.onUserDataLoaded(user);
-      }
-    });
-  }
-
-  private void notifyError(final ErrorBundle errorBundle) {
-    this.postExecutionThread.post(new Runnable() {
-      @Override public void run() {
-        callback.onError(errorBundle);
-      }
-    });
+      });
+    }
   }
 }

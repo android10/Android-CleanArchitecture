@@ -30,16 +30,7 @@ public class DiskUserDataStore implements UserDataStore {
     throw new UnsupportedOperationException("Operation is not available!!!");
   }
 
-  @Override public void getUserEntityDetails(int id,
-      final UserDetailsCallback userDetailsCallback) {
-    this.userCache.get(id, new UserCache.UserCacheCallback() {
-      @Override public void onUserEntityLoaded(UserEntity userEntity) {
-        userDetailsCallback.onUserEntityLoaded(userEntity);
-      }
-
-      @Override public void onError(Exception exception) {
-        userDetailsCallback.onError(exception);
-      }
-    });
+  @Override public Observable<UserEntity> getUserEntityDetails(final int userId) {
+     return this.userCache.get(userId);
   }
 }

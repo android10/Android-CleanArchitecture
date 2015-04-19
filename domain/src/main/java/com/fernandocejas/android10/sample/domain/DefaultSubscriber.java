@@ -15,7 +15,7 @@ public class DefaultSubscriber<T> extends Subscriber<T> {
   }
 
   @Override public void onError(Throwable e) {
-    //todo: default error handling, use a bus here?
+    // no-op by default.
   }
 
   @Override public void onNext(T t) {

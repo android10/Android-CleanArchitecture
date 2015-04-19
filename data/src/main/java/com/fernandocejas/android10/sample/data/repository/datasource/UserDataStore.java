@@ -5,7 +5,6 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import java.util.Collection;
 import java.util.List;
 import rx.Observable;
 
@@ -14,36 +13,14 @@ import rx.Observable;
  */
 public interface UserDataStore {
   /**
-   * Callback used for clients to be notified when either a user list has been loaded or any error
-   * occurred.
-   */
-  interface UserListCallback {
-    void onUserListLoaded(Collection<UserEntity> usersCollection);
-
-    void onError(Exception exception);
-  }
-
-  /**
-   * Callback used for clients to be notified when either user data has been retrieved successfully
-   * or any error occurred.
-   */
-  interface UserDetailsCallback {
-    void onUserEntityLoaded(UserEntity userEntity);
-
-    void onError(Exception exception);
-  }
-
-  /**
-   * Get an {@link rx.Observable} which will emit a List of
-   * {@link com.fernandocejas.android10.sample.domain.User}.
+   * Get an {@link rx.Observable} which will emit a List of {@link UserEntity}.
    */
   Observable<List<UserEntity>> getUserEntityList();
 
   /**
-   * Get a {@link UserEntity} by its id.
+   * Get an {@link rx.Observable} which will emit a {@link UserEntity} by its id.
    *
-   * @param id The id to retrieve user data.
-   * @param userDetailsCallback A {@link UserDetailsCallback} for notifications.
+   * @param userId The id to retrieve user data.
    */
-  void getUserEntityDetails(int id, UserDetailsCallback userDetailsCallback);
+  Observable<UserEntity> getUserEntityDetails(final int userId);
 }

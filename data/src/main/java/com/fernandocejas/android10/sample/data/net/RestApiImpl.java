@@ -43,8 +43,14 @@ public class RestApiImpl implements RestApi {
 
         if (isThereInternetConnection()) {
           try {
-            subscriber.onNext(getUserEntitiesFromApi());
-            subscriber.onCompleted();
+            String responseUserEntities = getUserEntitiesFromApi();
+            if (responseUserEntities != null) {
+              subscriber.onNext(userEntityJsonMapper.transformUserEntityCollection(
+                  responseUserEntities));
+              subscriber.onCompleted();
+            } else {
+              subscriber.onError(new NetworkConnectionException());
+            }
           } catch (Exception e) {
             subscriber.onError(new NetworkConnectionException(e.getCause()));
           }
@@ -55,39 +61,36 @@ public class RestApiImpl implements RestApi {
     });
   }
 
-  private List<UserEntity> getUserEntitiesFromApi() throws MalformedURLException {
-    ApiConnection getUserListConnection =
-        ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST);
-    String responseUserList = getUserListConnection.requestSyncCall();
+  @Override public Observable<UserEntity> getUserEntityById(final int userId) {
+    return Observable.create(new Observable.OnSubscribe<UserEntity>() {
+      @Override public void call(Subscriber<? super UserEntity> subscriber) {
 
-    return userEntityJsonMapper.transformUserEntityCollection(responseUserList);
+        if (isThereInternetConnection()) {
+          try {
+            String responseUserDetails = getUserDetailsFromApi(userId);
+            if (responseUserDetails != null) {
+              subscriber.onNext(userEntityJsonMapper.transformUserEntity(responseUserDetails));
+              subscriber.onCompleted();
+            } else {
+              subscriber.onError(new NetworkConnectionException());
+            }
+          } catch (Exception e) {
+            subscriber.onError(new NetworkConnectionException(e.getCause()));
+          }
+        } else {
+          subscriber.onError(new NetworkConnectionException());
+        }
+      }
+    });
   }
 
-  @Override public void getUserById(final int userId,
-      final UserDetailsCallback userDetailsCallback) {
-    if (userDetailsCallback == null) {
-      throw new IllegalArgumentException("Callback cannot be null!!!");
-    }
+  private String getUserEntitiesFromApi() throws MalformedURLException {
+    return ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST).requestSyncCall();
+  }
 
-    if (isThereInternetConnection()) {
-      try {
-        String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + ".json";
-        ApiConnection getUserDetailsConnection = ApiConnection.createGET(apiUrl);
-        String responseUserDetails = getUserDetailsConnection.requestSyncCall();
-
-        if (responseUserDetails != null) {
-          UserEntity userEntity =
-              this.userEntityJsonMapper.transformUserEntity(responseUserDetails);
-          userDetailsCallback.onUserEntityLoaded(userEntity);
-        } else {
-          userDetailsCallback.onError(new NetworkConnectionException());
-        }
-      } catch (Exception e) {
-        userDetailsCallback.onError(new NetworkConnectionException(e.getCause()));
-      }
-    } else {
-      userDetailsCallback.onError(new NetworkConnectionException());
-    }
+  private String getUserDetailsFromApi(int userId) throws MalformedURLException {
+    String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + ".json";
+    return ApiConnection.createGET(apiUrl).requestSyncCall();
   }
 
   /**
