@@ -4,29 +4,43 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
+import com.fernandocejas.android10.sample.domain.UseCaseSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
-import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import java.util.Collection;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
+import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
+import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.domain.repository.UserRepository;
+import java.util.List;
+import javax.inject.Inject;
 
 /**
- * This interface represents a execution unit for a use case to get a collection of {@link User}.
- * By convention this use case (Interactor) implementation will return the result using a Callback.
- * That callback should be executed in the UI thread.
+ * This class is an implementation of {@link GetUserListUseCase} that represents a use case for
+ * retrieving a collection of all {@link User}.
  */
-public interface GetUserListUseCase extends Interactor {
-  /**
-   * Callback used to be notified when either a users collection has been loaded or an error
-   * happened.
-   */
-  interface Callback {
-    void onUserListLoaded(Collection<User> usersCollection);
-    void onError(ErrorBundle errorBundle);
-  }
+public class GetUserListUseCase implements UseCase {
+
+  private final UserRepository userRepository;
+  private final ThreadExecutor threadExecutor;
+  private final PostExecutionThread postExecutionThread;
 
   /**
-   * Executes this user case.
+   * Constructor of the class.
    *
-   * @param callback A {@link GetUserListUseCase.Callback} used to notify the client.
+   * @param userRepository A {@link UserRepository} as a source for retrieving data.
+   * @param threadExecutor {@link ThreadExecutor} used to execute this use case in a background
+   * thread.
+   * @param postExecutionThread {@link PostExecutionThread} used to post updates when the use case
+   * has been executed.
    */
-  void execute(Callback callback);
+  @Inject
+  public GetUserListUseCase(UserRepository userRepository, ThreadExecutor threadExecutor,
+      PostExecutionThread postExecutionThread) {
+    this.userRepository = userRepository;
+    this.threadExecutor = threadExecutor;
+    this.postExecutionThread = postExecutionThread;
+  }
+
+  @Override public void execute(UseCaseSubscriber subscriber) {
+    this.userRepository.getUsers().subscribeOn(null).observeOn(null).subscribe(subscriber);
+  }
 }

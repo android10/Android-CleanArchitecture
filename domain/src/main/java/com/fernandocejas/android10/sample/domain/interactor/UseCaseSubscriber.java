@@ -2,14 +2,14 @@
  * Copyright (C) 2015 android10.org. All rights reserved.
  * @author Fernando Cejas (the android10 coder)
  */
-package com.fernandocejas.android10.sample.domain;
+package com.fernandocejas.android10.sample.domain.interactor;
 
 import rx.Subscriber;
 
 /**
- * Default subscriber base class to be used whenever you want default error handling
+ * Default subscriber base class to be used whenever you want default error handling.
  */
-public class DefaultSubscriber<T> extends Subscriber<T> {
+public class UseCaseSubscriber<T> extends Subscriber<T> {
   @Override public void onCompleted() {
     // no-op by default.
   }

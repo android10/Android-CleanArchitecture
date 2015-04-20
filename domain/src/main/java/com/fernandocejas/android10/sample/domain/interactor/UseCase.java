@@ -4,6 +4,8 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
+import com.fernandocejas.android10.sample.domain.UseCaseSubscriber;
+
 /**
  * Common interface for an Interactor {@link java.lang.Runnable} declared in the application.
  * This interface represents a execution unit for different use cases (this means any use case
@@ -12,9 +14,12 @@ package com.fernandocejas.android10.sample.domain.interactor;
  * By convention each Interactor implementation will return the result using a Callback that should
  * be executed in the UI thread.
  */
-public interface Interactor extends Runnable {
+public interface UseCase extends Runnable {
   /**
    * Everything inside this method will be executed asynchronously.
    */
-  void run();
+  /**
+   * Executes this user case.
+   */
+  void execute(UseCaseSubscriber subscriber);
 }
