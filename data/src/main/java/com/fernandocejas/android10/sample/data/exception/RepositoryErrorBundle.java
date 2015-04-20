@@ -17,10 +17,12 @@ public class RepositoryErrorBundle implements ErrorBundle {
     this.exception = exception;
   }
 
+  @Override
   public Exception getException() {
     return exception;
   }
 
+  @Override
   public String getErrorMessage() {
     String message = "";
     if (this.exception != null) {

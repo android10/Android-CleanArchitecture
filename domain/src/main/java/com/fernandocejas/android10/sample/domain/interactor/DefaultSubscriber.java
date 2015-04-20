@@ -4,12 +4,10 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
-import rx.Subscriber;
-
 /**
  * Default subscriber base class to be used whenever you want default error handling.
  */
-public class UseCaseSubscriber<T> extends Subscriber<T> {
+public class DefaultSubscriber<T> extends rx.Subscriber<T> {
   @Override public void onCompleted() {
     // no-op by default.
   }

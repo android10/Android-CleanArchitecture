@@ -79,6 +79,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.userDetailsPresenter.pause();
   }
 
+  @Override public void onDestroy() {
+    super.onDestroy();
+    this.userDetailsPresenter.destroy();
+  }
+
   private void initialize() {
     this.getComponent(UserComponent.class).inject(this);
     this.userDetailsPresenter.setView(this);

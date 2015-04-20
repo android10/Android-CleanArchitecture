@@ -12,10 +12,10 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserListPresent
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import rx.Subscriber;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 public class UserListPresenterTest extends AndroidTestCase {
@@ -39,13 +39,12 @@ public class UserListPresenterTest extends AndroidTestCase {
   }
 
   public void testUserListPresenterInitialize() {
-    doNothing().when(mockGetUserListUseCase).execute(any(GetUserListUseCase.Callback.class));
     given(mockUserListView.getContext()).willReturn(mockContext);
 
     userListPresenter.initialize();
 
     verify(mockUserListView).hideRetry();
     verify(mockUserListView).showLoading();
-    verify(mockGetUserListUseCase).execute(any(GetUserListUseCase.Callback.class));
+    verify(mockGetUserListUseCase).execute(any(Subscriber.class));
   }
 }

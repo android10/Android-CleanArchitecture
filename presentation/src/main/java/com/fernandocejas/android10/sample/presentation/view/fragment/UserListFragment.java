@@ -85,6 +85,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.pause();
   }
 
+  @Override public void onDestroy() {
+    super.onDestroy();
+    this.userListPresenter.destroy();
+  }
+
   private void initialize() {
     this.getComponent(UserComponent.class).inject(this);
     this.userListPresenter.setView(this);

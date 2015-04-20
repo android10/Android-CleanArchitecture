@@ -5,32 +5,35 @@
 package com.fernandocejas.android10.sample.presentation.presenter;
 
 import android.support.annotation.NonNull;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
+import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import java.util.Collection;
+import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
 @PerActivity
-public class UserListPresenter implements Presenter {
+public class UserListPresenter extends DefaultSubscriber<List<User>> implements Presenter {
 
   private UserListView viewListView;
 
-  private final GetUserListUseCase getUserListUseCase;
+  private final UseCase getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserListPresenter(GetUserListUseCase getUserListUserCase,
-      UserModelDataMapper userModelDataMapper) {
+  public UserListPresenter(@Named("userList") UseCase getUserListUserCase, UserModelDataMapper userModelDataMapper) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
   }
@@ -42,6 +45,10 @@ public class UserListPresenter implements Presenter {
   @Override public void resume() {}
 
   @Override public void pause() {}
+
+  @Override public void destroy() {
+    this.getUserListUseCase.unsubscribe();
+  }
 
   /**
    * Initializes the presenter by start retrieving the user list.
@@ -92,19 +99,20 @@ public class UserListPresenter implements Presenter {
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(userListCallback);
+    this.getUserListUseCase.execute(this);
   }
 
-  private final GetUserListUseCase.Callback userListCallback = new GetUserListUseCase.Callback() {
-    @Override public void onUserListLoaded(Collection<User> usersCollection) {
-      UserListPresenter.this.showUsersCollectionInView(usersCollection);
-      UserListPresenter.this.hideViewLoading();
-    }
+  @Override public void onCompleted() {
+    this.hideViewLoading();
+  }
 
-    @Override public void onError(ErrorBundle errorBundle) {
-      UserListPresenter.this.hideViewLoading();
-      UserListPresenter.this.showErrorMessage(errorBundle);
-      UserListPresenter.this.showViewRetry();
-    }
-  };
+  @Override public void onError(Throwable e) {
+    this.hideViewLoading();
+    this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+    this.showViewRetry();
+  }
+
+  @Override public void onNext(List<User> users) {
+    this.showUsersCollectionInView(users);
+  }
 }

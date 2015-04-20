@@ -12,6 +12,7 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
 
 /**
@@ -37,8 +38,8 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_user_details);
 
-    this.initializeInjector();
     this.initializeActivity(savedInstanceState);
+    this.initializeInjector();
   }
 
   @Override protected void onSaveInstanceState(Bundle outState) {
@@ -64,6 +65,7 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     this.userComponent = DaggerUserComponent.builder()
         .applicationComponent(getApplicationComponent())
         .activityModule(getActivityModule())
+        .userModule(new UserModule(this.userId))
         .build();
   }
 

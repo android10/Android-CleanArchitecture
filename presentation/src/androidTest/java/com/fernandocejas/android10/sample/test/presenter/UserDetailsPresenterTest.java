@@ -12,11 +12,10 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPres
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import rx.Subscriber;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 public class UserDetailsPresenterTest extends AndroidTestCase {
@@ -43,14 +42,12 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
   }
 
   public void testUserDetailsPresenterInitialize() {
-    doNothing().when(mockGetUserDetailsUseCase)
-        .execute(anyInt(), any(GetUserDetailsUseCase.Callback.class));
     given(mockUserDetailsView.getContext()).willReturn(mockContext);
 
     userDetailsPresenter.initialize(FAKE_USER_ID);
 
     verify(mockUserDetailsView).hideRetry();
     verify(mockUserDetailsView).showLoading();
-    verify(mockGetUserDetailsUseCase).execute(anyInt(), any(GetUserDetailsUseCase.Callback.class));
+    verify(mockGetUserDetailsUseCase).execute(any(Subscriber.class));
   }
 }
