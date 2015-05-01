@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.data.repository.datasource;
+package com.codecomputerlove.androidbase.data.repository.datasource;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
-import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import com.fernandocejas.android10.sample.data.net.RestApi;
+import com.codecomputerlove.androidbase.data.ApplicationTestCase;
+import com.codecomputerlove.androidbase.data.cache.UserCache;
+import com.codecomputerlove.androidbase.data.entity.UserEntity;
+import com.codecomputerlove.androidbase.data.net.RestApi;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

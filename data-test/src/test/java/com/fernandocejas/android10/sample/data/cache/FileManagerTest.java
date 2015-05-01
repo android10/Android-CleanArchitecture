@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.data.cache;
+package com.codecomputerlove.androidbase.data.cache;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
+import com.codecomputerlove.androidbase.data.ApplicationTestCase;
 import java.io.File;
 import org.junit.After;
 import org.junit.Before;

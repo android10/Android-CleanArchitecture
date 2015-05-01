@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.data.cache.serializer;
+package com.codecomputerlove.androidbase.data.cache.serializer;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.codecomputerlove.androidbase.data.ApplicationTestCase;
+import com.codecomputerlove.androidbase.data.entity.UserEntity;
 import org.junit.Before;
 import org.junit.Test;
 
