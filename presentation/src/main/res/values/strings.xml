@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Android Clean Architecture</string>
-  <string name="url">http://www.android10.org/</string>
+  <string name="app_name">Android Base Project Codecomputerlove</string>
+  <string name="url">http://www.codecomputerlove.com/</string>
 
   <string name="activity_title_user_list">Users List</string>
   <string name="activity_title_user_details">User Details</string>
