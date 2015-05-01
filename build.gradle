@@ -11,11 +11,20 @@ buildscript {
   }
 }
 
+// Manifest version information!
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
 allprojects {
   ext {
     androidApplicationId = 'com.codecomputerlove.androidbase.presentation'
-    androidVersionCode = 1
-    androidVersionName = "1.0"
+    androidVersionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    androidVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
   }
 }

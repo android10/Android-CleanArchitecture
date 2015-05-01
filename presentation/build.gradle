@@ -16,6 +16,12 @@ android {
     versionName globalConfiguration.getAt("androidVersionName")
     testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
   }
+  
+  buildTypes {
+    debug {
+      applicationIdSuffix '.debug'
+    }
+  }
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
