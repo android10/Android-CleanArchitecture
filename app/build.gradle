@@ -40,19 +40,19 @@ android {
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
         buildConfigField "String", "BUILD_TIME", "\"${buildTimeInternal}\""
 
-        testApplicationId "ru.ltst.u2020mvp.tests"
+        testApplicationId "com.codecomputerlove.androidbase"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         debug {
-            storeFile file("../distribution/debug.keystore")
+            storeFile file("../keystore/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
         }
         release {
-            storeFile file("../distribution/debug.keystore")
+            storeFile file("../keystore/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
@@ -61,8 +61,8 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix '.dev'
-            versionNameSuffix '-dev'
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
             debuggable true
             signingConfig signingConfigs.debug
         }
@@ -75,10 +75,11 @@ android {
 
     productFlavors {
         internal {
-            applicationId 'ru.ltst.u2020mvp.internal'
+            applicationId 'com.codecomputerlove.androidbase.internal'
         }
+
         production {
-            applicationId 'ru.ltst.u2020mvp'
+            applicationId 'com.codecomputerlove.androidbase'
         }
     }
 
@@ -95,7 +96,19 @@ android {
 
     packagingOptions {
         exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
     }
+
+    lintOptions {
+        abortOnError false;
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'
+        // Due to Robolectric that modifies the manifest when running tests
+    }
+
 }
 
 // TODO remove eventually: http://b.android.com/162285
@@ -117,24 +130,35 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    internalDebugCompile 'com.squareup.retrofit:retrofit-mock:1.9.0'
 
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.jakewharton.timber:timber:2.7.1'
-    internalDebugCompile 'com.jakewharton.madge:madge:1.1.1'
-    internalDebugCompile 'com.jakewharton.scalpel:scalpel:1.1.1'
-
     compile 'io.reactivex:rxjava:1.0.8'
     compile 'io.reactivex:rxandroid:0.24.0'
 
+    //internal flavor only
     internalCompile 'com.mattprecious.telescope:telescope:1.4.0@aar'
+    internalDebugCompile 'com.squareup.retrofit:retrofit-mock:1.9.0'
+    internalDebugCompile 'com.jakewharton.madge:madge:1.1.1'
+    internalDebugCompile 'com.jakewharton.scalpel:scalpel:1.1.1'
+
 
     // Espresso 2 Dependencies
+    androidTestCompile "org.mockito:mockito-core:1.9.5"
+    androidTestCompile "junit:junit:4.11"
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.0') {
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
         exclude module: 'support-annotations'
     }
+}
+
+def installAll = tasks.create('installAll')
+installAll.description = 'Install all applications.'
+android.applicationVariants.all { variant ->
+    installAll.dependsOn(variant.install)
+    // Ensure we end up in the same group as the other install tasks.
+    installAll.group = variant.install.group
 }
 
 // change apk name
@@ -142,15 +166,8 @@ android.applicationVariants.all { variant ->
     for (output in variant.outputs) {
         def outputFile = output.outputFile
         if (outputFile != null && outputFile.name.endsWith('.apk')) {
-            def fileName = "u2020-mvp-${output.name}-${buildTime}.apk"
+            def fileName = "androidbase-${output.name}-${buildTime}.apk"
             output.outputFile = new File(outputFile.parent, fileName)
         }
     }
-}
-
-// print build finish time
-gradle.buildFinished { buildResult ->
-    def buildFinishDate = new Date()
-    def formattedDate = buildFinishDate.format('yyyy-MM-dd HH:mm:ss')
-    println "Build finished: ${formattedDate}"
 }
