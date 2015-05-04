@@ -1,4 +1,1 @@
-include ':presentation'
-include ':domain'
-include ':data'
-include ':data-test'
+include ':app'

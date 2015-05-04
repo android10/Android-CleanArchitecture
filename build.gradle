@@ -1,44 +1,21 @@
-apply from: 'buildsystem/ci.gradle'
-apply from: 'buildsystem/dependencies.gradle'
-
 buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:1.2.2'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-  }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
 }
-
-// Manifest version information!
-def versionMajor = 1
-def versionMinor = 0
-def versionPatch = 0
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
-
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 allprojects {
-  ext {
-    androidApplicationId = 'com.codecomputerlove.androidbase.presentation'
-    androidVersionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
-    androidVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
-    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-  }
+    repositories {
+        mavenCentral()
+    }
 }
 
-task wrapper(type: Wrapper) {
-  description 'Creates the gradle wrapper.'
-  gradleVersion '2.2.1'
+ext {
+    compileSdkVersion = 22
+    buildToolsVersion = '22'
+    minSdkVersion = 15
+    targetSdkVersion = 22
 }
-
-task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
-  description 'Run application acceptance tests.'
-}
-
-task runUnitTests(dependsOn: [':domain:test', ':data-test:test']) {
-  description 'Run unit tests for both domain and data layers.'
-}
-

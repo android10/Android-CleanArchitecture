@@ -5,22 +5,31 @@ allprojects {
 }
 
 ext {
+ compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:support-annotations:22.0.0'
+    compile "com.android.support:appcompat-v7:22.0.0"
+    compile 'com.android.support:recyclerview-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
+
+
   //Android
   androidBuildToolsVersion = "21.1.2"
   androidMinSdkVersion = 15
-  androidTargetSdkVersion = 21
-  androidCompileSdkVersion = 21
+  androidTargetSdkVersion = 22
+  androidCompileSdkVersion = 22
 
   //Libraries
-  daggerVersion = '2.0'
-  butterKnifeVersion = '6.0.0'
-  recyclerViewVersion = '21.0.3'
+  androidSupportVersion = '22.0.0'
+  androidAnnotationsVersion = '22.0.0'
+  androidAppCompatVersion = '22.0.0'
+  recyclerViewVersion = '22.0.0'
   rxJavaVersion = '1.0.9'
   rxAndroidVersion = '0.24.0'
   javaxAnnotationVersion = '10.0-b28'
+  daggerVersion = '2.0'
+  butterKnifeVersion = '6.0.0'
   gsonVersion = '2.3'
   okHttpVersion = '2.3.0'
-  androidAnnotationsVersion = '20.0.0'
 
   //Testing
   robolectricVersion = '2.4'
