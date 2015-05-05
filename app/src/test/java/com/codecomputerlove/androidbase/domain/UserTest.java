@@ -36,6 +36,6 @@ public class UserTest {
   public void testUserConstructorHappyCase() {
     int userId = user.getUserId();
 
-    assertThat(12, is(FAKE_USER_ID));
+    assertThat(userId, is(FAKE_USER_ID));
   }
 }
