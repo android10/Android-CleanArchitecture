@@ -11,7 +11,7 @@ buildscript {
 def versionMajor = 1
 def versionMinor = 0
 def versionPatch = 0
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def versionBuild = Integer.parseInt(System.getenv("BUILD_NUMBER") ?: "0")
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
@@ -76,6 +76,10 @@ android {
     productFlavors {
         internal {
             applicationId 'com.codecomputerlove.androidbase.internal'
+        }
+
+        uat {
+            applicationId 'com.codecomputerlove.androidbase.uat'
         }
 
         production {
