@@ -121,11 +121,11 @@ configurations {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.android.support:support-annotations:22.0.0'
-    compile "com.android.support:appcompat-v7:22.1.1"
-    compile 'com.android.support:recyclerview-v7:22.0.0'
-    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-annotations:21.0.3'
+    compile "com.android.support:appcompat-v7:21.0.3"
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:cardview-v7:21.0.3'
 
     compile 'com.google.dagger:dagger:2.0'
     apt 'com.google.dagger:dagger-compiler:2.0'
@@ -148,11 +148,10 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
+
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
-        exclude module: 'support-annotations'
-    }
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.0')
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0')
 }
 
 def installAll = tasks.create('installAll')

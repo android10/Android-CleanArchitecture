@@ -19,7 +19,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import com.codecomputerlove.androidbase.presentation.R;
-import com.codecomputerlove.androidbase.presentation.view.activity.UserListActivity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
