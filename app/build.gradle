@@ -145,6 +145,8 @@ dependencies {
     testCompile "junit:junit:4.12"
 
     // Espresso 2 Dependencies
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile "org.mockito:mockito-core:1.9.5"
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
