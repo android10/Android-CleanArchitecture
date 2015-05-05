@@ -3,11 +3,17 @@ package com.codecomputerlove.androidbase.presentation.view.activity;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import com.codecomputerlove.androidbase.presentation.AndroidApplication;
+import com.codecomputerlove.androidbase.presentation.BuildConfig;
 import com.codecomputerlove.androidbase.presentation.internal.di.components.ApplicationComponent;
 import com.codecomputerlove.androidbase.presentation.internal.di.modules.ActivityModule;
 import com.codecomputerlove.androidbase.presentation.navigation.Navigator;
+
 import javax.inject.Inject;
 
 /**
@@ -21,6 +27,13 @@ public abstract class BaseActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.getApplicationComponent().inject(this);
+
+    if (BuildConfig.DEBUG) {  //this will wake up and unlock the phone when in debug mode
+      KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+      KeyguardManager.KeyguardLock keyguardLock = km.newKeyguardLock("TAG");
+      keyguardLock.disableKeyguard();
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    }
   }
 
   /**
