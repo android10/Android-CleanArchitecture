@@ -109,7 +109,7 @@ public class UserDetailsPresenter implements Presenter, SubscriberInterface<User
   }
 
   private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(new DefaultSubscriber<User>().setSubscriberInterface(this));
+    this.getUserDetailsUseCase.execute(new DefaultSubscriber<>(this));
   }
 
   @Override public void onCompleted() {

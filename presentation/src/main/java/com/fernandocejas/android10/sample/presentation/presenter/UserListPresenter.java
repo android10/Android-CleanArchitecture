@@ -111,7 +111,7 @@ public class UserListPresenter implements Presenter, SubscriberInterface<List<Us
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(new DefaultSubscriber<List<User>>().setSubscriberInterface(this));
+    this.getUserListUseCase.execute(new DefaultSubscriber<>(this));
   }
 
   @Override public void onCompleted() {

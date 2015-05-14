@@ -26,6 +26,10 @@ public class DefaultSubscriber<T> extends rx.Subscriber<T> {
     return this;
   }
 
+  public DefaultSubscriber(SubscriberInterface<T> subscriberInterface){
+    this.subscriberInterface = subscriberInterface;
+  }
+
   @Override public void onCompleted() {
     if (subscriberInterface!=null) subscriberInterface.onCompleted();
   }
