@@ -20,6 +20,7 @@ import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.SubscriberInterface;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
@@ -36,7 +37,7 @@ import javax.inject.Named;
  * layer.
  */
 @PerActivity
-public class UserListPresenter extends DefaultSubscriber<List<User>> implements Presenter {
+public class UserListPresenter implements Presenter, SubscriberInterface<List<User>> {
 
   private UserListView viewListView;
 
@@ -110,7 +111,7 @@ public class UserListPresenter extends DefaultSubscriber<List<User>> implements 
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(this);
+    this.getUserListUseCase.execute(new DefaultSubscriber<List<User>>().setSubscriberInterface(this));
   }
 
   @Override public void onCompleted() {

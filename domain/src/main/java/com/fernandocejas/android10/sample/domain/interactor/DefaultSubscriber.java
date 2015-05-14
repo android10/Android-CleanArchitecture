@@ -19,15 +19,21 @@ package com.fernandocejas.android10.sample.domain.interactor;
  * Default subscriber base class to be used whenever you want default error handling.
  */
 public class DefaultSubscriber<T> extends rx.Subscriber<T> {
+  protected SubscriberInterface<T> subscriberInterface;
+
+  public DefaultSubscriber setSubscriberInterface(SubscriberInterface<T> subscriberInterface) {
+    this.subscriberInterface = subscriberInterface;
+    return this;
+  }
+
   @Override public void onCompleted() {
-    // no-op by default.
+    if (subscriberInterface!=null) subscriberInterface.onCompleted();
   }
 
   @Override public void onError(Throwable e) {
-    // no-op by default.
+    if (subscriberInterface!=null) subscriberInterface.onError(e);
   }
 
   @Override public void onNext(T t) {
-    // no-op by default.
-  }
+    if (subscriberInterface!=null) subscriberInterface.onNext(t);  }
 }

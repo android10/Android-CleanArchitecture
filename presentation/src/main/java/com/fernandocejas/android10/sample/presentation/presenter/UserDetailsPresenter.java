@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.SubscriberInterface;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
@@ -34,7 +35,7 @@ import javax.inject.Named;
  * layer.
  */
 @PerActivity
-public class UserDetailsPresenter extends DefaultSubscriber<User> implements Presenter {
+public class UserDetailsPresenter implements Presenter, SubscriberInterface<User> {
 
   /** id used to retrieve user details */
   private int userId;
@@ -108,7 +109,7 @@ public class UserDetailsPresenter extends DefaultSubscriber<User> implements Pre
   }
 
   private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(this);
+    this.getUserDetailsUseCase.execute(new DefaultSubscriber<User>().setSubscriberInterface(this));
   }
 
   @Override public void onCompleted() {
