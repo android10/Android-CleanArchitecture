@@ -15,10 +15,12 @@ def versionBuild = Integer.parseInt(System.getenv("BUILD_NUMBER") ?: "0")
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'io.fabric'
 
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -76,6 +78,7 @@ android {
     productFlavors {
         internal {
             applicationId 'com.codecomputerlove.androidbase.internal'
+            ext.enableCrashlytics = false
         }
 
         uat {
@@ -139,6 +142,11 @@ dependencies {
     compile 'com.jakewharton.timber:timber:2.7.1'
     compile 'io.reactivex:rxjava:1.0.8'
     compile 'io.reactivex:rxandroid:0.24.0'
+
+    // Crashlytics Kit
+    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+        transitive = true
+    }
 
     //unit test dependencies
     testCompile "org.mockito:mockito-core:1.9.5"

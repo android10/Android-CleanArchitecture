@@ -1,3 +1,8 @@
+#fabric
+-keepattributes SourceFile,LineNumberTable
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
 -keep class com.squareup.** { *; }
 -keep interface com.squareup.** { *; }
 -dontwarn com.squareup.okhttp.**

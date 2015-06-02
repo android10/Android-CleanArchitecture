@@ -16,9 +16,13 @@
 package com.codecomputerlove.androidbase.presentation;
 
 import android.app.Application;
+
 import com.codecomputerlove.androidbase.presentation.internal.di.components.ApplicationComponent;
 import com.codecomputerlove.androidbase.presentation.internal.di.components.DaggerApplicationComponent;
 import com.codecomputerlove.androidbase.presentation.internal.di.modules.ApplicationModule;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Android Main Application
@@ -30,6 +34,11 @@ public class AndroidApplication extends Application {
   @Override public void onCreate() {
     super.onCreate();
     this.initializeInjector();
+    this.initializeCrashalitics();
+  }
+
+  private void initializeCrashalitics() {
+    Fabric.with(this, new Crashlytics());
   }
 
   private void initializeInjector() {
