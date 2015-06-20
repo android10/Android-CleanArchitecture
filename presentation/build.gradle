@@ -15,6 +15,7 @@ android {
     versionCode globalConfiguration.getAt("androidVersionCode")
     versionName globalConfiguration.getAt("androidVersionName")
     testInstrumentationRunner globalConfiguration.getAt("testInstrumentationRunner")
+    testApplicationId globalConfiguration.getAt("testApplicationId")
   }
 
   compileOptions {
@@ -36,6 +37,21 @@ android {
     disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
     disable 'IconDensities'             //For testing purpose. This is safe to remove.
     disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file('../buildsystem/debug.keystore')
+      storePassword 'android'
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+    }
+  }
+
+  buildTypes {
+    debug {
+      signingConfig signingConfigs.debug
+    }
   }
 }
 

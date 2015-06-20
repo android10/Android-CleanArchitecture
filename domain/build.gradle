@@ -1,6 +1,8 @@
 apply plugin: 'java'
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.7
+//noinspection GroovyUnusedAssignment
 targetCompatibility = 1.7
 
 configurations {
