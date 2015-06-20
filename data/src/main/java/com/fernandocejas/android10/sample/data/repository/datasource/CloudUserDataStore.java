@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,13 +30,12 @@ public class CloudUserDataStore implements UserDataStore {
   private final RestApi restApi;
   private final UserCache userCache;
 
-  private final Action1<UserEntity> saveToCacheAction = new Action1<UserEntity>() {
-    @Override public void call(UserEntity userEntity) {
-      if (userEntity != null) {
-        CloudUserDataStore.this.userCache.put(userEntity);
-      }
-    }
-  };
+  private final Action1<UserEntity> saveToCacheAction =
+      userEntity -> {
+        if (userEntity != null) {
+          CloudUserDataStore.this.userCache.put(userEntity);
+        }
+      };
 
   /**
    * Construct a {@link UserDataStore} based on connections to the api (Cloud).
@@ -54,6 +53,7 @@ public class CloudUserDataStore implements UserDataStore {
   }
 
   @Override public Observable<UserEntity> getUserEntityDetails(final int userId) {
-    return this.restApi.getUserEntityById(userId).doOnNext(saveToCacheAction);
+    return this.restApi.getUserEntityById(userId)
+        .doOnNext(saveToCacheAction);
   }
 }
