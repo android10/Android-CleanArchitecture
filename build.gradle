@@ -17,12 +17,13 @@ allprojects {
     androidVersionCode = 1
     androidVersionName = "1.0"
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId = 'com.fernandocejas.android10.sample.presentation.test'
   }
 }
 
 task wrapper(type: Wrapper) {
   description 'Creates the gradle wrapper.'
-  gradleVersion '2.2.1'
+  gradleVersion '2.4'
 }
 
 task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
