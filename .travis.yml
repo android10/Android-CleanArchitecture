@@ -1,4 +1,5 @@
 language: android
+jdk: oraclejdk8
 
 android:
   components:
@@ -6,4 +7,4 @@ android:
     - android-19
 
 script:
-  ./gradlew build -x lint
+  ./gradlew build
