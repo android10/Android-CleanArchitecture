@@ -6,4 +6,4 @@ android:
     - android-19
 
 script:
-  ./gradlew build
+  ./gradlew build -x lint

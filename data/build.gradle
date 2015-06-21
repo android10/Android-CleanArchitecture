@@ -41,7 +41,9 @@ android {
   }
 
   lintOptions {
-    abortOnError false;
+    quiet true
+    abortOnError false
+    ignoreWarnings true
     disable 'InvalidPackage'  // Some libraries have issues with this
     disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
   }
