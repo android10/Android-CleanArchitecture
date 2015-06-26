@@ -91,6 +91,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.destroy();
   }
 
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.reset(this);
+  }
+
   private void initialize() {
     this.getComponent(UserComponent.class).inject(this);
     this.userListPresenter.setView(this);

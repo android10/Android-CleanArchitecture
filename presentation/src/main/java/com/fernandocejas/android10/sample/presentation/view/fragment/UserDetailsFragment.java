@@ -79,6 +79,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.userDetailsPresenter.pause();
   }
 
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.reset(this);
+  }
+
   @Override public void onDestroy() {
     super.onDestroy();
     this.userDetailsPresenter.destroy();
