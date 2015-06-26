@@ -23,6 +23,7 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserListPresent
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.inject.Inject;
 
@@ -98,6 +99,10 @@ public class UserListFragment extends BaseFragment implements UserListView {
   private void setupUI() {
     this.usersLayoutManager = new UsersLayoutManager(getActivity());
     this.rv_users.setLayoutManager(usersLayoutManager);
+
+    this.usersAdapter = new UsersAdapter(getActivity(), new ArrayList<UserModel>());
+    this.usersAdapter.setOnItemClickListener(onItemClickListener);
+    this.rv_users.setAdapter(usersAdapter);
   }
 
   @Override public void showLoading() {
@@ -120,13 +125,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public void renderUserList(Collection<UserModel> userModelCollection) {
     if (userModelCollection != null) {
-      if (this.usersAdapter == null) {
-        this.usersAdapter = new UsersAdapter(getActivity(), userModelCollection);
-      } else {
         this.usersAdapter.setUsersCollection(userModelCollection);
-      }
-      this.usersAdapter.setOnItemClickListener(onItemClickListener);
-      this.rv_users.setAdapter(usersAdapter);
     }
   }
 
