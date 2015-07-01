@@ -16,10 +16,10 @@
 package com.fernandocejas.android10.sample.presentation.presenter;
 
 import android.support.annotation.NonNull;
-import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
@@ -110,20 +110,23 @@ public class UserListPresenter extends DefaultSubscriber<List<User>> implements 
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(this);
+    this.getUserListUseCase.execute(new UserListSubscriber());
   }
 
-  @Override public void onCompleted() {
-    this.hideViewLoading();
-  }
+  private final class UserListSubscriber extends DefaultSubscriber<List<User>> {
 
-  @Override public void onError(Throwable e) {
-    this.hideViewLoading();
-    this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-    this.showViewRetry();
-  }
+    @Override public void onCompleted() {
+      UserListPresenter.this.hideViewLoading();
+    }
 
-  @Override public void onNext(List<User> users) {
-    this.showUsersCollectionInView(users);
+    @Override public void onError(Throwable e) {
+      UserListPresenter.this.hideViewLoading();
+      UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+      UserListPresenter.this.showViewRetry();
+    }
+
+    @Override public void onNext(List<User> users) {
+      UserListPresenter.this.showUsersCollectionInView(users);
+    }
   }
 }

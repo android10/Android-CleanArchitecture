@@ -19,8 +19,8 @@ import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
+import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -34,7 +34,7 @@ import javax.inject.Named;
  * layer.
  */
 @PerActivity
-public class UserDetailsPresenter extends DefaultSubscriber<User> implements Presenter {
+public class UserDetailsPresenter implements Presenter {
 
   /** id used to retrieve user details */
   private int userId;
@@ -108,20 +108,23 @@ public class UserDetailsPresenter extends DefaultSubscriber<User> implements Pre
   }
 
   private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(this);
+    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
   }
 
-  @Override public void onCompleted() {
-    this.hideViewLoading();
-  }
+  private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
 
-  @Override public void onError(Throwable e) {
-    this.hideViewLoading();
-    this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-    this.showViewRetry();
-  }
+    @Override public void onCompleted() {
+      UserDetailsPresenter.this.hideViewLoading();
+    }
 
-  @Override public void onNext(User user) {
-    this.showUserDetailsInView(user);
+    @Override public void onError(Throwable e) {
+      UserDetailsPresenter.this.hideViewLoading();
+      UserDetailsPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+      UserDetailsPresenter.this.showViewRetry();
+    }
+
+    @Override public void onNext(User user) {
+      UserDetailsPresenter.this.showUserDetailsInView(user);
+    }
   }
 }
