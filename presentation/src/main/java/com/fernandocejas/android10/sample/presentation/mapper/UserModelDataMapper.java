@@ -63,7 +63,7 @@ public class UserModelDataMapper {
     Collection<UserModel> userModelsCollection;
 
     if (usersCollection != null && !usersCollection.isEmpty()) {
-      userModelsCollection = new ArrayList<UserModel>();
+      userModelsCollection = new ArrayList<>();
       for (User user : usersCollection) {
         userModelsCollection.add(transform(user));
       }
