@@ -13,7 +13,7 @@ ext {
 
   //Libraries
   daggerVersion = '2.0'
-  butterKnifeVersion = '6.0.0'
+  butterKnifeVersion = '7.0.1'
   recyclerViewVersion = '21.0.3'
   rxJavaVersion = '1.0.12'
   rxAndroidVersion = '0.24.0'

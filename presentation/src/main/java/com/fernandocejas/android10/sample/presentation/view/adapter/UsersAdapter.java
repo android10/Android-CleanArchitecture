@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import java.util.Collection;
@@ -82,11 +82,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   }
 
   static class UserViewHolder extends RecyclerView.ViewHolder {
-    @InjectView(R.id.title) TextView textViewTitle;
+    @Bind(R.id.title) TextView textViewTitle;
 
     public UserViewHolder(View itemView) {
       super(itemView);
-      ButterKnife.inject(this, itemView);
+      ButterKnife.bind(this, itemView);
     }
   }
 }
