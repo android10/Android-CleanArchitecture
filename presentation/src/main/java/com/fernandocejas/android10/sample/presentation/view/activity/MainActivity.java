@@ -2,8 +2,8 @@ package com.fernandocejas.android10.sample.presentation.view.activity;
 
 import android.os.Bundle;
 import android.widget.Button;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
 
@@ -12,13 +12,13 @@ import com.fernandocejas.android10.sample.presentation.R;
  */
 public class MainActivity extends BaseActivity {
 
-  @InjectView(R.id.btn_LoadData) Button btn_LoadData;
+  @Bind(R.id.btn_LoadData) Button btn_LoadData;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    ButterKnife.inject(this);
+    ButterKnife.bind(this);
   }
 
   /**
