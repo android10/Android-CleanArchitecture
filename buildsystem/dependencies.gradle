@@ -23,7 +23,7 @@ ext {
   androidAnnotationsVersion = '20.0.0'
 
   //Testing
-  robolectricVersion = '3.0-rc3'
+  robolectricVersion = '3.0'
   jUnitVersion = '4.12'
   assertJVersion = '1.7.1'
   mockitoVersion = '1.9.5'
