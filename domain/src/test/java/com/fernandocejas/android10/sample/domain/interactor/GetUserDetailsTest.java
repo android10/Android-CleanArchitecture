@@ -48,7 +48,7 @@ public class GetUserDetailsTest {
   public void testGetUserDetailsUseCaseObservableHappyCase() {
     getUserDetails.buildUseCaseObservable();
 
-    verify(mockUserRepository).getUser(FAKE_USER_ID);
+    verify(mockUserRepository).user(FAKE_USER_ID);
     verifyNoMoreInteractions(mockUserRepository);
     verifyZeroInteractions(mockPostExecutionThread);
     verifyZeroInteractions(mockThreadExecutor);

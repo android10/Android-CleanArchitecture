@@ -48,7 +48,7 @@ public class RestApiImpl implements RestApi {
     this.userEntityJsonMapper = userEntityJsonMapper;
   }
 
-  @Override public Observable<List<UserEntity>> getUserEntityList() {
+  @Override public Observable<List<UserEntity>> userEntityList() {
     return Observable.create(new Observable.OnSubscribe<List<UserEntity>>() {
       @Override public void call(Subscriber<? super List<UserEntity>> subscriber) {
 
@@ -72,7 +72,7 @@ public class RestApiImpl implements RestApi {
     });
   }
 
-  @Override public Observable<UserEntity> getUserEntityById(final int userId) {
+  @Override public Observable<UserEntity> userEntityById(final int userId) {
     return Observable.create(new Observable.OnSubscribe<UserEntity>() {
       @Override public void call(Subscriber<? super UserEntity> subscriber) {
 

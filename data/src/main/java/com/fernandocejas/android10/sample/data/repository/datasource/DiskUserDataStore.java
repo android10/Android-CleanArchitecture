@@ -36,12 +36,12 @@ public class DiskUserDataStore implements UserDataStore {
     this.userCache = userCache;
   }
 
-  @Override public Observable<List<UserEntity>> getUserEntityList() {
+  @Override public Observable<List<UserEntity>> userEntityList() {
     //TODO: implement simple cache for storing/retrieving collections of users.
     throw new UnsupportedOperationException("Operation is not available!!!");
   }
 
-  @Override public Observable<UserEntity> getUserEntityDetails(final int userId) {
+  @Override public Observable<UserEntity> userEntityDetails(final int userId) {
      return this.userCache.get(userId);
   }
 }

@@ -26,12 +26,12 @@ public interface UserDataStore {
   /**
    * Get an {@link rx.Observable} which will emit a List of {@link UserEntity}.
    */
-  Observable<List<UserEntity>> getUserEntityList();
+  Observable<List<UserEntity>> userEntityList();
 
   /**
    * Get an {@link rx.Observable} which will emit a {@link UserEntity} by its id.
    *
    * @param userId The id to retrieve user data.
    */
-  Observable<UserEntity> getUserEntityDetails(final int userId);
+  Observable<UserEntity> userEntityDetails(final int userId);
 }

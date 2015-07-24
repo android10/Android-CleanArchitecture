@@ -45,12 +45,12 @@ public class DiskUserDataStoreTest extends ApplicationTestCase {
   @Test
   public void testGetUserEntityListUnsupported() {
     expectedException.expect(UnsupportedOperationException.class);
-    diskUserDataStore.getUserEntityList();
+    diskUserDataStore.userEntityList();
   }
 
   @Test
   public void testGetUserEntityDetailesFromCache() {
-    diskUserDataStore.getUserEntityDetails(FAKE_USER_ID);
+    diskUserDataStore.userEntityDetails(FAKE_USER_ID);
     verify(mockUserCache).get(FAKE_USER_ID);
   }
 }

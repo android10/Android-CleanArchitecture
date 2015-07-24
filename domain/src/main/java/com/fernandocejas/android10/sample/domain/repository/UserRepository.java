@@ -26,12 +26,12 @@ public interface UserRepository {
   /**
    * Get an {@link rx.Observable} which will emit a List of {@link User}.
    */
-  Observable<List<User>> getUsers();
+  Observable<List<User>> users();
 
   /**
    * Get an {@link rx.Observable} which will emit a {@link User}.
    *
    * @param userId The user id used to retrieve user data.
    */
-  Observable<User> getUser(final int userId);
+  Observable<User> user(final int userId);
 }

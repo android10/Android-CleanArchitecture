@@ -45,18 +45,18 @@ public class CloudUserDataStoreTest extends ApplicationTestCase {
 
   @Test
   public void testGetUserEntityListFromApi() {
-    cloudUserDataStore.getUserEntityList();
-    verify(mockRestApi).getUserEntityList();
+    cloudUserDataStore.userEntityList();
+    verify(mockRestApi).userEntityList();
   }
 
   @Test
   public void testGetUserEntityDetailsFromApi() {
     UserEntity fakeUserEntity = new UserEntity();
     Observable<UserEntity> fakeObservable = Observable.just(fakeUserEntity);
-    given(mockRestApi.getUserEntityById(FAKE_USER_ID)).willReturn(fakeObservable);
+    given(mockRestApi.userEntityById(FAKE_USER_ID)).willReturn(fakeObservable);
 
-    cloudUserDataStore.getUserEntityDetails(FAKE_USER_ID);
+    cloudUserDataStore.userEntityDetails(FAKE_USER_ID);
 
-    verify(mockRestApi).getUserEntityById(FAKE_USER_ID);
+    verify(mockRestApi).userEntityById(FAKE_USER_ID);
   }
 }

@@ -64,21 +64,21 @@ public class UserDataRepositoryTest extends ApplicationTestCase {
   public void testGetUsersHappyCase() {
     List<UserEntity> usersList = new ArrayList<>();
     usersList.add(new UserEntity());
-    given(mockUserDataStore.getUserEntityList()).willReturn(Observable.just(usersList));
+    given(mockUserDataStore.userEntityList()).willReturn(Observable.just(usersList));
 
-    userDataRepository.getUsers();
+    userDataRepository.users();
 
     verify(mockUserDataStoreFactory).createCloudDataStore();
-    verify(mockUserDataStore).getUserEntityList();
+    verify(mockUserDataStore).userEntityList();
   }
 
   @Test
   public void testGetUserHappyCase() {
     UserEntity userEntity = new UserEntity();
-    given(mockUserDataStore.getUserEntityDetails(FAKE_USER_ID)).willReturn(Observable.just(userEntity));
-    userDataRepository.getUser(FAKE_USER_ID);
+    given(mockUserDataStore.userEntityDetails(FAKE_USER_ID)).willReturn(Observable.just(userEntity));
+    userDataRepository.user(FAKE_USER_ID);
 
     verify(mockUserDataStoreFactory).create(FAKE_USER_ID);
-    verify(mockUserDataStore).getUserEntityDetails(FAKE_USER_ID);
+    verify(mockUserDataStore).userEntityDetails(FAKE_USER_ID);
   }
 }
