@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.test.presenter;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserDetailsUseCase;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
@@ -40,14 +40,14 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
   @Mock
   private UserDetailsView mockUserDetailsView;
   @Mock
-  private GetUserDetailsUseCase mockGetUserDetailsUseCase;
+  private GetUserDetails mockGetUserDetails;
   @Mock
   private UserModelDataMapper mockUserModelDataMapper;
 
   @Override protected void setUp() throws Exception {
     super.setUp();
     MockitoAnnotations.initMocks(this);
-    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetailsUseCase,
+    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetails,
         mockUserModelDataMapper);
     userDetailsPresenter.setView(mockUserDetailsView);
   }
@@ -59,6 +59,6 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
 
     verify(mockUserDetailsView).hideRetry();
     verify(mockUserDetailsView).showLoading();
-    verify(mockGetUserDetailsUseCase).execute(any(Subscriber.class));
+    verify(mockGetUserDetails).execute(any(Subscriber.class));
   }
 }

@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.test.presenter;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCase;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -38,14 +38,14 @@ public class UserListPresenterTest extends AndroidTestCase {
   @Mock
   private UserListView mockUserListView;
   @Mock
-  private GetUserListUseCase mockGetUserListUseCase;
+  private GetUserList mockGetUserList;
   @Mock
   private UserModelDataMapper mockUserModelDataMapper;
 
   @Override protected void setUp() throws Exception {
     super.setUp();
     MockitoAnnotations.initMocks(this);
-    userListPresenter = new UserListPresenter(mockGetUserListUseCase, mockUserModelDataMapper);
+    userListPresenter = new UserListPresenter(mockGetUserList, mockUserModelDataMapper);
     userListPresenter.setView(mockUserListView);
   }
 
@@ -56,6 +56,6 @@ public class UserListPresenterTest extends AndroidTestCase {
 
     verify(mockUserListView).hideRetry();
     verify(mockUserListView).showLoading();
-    verify(mockGetUserListUseCase).execute(any(Subscriber.class));
+    verify(mockGetUserList).execute(any(Subscriber.class));
   }
 }

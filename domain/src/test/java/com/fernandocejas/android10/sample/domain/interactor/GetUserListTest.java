@@ -27,30 +27,28 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-public class GetUserDetailsUseCaseTest {
+public class GetUserListTest {
 
-  private static final int FAKE_USER_ID = 123;
+  private GetUserList getUserList;
 
-  private GetUserDetailsUseCase getUserDetailsUseCase;
-
-  @Mock private UserRepository mockUserRepository;
   @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
+  @Mock private UserRepository mockUserRepository;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    getUserDetailsUseCase = new GetUserDetailsUseCase(FAKE_USER_ID, mockUserRepository,
-        mockThreadExecutor, mockPostExecutionThread);
+    getUserList = new GetUserList(mockUserRepository, mockThreadExecutor,
+        mockPostExecutionThread);
   }
 
   @Test
-  public void testGetUserDetailsUseCaseObservableHappyCase() {
-    getUserDetailsUseCase.buildUseCaseObservable();
+  public void testGetUserListUseCaseObservableHappyCase() {
+    getUserList.buildUseCaseObservable();
 
-    verify(mockUserRepository).getUser(FAKE_USER_ID);
+    verify(mockUserRepository).getUsers();
     verifyNoMoreInteractions(mockUserRepository);
-    verifyZeroInteractions(mockPostExecutionThread);
     verifyZeroInteractions(mockThreadExecutor);
+    verifyZeroInteractions(mockPostExecutionThread);
   }
 }
