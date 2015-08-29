@@ -15,7 +15,7 @@ ext {
   daggerVersion = '2.0'
   butterKnifeVersion = '7.0.1'
   recyclerViewVersion = '21.0.3'
-  rxJavaVersion = '1.0.12'
+  rxJavaVersion = '1.0.14'
   rxAndroidVersion = '0.24.0'
   javaxAnnotationVersion = '10.0-b28'
   gsonVersion = '2.3'
