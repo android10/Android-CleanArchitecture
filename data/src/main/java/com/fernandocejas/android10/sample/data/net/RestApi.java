@@ -23,12 +23,12 @@ import rx.Observable;
  * RestApi for retrieving data from the network.
  */
 public interface RestApi {
-  static final String API_BASE_URL = "http://www.android10.org/myapi/";
+  String API_BASE_URL = "http://www.android10.org/myapi/";
 
   /** Api url for getting all users */
-  static final String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
+  String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
   /** Api url for getting a user profile: Remember to concatenate id + 'json' */
-  static final String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
+  String API_URL_GET_USER_DETAILS = API_BASE_URL + "user_";
 
   /**
    * Retrieves an {@link rx.Observable} which will emit a List of {@link UserEntity}.
