@@ -21,15 +21,6 @@
       </intent-filter>
     </activity>
 
-    <activity
-        android:name=".view.activity.UserListActivity"
-        android:label="@string/activity_title_user_list">
-    </activity>
-
-    <activity
-        android:name=".view.activity.UserDetailsActivity"
-        android:label="@string/activity_title_user_details">
-    </activity>
   </application>
 
 </manifest>
