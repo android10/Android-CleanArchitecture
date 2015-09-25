@@ -71,6 +71,7 @@ dependencies {
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
   provided presentationDependencies.javaxAnnotation
+  provided 'javax.annotation:jsr250-api:1.0'
 
   androidTestCompile presentationTestDependencies.mockito
   androidTestCompile presentationTestDependencies.dexmaker

@@ -21,6 +21,9 @@ import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
+import com.fernandocejas.android10.sample.presentation.view.fragment.BaseFragment;
+import com.fernandocejas.android10.sample.presentation.view.fragment.LoadFragment;
+
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -31,6 +34,7 @@ import javax.inject.Singleton;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
   void inject(BaseActivity baseActivity);
+  void inject(LoadFragment loadFragment); // TODO: move navigator to BaseFragment?
 
   //Exposed to sub-graphs.
   Context context();
