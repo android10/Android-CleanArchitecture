@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     >
 
   <TextView
