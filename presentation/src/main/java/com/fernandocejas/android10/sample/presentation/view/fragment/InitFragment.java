@@ -21,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by wolfgang on 25.09.15.
  */
-public class LoadFragment extends BaseFragment {
+public class InitFragment extends BaseFragment {
 
     @Nullable
     @Override
@@ -50,6 +50,6 @@ public class LoadFragment extends BaseFragment {
   }
 
     public static Fragment newInstance() {
-        return new LoadFragment();
+        return new InitFragment();
     }
 }

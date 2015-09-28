@@ -11,7 +11,6 @@ import com.fernandocejas.android10.sample.presentation.internal.di.components.Ap
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerActivityComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
-import com.fernandocejas.android10.sample.presentation.view.fragment.LoadFragment;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
 
@@ -31,7 +30,7 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_main);
     this.initializeInjector();
-    navigator.navigateToLoadFragment(this);
+    navigator.navigateToInitFragment(this);
   }
 
   private void initializeInjector() {

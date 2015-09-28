@@ -20,7 +20,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.view.fragment.LoadFragment;
+import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
@@ -60,9 +60,9 @@ public class Navigator {
     }
   }
 
-  public void navigateToLoadFragment(Activity activity) {
+  public void navigateToInitFragment(Activity activity) {
     if (activity != null) {
-      replaceFragment(activity, R.id.container, LoadFragment.newInstance());
+      replaceFragment(activity, R.id.container, InitFragment.newInstance());
     }
   }
 
