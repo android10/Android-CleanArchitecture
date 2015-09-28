@@ -72,7 +72,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.initializeInjector();
     this.initialize();
   }
 
@@ -105,9 +104,10 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   }
 
   private void initialize() {
+    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
+    this.initializeInjector();
     userComponent.inject(this);
     this.userDetailsPresenter.setView(this);
-    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
     this.userDetailsPresenter.initialize(this.userId);
   }
 
