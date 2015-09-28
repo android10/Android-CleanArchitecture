@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerInitComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.InitComponent;
 import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
+import com.fernandocejas.android10.sample.presentation.presenter.InitPresenter;
+import com.fernandocejas.android10.sample.presentation.view.InitView;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 
@@ -21,7 +25,10 @@ import butterknife.OnClick;
 /**
  * Created by wolfgang on 25.09.15.
  */
-public class InitFragment extends BaseFragment {
+public class InitFragment extends BaseFragment implements InitView {
+    @Inject InitPresenter presenter;
+
+    private InitComponent initComponent;
 
     @Nullable
     @Override
@@ -36,20 +43,33 @@ public class InitFragment extends BaseFragment {
      */
     @OnClick(R.id.btn_LoadData)
     void navigateToUserList() {
-        // TODO: Listener + Presenter!
-        ((MainActivity)getActivity()).navigateToUserList();
+        presenter.onLoadUserListClicked();
     }
 
     @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    this.initialize();
-  }
+        super.onActivityCreated(savedInstanceState);
+        this.initialize();
+    }
 
-  private void initialize() {
-    getComponent(ApplicationComponent.class).inject(this);
-  }
+    private void initialize() {
+        initializeInjector();
+        initComponent.inject(this);
+        presenter.setView(this);
+    }
+
+    private void initializeInjector() {
+        initComponent = DaggerInitComponent.builder()
+                .applicationComponent(getComponent(ApplicationComponent.class))
+                .activityModule(((MainActivity) getActivity()).getActivityModule())
+                .build();
+    }
 
     public static Fragment newInstance() {
         return new InitFragment();
+    }
+
+    @Override
+    public void loadUserList() {
+        ((MainActivity)getActivity()).navigateToUserList();
     }
 }
