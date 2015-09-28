@@ -16,7 +16,11 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
+import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
+
 import dagger.Module;
 import dagger.Provides;
 

@@ -11,6 +11,7 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
+import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 
 import javax.inject.Inject;
 
@@ -21,7 +22,6 @@ import butterknife.OnClick;
  * Created by wolfgang on 25.09.15.
  */
 public class LoadFragment extends BaseFragment {
-    @Inject Navigator navigator;
 
     @Nullable
     @Override
@@ -36,7 +36,8 @@ public class LoadFragment extends BaseFragment {
      */
     @OnClick(R.id.btn_LoadData)
     void navigateToUserList() {
-        this.navigator.navigateToUserList(getActivity());
+        // TODO: Listener + Presenter!
+        ((MainActivity)getActivity()).navigateToUserList();
     }
 
     @Override public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,9 +45,8 @@ public class LoadFragment extends BaseFragment {
     this.initialize();
   }
 
-    private void initialize() {
+  private void initialize() {
     getComponent(ApplicationComponent.class).inject(this);
-    //this.userListPresenter.setView(this);
   }
 
     public static Fragment newInstance() {

@@ -33,8 +33,8 @@ import javax.inject.Singleton;
 @Singleton // Constraints this component to one-per-application or unscoped bindings.
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
-  void inject(BaseActivity baseActivity);
-  void inject(LoadFragment loadFragment); // TODO: move navigator to BaseFragment?
+  void inject(BaseActivity baseActivity); // TODO: remove this
+  void inject(BaseFragment baseFragment);
 
   //Exposed to sub-graphs.
   Context context();

@@ -14,7 +14,6 @@ import javax.inject.Inject;
  * Base {@link android.app.Activity} class for every Activity in this application.
  */
 public abstract class BaseActivity extends Activity {
-
   @Inject Navigator navigator;
 
   @Override

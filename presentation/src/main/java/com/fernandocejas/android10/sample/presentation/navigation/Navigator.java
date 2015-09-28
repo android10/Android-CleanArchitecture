@@ -15,10 +15,16 @@
  */
 package com.fernandocejas.android10.sample.presentation.navigation;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+
+import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserDetailsActivity;
-import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
+import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -36,12 +42,11 @@ public class Navigator {
   /**
    * Goes to the user list screen.
    *
-   * @param context A Context needed to open the destiny activity.
+   * @param activity A Context needed to open the destiny activity.
    */
-  public void navigateToUserList(Context context) {
-    if (context != null) {
-      Intent intentToLaunch = UserListActivity.getCallingIntent(context);
-      context.startActivity(intentToLaunch);
+  public void navigateToUserList(Activity activity) {
+    if (activity != null) {
+      replaceFragment(activity, R.id.container, UserListFragment.newInstance());
     }
   }
 
@@ -55,5 +60,11 @@ public class Navigator {
       Intent intentToLaunch = UserDetailsActivity.getCallingIntent(context, userId);
       context.startActivity(intentToLaunch);
     }
+  }
+
+    protected void replaceFragment(Activity activity, int containerViewId, Fragment fragment) {
+    FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
+    fragmentTransaction.replace(containerViewId, fragment);
+    fragmentTransaction.commit();
   }
 }
