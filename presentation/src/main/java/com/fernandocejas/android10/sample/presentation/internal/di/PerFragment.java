@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.presentation.internal.di.components;
+package com.fernandocejas.android10.sample.presentation.internal.di;
 
-import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
-import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
+import java.lang.annotation.Retention;
 
-import dagger.Component;
+import javax.inject.Scope;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * A scope {@link PerFragment} component.
- * Injects user specific Fragments.
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the fragment to be memorized in the
+ * correct component.
  */
-@PerFragment
-@Component(dependencies = ActivityComponent.class)
-public interface InitComponent {
-  void inject(InitFragment initFragment);
-}
+@Scope
+@Retention(RUNTIME)
+public @interface PerFragment {}

@@ -22,7 +22,6 @@ import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 import com.fernandocejas.android10.sample.presentation.view.fragment.BaseFragment;
-import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
 
 import dagger.Component;
 import javax.inject.Singleton;

@@ -34,7 +34,8 @@ import javax.inject.Inject;
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseFragment implements UserListView, HasComponent<UserComponent> {/**
+public class UserListFragment extends BaseFragment implements UserListView, HasComponent<UserComponent> {
+  /**
    * Interface for listening user list events.
    */
   public interface UserListListener {

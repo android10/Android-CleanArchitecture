@@ -8,13 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerInitComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.InitComponent;
-import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
 import com.fernandocejas.android10.sample.presentation.presenter.InitPresenter;
 import com.fernandocejas.android10.sample.presentation.view.InitView;
-import com.fernandocejas.android10.sample.presentation.view.activity.BaseActivity;
 import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 
 import javax.inject.Inject;
@@ -59,8 +56,7 @@ public class InitFragment extends BaseFragment implements InitView {
 
     private void initializeInjector() {
         initComponent = DaggerInitComponent.builder()
-                .applicationComponent(getComponent(ApplicationComponent.class))
-                .activityModule(((MainActivity) getActivity()).getActivityModule())
+                .activityComponent(((MainActivity)getActivity()).getActivityComponent()) // TODO: don't do it like this, use generic method
                 .build();
     }
 

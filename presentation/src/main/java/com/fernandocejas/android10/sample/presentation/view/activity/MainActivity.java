@@ -41,6 +41,10 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
         .build();
   }
 
+  public ActivityComponent getActivityComponent() { // TODO: Activity should provide ActivityComponent!
+    return activityComponent;
+  }
+
   @Override
   public ApplicationComponent getComponent() {
     return getApplicationComponent();
