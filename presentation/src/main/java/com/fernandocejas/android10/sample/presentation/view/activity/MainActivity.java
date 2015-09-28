@@ -15,7 +15,7 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFra
 
 
 /**
- * Main application screen. This is the app entry point.
+ * Main application screen. This is the app entry point. TODO: rotation handling, don't keep activities etc.
  */
 public class MainActivity extends BaseActivity implements HasComponent<ApplicationComponent>,
         UserListFragment.UserListListener {

@@ -45,7 +45,7 @@ public class Navigator {
    */
   public void navigateToUserList(Activity activity) {
     if (activity != null) {
-      replaceFragment(activity, R.id.container, UserListFragment.newInstance());
+      replaceFragment(activity, R.id.container, UserListFragment.newInstance(), true);
     }
   }
 
@@ -56,19 +56,23 @@ public class Navigator {
    */
   public void navigateToUserDetails(Activity activity, int userId) {
     if (activity != null) {
-      replaceFragment(activity, R.id.container, UserDetailsFragment.newInstance(userId));
+      replaceFragment(activity, R.id.container, UserDetailsFragment.newInstance(userId), true);
     }
   }
 
   public void navigateToInitFragment(Activity activity) {
     if (activity != null) {
-      replaceFragment(activity, R.id.container, InitFragment.newInstance());
+      replaceFragment(activity, R.id.container, InitFragment.newInstance(), false);
     }
   }
 
-  protected void replaceFragment(Activity activity, int containerViewId, Fragment fragment) {
+  protected void replaceFragment(Activity activity, int containerViewId, Fragment fragment,
+                                 boolean addToBackstack) {
     FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
     fragmentTransaction.replace(containerViewId, fragment);
+    if (addToBackstack) {
+      fragmentTransaction.addToBackStack(null);
+    }
     fragmentTransaction.commit();
   }
 }
