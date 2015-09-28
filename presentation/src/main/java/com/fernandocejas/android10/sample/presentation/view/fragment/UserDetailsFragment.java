@@ -16,10 +16,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
 import javax.inject.Inject;
 
@@ -42,6 +46,8 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Bind(R.id.rl_progress) RelativeLayout rl_progress;
   @Bind(R.id.rl_retry) RelativeLayout rl_retry;
   @Bind(R.id.bt_retry) Button bt_retry;
+
+  private UserComponent userComponent;
 
   public UserDetailsFragment() { super(); }
 
@@ -66,7 +72,16 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    this.initializeInjector();
     this.initialize();
+  }
+
+  private void initializeInjector() {
+    this.userComponent = DaggerUserComponent.builder()
+            .applicationComponent(getComponent(ApplicationComponent.class))
+            .activityModule(((MainActivity) getActivity()).getActivityModule()) // TODO: REMOVE, only a bandaid
+            .userModule(new UserModule(this.userId))
+            .build();
   }
 
   @Override public void onResume() {
@@ -90,7 +105,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   }
 
   private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
+    userComponent.inject(this);
     this.userDetailsPresenter.setView(this);
     this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
     this.userDetailsPresenter.initialize(this.userId);

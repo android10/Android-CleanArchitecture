@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_main);
     this.initializeInjector();
-    addFragment(R.id.container, LoadFragment.newInstance());
+    navigator.navigateToLoadFragment(this);
   }
 
   private void initializeInjector() {
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
   }
 
   public ActivityModule getActivityModule() {
-    return activityModule;
+    return activityModule == null ? new ActivityModule(this) : activityModule;
   }
 
   @Override public void onUserClicked(UserModel userModel) {

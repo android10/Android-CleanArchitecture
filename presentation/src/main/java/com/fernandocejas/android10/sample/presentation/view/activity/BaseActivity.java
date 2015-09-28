@@ -23,18 +23,6 @@ public abstract class BaseActivity extends Activity {
   }
 
   /**
-   * Adds a {@link Fragment} to this activity's layout.
-   *
-   * @param containerViewId The container view to where add the fragment.
-   * @param fragment The fragment to be added.
-   */
-  protected void addFragment(int containerViewId, Fragment fragment) {
-    FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
-    fragmentTransaction.add(containerViewId, fragment);
-    fragmentTransaction.commit();
-  }
-
-  /**
    * Get the Main Application component for dependency injection.
    *
    * @return {@link com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent}
