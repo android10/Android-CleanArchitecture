@@ -15,7 +15,7 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFra
 
 
 /**
- * Main application screen. This is the app entry point. TODO: rotation handling, don't keep activities etc.
+ * Main application screen. This is the app entry point.
  */
 public class MainActivity extends BaseActivity implements HasComponent<ApplicationComponent>,
         UserListFragment.UserListListener {
@@ -30,7 +30,9 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_main);
     this.initializeInjector();
-    navigator.navigateToInitFragment(this);
+    if (savedInstanceState == null) {
+      navigator.navigateToInitFragment(this);
+    }
   }
 
   private void initializeInjector() {
