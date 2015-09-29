@@ -27,9 +27,9 @@ import dagger.Component;
  * A scope {@link com.fernandocejas.android10.sample.presentation.internal.di.PerActivity} component.
  * Injects user specific Fragments.
  */
-@PerActivity // TODO: this is actually PerFragment
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, UserModule.class})
-public interface UserComponent extends ActivityComponent {
+@PerFragment
+@Component(dependencies = ActivityComponent.class, modules = {UserModule.class})
+public interface UserComponent {
   void inject(UserListFragment userListFragment);
   void inject(UserDetailsFragment userDetailsFragment);
 }

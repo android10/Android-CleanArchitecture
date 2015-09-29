@@ -18,13 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
-import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
 import java.util.ArrayList;
@@ -82,8 +82,8 @@ public class UserListFragment extends BaseFragment implements UserListView, HasC
 
   private void initializeInjector() {
     this.userComponent = DaggerUserComponent.builder()
-            .applicationComponent(getComponent(ApplicationComponent.class))
-            .activityModule(((MainActivity) getActivity()).getActivityModule()) // TODO: REMOVE, only a bandaid
+            .activityComponent(getComponent(ActivityComponent.class))
+            .userModule(new UserModule())
             .build();
   }
 

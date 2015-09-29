@@ -16,14 +16,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
-import com.fernandocejas.android10.sample.presentation.view.activity.MainActivity;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
 import javax.inject.Inject;
 
@@ -77,8 +76,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   private void initializeInjector() {
     this.userComponent = DaggerUserComponent.builder()
-            .applicationComponent(getComponent(ApplicationComponent.class))
-            .activityModule(((MainActivity) getActivity()).getActivityModule()) // TODO: REMOVE, only a bandaid
+            .activityComponent(getComponent(ActivityComponent.class))
             .userModule(new UserModule(this.userId))
             .build();
   }
