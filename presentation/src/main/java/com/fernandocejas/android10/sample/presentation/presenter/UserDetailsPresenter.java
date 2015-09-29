@@ -36,10 +36,6 @@ import javax.inject.Named;
  */
 @PerFragment
 public class UserDetailsPresenter implements Presenter {
-
-  /** id used to retrieve user details */
-  private int userId;
-
   private UserDetailsView viewDetailsView;
 
   private final UseCase getUserDetailsUseCase;
@@ -67,8 +63,7 @@ public class UserDetailsPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving user details.
    */
-  public void initialize(int userId) { // TODO: parameter redundant?
-    this.userId = userId;
+  public void initialize() {
     this.loadUserDetails();
   }
 

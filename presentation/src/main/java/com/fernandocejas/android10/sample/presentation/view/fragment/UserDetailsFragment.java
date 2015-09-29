@@ -106,7 +106,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.initializeInjector();
     userComponent.inject(this);
     this.userDetailsPresenter.setView(this);
-    this.userDetailsPresenter.initialize(this.userId);
+    this.userDetailsPresenter.initialize();
   }
 
   @Override public void renderUser(UserModel user) {
@@ -150,7 +150,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
    */
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize(this.userId);
+      this.userDetailsPresenter.initialize();
     }
   }
 
