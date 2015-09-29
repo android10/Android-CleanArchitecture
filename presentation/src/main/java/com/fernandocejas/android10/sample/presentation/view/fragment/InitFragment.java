@@ -1,5 +1,6 @@
 package com.fernandocejas.android10.sample.presentation.view.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,9 +24,18 @@ import butterknife.OnClick;
  * Created by wolfgang on 25.09.15.
  */
 public class InitFragment extends BaseFragment implements InitView {
+    /**
+     * Interface for listening to load button events.
+     */
+    public interface LoadbuttonListener {
+        void onLoadClicked();
+    }
+
     @Inject InitPresenter presenter;
 
     private InitComponent initComponent;
+
+    private LoadbuttonListener loadbuttonListener;
 
     @Nullable
     @Override
@@ -33,6 +43,14 @@ public class InitFragment extends BaseFragment implements InitView {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof LoadbuttonListener) {
+            this.loadbuttonListener = (LoadbuttonListener) activity;
+        }
     }
 
     /**
@@ -66,6 +84,8 @@ public class InitFragment extends BaseFragment implements InitView {
 
     @Override
     public void loadUserList() {
-        ((MainActivity)getActivity()).navigateToUserList();
+        if (this.loadbuttonListener != null) {
+            this.loadbuttonListener.onLoadClicked();
+        }
     }
 }

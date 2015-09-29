@@ -11,6 +11,7 @@ import com.fernandocejas.android10.sample.presentation.internal.di.components.Ap
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerActivityComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
 
@@ -18,7 +19,7 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFra
  * Main application screen. This is the app entry point.
  */
 public class MainActivity extends BaseActivity implements HasComponent<ApplicationComponent>,
-        UserListFragment.UserListListener {
+        UserListFragment.UserListListener, InitFragment.LoadbuttonListener {
   private ActivityComponent activityComponent;
   private ActivityModule activityModule;
 
@@ -60,7 +61,8 @@ public class MainActivity extends BaseActivity implements HasComponent<Applicati
     this.navigator.navigateToUserDetails(this, userModel.getUserId());
   }
 
-  public void navigateToUserList() {
-    navigator.navigateToUserList(this); // TODO: use Listener with 'public void onLoadClicked' or something
+  @Override
+  public void onLoadClicked() {
+    navigator.navigateToUserList(this);
   }
 }
