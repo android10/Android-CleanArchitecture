@@ -18,13 +18,18 @@ package com.fernandocejas.android10.sample.data.net;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import java.net.MalformedURLException;
+import com.squareup.okhttp.OkHttpClient;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * {@link RestApi} implementation for retrieving data from the network.
@@ -32,76 +37,50 @@ import rx.Subscriber;
 public class RestApiImpl implements RestApi {
 
   private final Context context;
-  private final UserEntityJsonMapper userEntityJsonMapper;
+
+  private static OkHttpClient okHttpClient;
 
   /**
    * Constructor of the class
    *
    * @param context {@link android.content.Context}.
-   * @param userEntityJsonMapper {@link UserEntityJsonMapper}.
    */
-  public RestApiImpl(Context context, UserEntityJsonMapper userEntityJsonMapper) {
-    if (context == null || userEntityJsonMapper == null) {
+  public RestApiImpl(Context context) {
+    if (context == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
-    this.userEntityJsonMapper = userEntityJsonMapper;
   }
 
   @Override public Observable<List<UserEntity>> userEntityList() {
-    return Observable.create(new Observable.OnSubscribe<List<UserEntity>>() {
-      @Override public void call(Subscriber<? super List<UserEntity>> subscriber) {
-
-        if (isThereInternetConnection()) {
-          try {
-            String responseUserEntities = getUserEntitiesFromApi();
-            if (responseUserEntities != null) {
-              subscriber.onNext(userEntityJsonMapper.transformUserEntityCollection(
-                  responseUserEntities));
-              subscriber.onCompleted();
-            } else {
-              subscriber.onError(new NetworkConnectionException());
-            }
-          } catch (Exception e) {
-            subscriber.onError(new NetworkConnectionException(e.getCause()));
-          }
-        } else {
-          subscriber.onError(new NetworkConnectionException());
-        }
-      }
-    });
+    return isThereInternetConnection() ?
+            getRetrofit().create(RestApi.class).userEntityList() :
+            Observable.error(new NetworkConnectionException());
   }
 
   @Override public Observable<UserEntity> userEntityById(final int userId) {
-    return Observable.create(new Observable.OnSubscribe<UserEntity>() {
-      @Override public void call(Subscriber<? super UserEntity> subscriber) {
-
-        if (isThereInternetConnection()) {
-          try {
-            String responseUserDetails = getUserDetailsFromApi(userId);
-            if (responseUserDetails != null) {
-              subscriber.onNext(userEntityJsonMapper.transformUserEntity(responseUserDetails));
-              subscriber.onCompleted();
-            } else {
-              subscriber.onError(new NetworkConnectionException());
-            }
-          } catch (Exception e) {
-            subscriber.onError(new NetworkConnectionException(e.getCause()));
-          }
-        } else {
-          subscriber.onError(new NetworkConnectionException());
-        }
-      }
-    });
+    return isThereInternetConnection() ?
+            getRetrofit().create(RestApi.class).userEntityById(userId) :
+            Observable.error(new NetworkConnectionException());
   }
 
-  private String getUserEntitiesFromApi() throws MalformedURLException {
-    return ApiConnection.createGET(RestApi.API_URL_GET_USER_LIST).requestSyncCall();
+  private Retrofit getRetrofit() {
+    return new Retrofit.Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .client(getOkHttpClient())
+            .build();
   }
 
-  private String getUserDetailsFromApi(int userId) throws MalformedURLException {
-    String apiUrl = RestApi.API_URL_GET_USER_DETAILS + userId + ".json";
-    return ApiConnection.createGET(apiUrl).requestSyncCall();
+  private OkHttpClient getOkHttpClient() {
+    if (okHttpClient == null) {
+      okHttpClient = new OkHttpClient();
+      okHttpClient.setReadTimeout(10000, TimeUnit.MILLISECONDS);
+      okHttpClient.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+    }
+
+    return okHttpClient;
   }
 
   /**
