@@ -58,10 +58,12 @@ dependencies {
   provided dataDependencies.javaxAnnotation
   compile dataDependencies.dagger
   compile dataDependencies.okHttp
-  compile dataDependencies.gson
   compile dataDependencies.rxJava
   compile dataDependencies.rxAndroid
   compile dataDependencies.androidAnnotations
+  compile dataDependencies.retrofit
+  compile dataDependencies.retrofitGson
+  compile dataDependencies.retrofitRxJava
 
   testCompile testDependencies.junit
   testCompile testDependencies.assertj

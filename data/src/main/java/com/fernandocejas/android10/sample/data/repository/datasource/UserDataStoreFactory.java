@@ -16,10 +16,11 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import android.content.Context;
+
 import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.net.RestApi;
 import com.fernandocejas.android10.sample.data.net.RestApiImpl;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -60,8 +61,7 @@ public class UserDataStoreFactory {
    * Create {@link UserDataStore} to retrieve data from the Cloud.
    */
   public UserDataStore createCloudDataStore() {
-    UserEntityJsonMapper userEntityJsonMapper = new UserEntityJsonMapper();
-    RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+    RestApi restApi = new RestApiImpl(this.context);
 
     return new CloudUserDataStore(restApi, this.userCache);
   }
