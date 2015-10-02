@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2014 android10.org. All rights reserved.
+ *
  * @author Fernando Cejas (the android10 coder)
  */
 package com.fernandocejas.android10.sample.presentation.view.fragment;
@@ -28,10 +29,7 @@ import javax.inject.Inject;
  */
 public class UserDetailsFragment extends BaseFragment implements UserDetailsView {
 
-  private static final String ARGUMENT_KEY_USER_ID = "org.android10.ARGUMENT_USER_ID";
-
-  private int userId;
-
+  @Inject int userId;
   @Inject UserDetailsPresenter userDetailsPresenter;
 
   @Bind(R.id.iv_cover) AutoLoadImageView iv_cover;
@@ -43,16 +41,8 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Bind(R.id.rl_retry) RelativeLayout rl_retry;
   @Bind(R.id.bt_retry) Button bt_retry;
 
-  public UserDetailsFragment() { super(); }
-
-  public static UserDetailsFragment newInstance(int userId) {
-    UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
-
-    Bundle argumentsBundle = new Bundle();
-    argumentsBundle.putInt(ARGUMENT_KEY_USER_ID, userId);
-    userDetailsFragment.setArguments(argumentsBundle);
-
-    return userDetailsFragment;
+  public UserDetailsFragment() {
+    super();
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,7 +82,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   private void initialize() {
     this.getComponent(UserComponent.class).inject(this);
     this.userDetailsPresenter.setView(this);
-    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
     this.userDetailsPresenter.initialize(this.userId);
   }
 
@@ -141,8 +130,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     }
   }
 
-  @OnClick(R.id.bt_retry)
-  void onButtonRetryClick() {
+  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
     UserDetailsFragment.this.loadUserDetails();
   }
 }

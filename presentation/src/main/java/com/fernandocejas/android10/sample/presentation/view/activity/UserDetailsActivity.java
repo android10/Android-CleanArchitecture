@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2014 android10.org. All rights reserved.
+ *
  * @author Fernando Cejas (the android10 coder)
  */
 package com.fernandocejas.android10.sample.presentation.view.activity;
@@ -55,7 +56,7 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
   private void initializeActivity(Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       this.userId = getIntent().getIntExtra(INTENT_EXTRA_PARAM_USER_ID, -1);
-      addFragment(R.id.fl_fragment, UserDetailsFragment.newInstance(this.userId));
+      addFragment(R.id.fl_fragment, new UserDetailsFragment());
     } else {
       this.userId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_USER_ID);
     }
