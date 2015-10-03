@@ -8,9 +8,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
-import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
-
-import javax.inject.Inject;
 
 /**
  * Base {@link android.app.Fragment} class for every fragment in this application.

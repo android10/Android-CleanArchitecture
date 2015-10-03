@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
@@ -24,7 +22,12 @@ import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Fragment that shows details of a certain user.
