@@ -17,6 +17,7 @@ package com.fernandocejas.android10.sample.presentation.view.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -79,6 +80,7 @@ public class InitFragment extends BaseFragment implements InitView {
     @Override public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.initialize();
+        getActivity().setTitle(R.string.app_name);
     }
 
     private void initialize() {

@@ -64,6 +64,7 @@ public class UserListFragment extends BaseFragment implements UserListView, HasC
 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
+    activity.setTitle(R.string.activity_title_user_list);
     if (activity instanceof UserListListener) {
       this.userListListener = (UserListListener) activity;
     }

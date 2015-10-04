@@ -69,7 +69,7 @@ public class Navigator {
   protected void replaceFragment(Activity activity, int containerViewId, Fragment fragment,
                                  boolean addToBackstack) {
     FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
-    fragmentTransaction.replace(containerViewId, fragment);
+    fragmentTransaction.replace(containerViewId, fragment, fragment.getClass().getName());
     if (addToBackstack) {
       fragmentTransaction.addToBackStack(null);
     }

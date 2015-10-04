@@ -4,6 +4,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -160,5 +161,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @OnClick(R.id.bt_retry)
   void onButtonRetryClick() {
     UserDetailsFragment.this.loadUserDetails();
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    getActivity().setTitle(R.string.activity_title_user_details);
   }
 }
