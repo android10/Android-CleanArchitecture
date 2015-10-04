@@ -22,6 +22,8 @@ import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
+import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
+
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
@@ -40,12 +42,12 @@ public class UserModule {
     this.userId = userId;
   }
 
-  @Provides @PerActivity @Named("userList") UseCase provideGetUserListUseCase(
+  @Provides @PerFragment @Named("userList") UseCase provideGetUserListUseCase(
       GetUserList getUserList) {
     return getUserList;
   }
 
-  @Provides @PerActivity @Named("userDetails") UseCase provideGetUserDetailsUseCase(
+  @Provides @PerFragment @Named("userDetails") UseCase provideGetUserDetailsUseCase(
       UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
     return new GetUserDetails(userId, userRepository, threadExecutor, postExecutionThread);

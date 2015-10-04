@@ -17,7 +17,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -30,14 +34,15 @@ import javax.inject.Inject;
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseFragment implements UserListView {
-
+public class UserListFragment extends BaseFragment implements UserListView, HasComponent<UserComponent> {
   /**
    * Interface for listening user list events.
    */
   public interface UserListListener {
     void onUserClicked(final UserModel userModel);
   }
+
+  private UserComponent userComponent;
 
   @Inject UserListPresenter userListPresenter;
 
@@ -53,8 +58,13 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   public UserListFragment() { super(); }
 
+  public static UserListFragment newInstance() {
+    return new UserListFragment();
+  }
+
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
+    activity.setTitle(R.string.activity_title_user_list);
     if (activity instanceof UserListListener) {
       this.userListListener = (UserListListener) activity;
     }
@@ -63,15 +73,24 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
-    View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, true);
+    View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
     ButterKnife.bind(this, fragmentView);
+
     setupUI();
 
     return fragmentView;
   }
 
+  private void initializeInjector() {
+    this.userComponent = DaggerUserComponent.builder()
+            .activityComponent(getComponent(ActivityComponent.class))
+            .userModule(new UserModule())
+            .build();
+  }
+
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    this.initializeInjector();
     this.initialize();
     this.loadUserList();
   }
@@ -97,7 +116,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
   }
 
   private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
+    userComponent.inject(this);
     this.userListPresenter.setView(this);
   }
 
@@ -146,6 +165,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public Context getContext() {
     return this.getActivity().getApplicationContext();
+  }
+
+  @Override
+  public UserComponent getComponent() {
+    return userComponent;
   }
 
   /**

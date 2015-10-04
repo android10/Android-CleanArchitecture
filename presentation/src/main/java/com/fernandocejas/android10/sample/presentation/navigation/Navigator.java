@@ -15,10 +15,15 @@
  */
 package com.fernandocejas.android10.sample.presentation.navigation;
 
-import android.content.Context;
-import android.content.Intent;
-import com.fernandocejas.android10.sample.presentation.view.activity.UserDetailsActivity;
-import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+
+import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
+import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
+import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -36,24 +41,38 @@ public class Navigator {
   /**
    * Goes to the user list screen.
    *
-   * @param context A Context needed to open the destiny activity.
+   * @param activity An activity needed to load the destination fragment.
    */
-  public void navigateToUserList(Context context) {
-    if (context != null) {
-      Intent intentToLaunch = UserListActivity.getCallingIntent(context);
-      context.startActivity(intentToLaunch);
+  public void navigateToUserList(Activity activity) {
+    if (activity != null) {
+      replaceFragment(activity, R.id.container, UserListFragment.newInstance(), true);
     }
   }
 
   /**
    * Goes to the user details screen.
    *
-   * @param context A Context needed to open the destiny activity.
+   * @param activity An activity needed to open the destination fragment.
    */
-  public void navigateToUserDetails(Context context, int userId) {
-    if (context != null) {
-      Intent intentToLaunch = UserDetailsActivity.getCallingIntent(context, userId);
-      context.startActivity(intentToLaunch);
+  public void navigateToUserDetails(Activity activity, int userId) {
+    if (activity != null) {
+      replaceFragment(activity, R.id.container, UserDetailsFragment.newInstance(userId), true);
     }
+  }
+
+  public void navigateToInitFragment(Activity activity) {
+    if (activity != null) {
+      replaceFragment(activity, R.id.container, InitFragment.newInstance(), false);
+    }
+  }
+
+  protected void replaceFragment(Activity activity, int containerViewId, Fragment fragment,
+                                 boolean addToBackstack) {
+    FragmentTransaction fragmentTransaction = activity.getFragmentManager().beginTransaction();
+    fragmentTransaction.replace(containerViewId, fragment, fragment.getClass().getName());
+    if (addToBackstack) {
+      fragmentTransaction.addToBackStack(null);
+    }
+    fragmentTransaction.commit();
   }
 }

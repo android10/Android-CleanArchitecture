@@ -45,10 +45,6 @@ public class ApplicationModule {
     return this.application;
   }
 
-  @Provides @Singleton Navigator provideNavigator() {
-    return new Navigator();
-  }
-
   @Provides @Singleton ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
     return jobExecutor;
   }

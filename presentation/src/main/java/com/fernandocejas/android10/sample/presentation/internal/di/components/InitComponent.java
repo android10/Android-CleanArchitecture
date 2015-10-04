@@ -15,21 +15,17 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
-import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
+import com.fernandocejas.android10.sample.presentation.view.fragment.InitFragment;
+
 import dagger.Component;
 
 /**
- * A scope {@link com.fernandocejas.android10.sample.presentation.internal.di.PerActivity} component.
+ * A scope {@link PerFragment} component.
  * Injects user specific Fragments.
  */
 @PerFragment
-@Component(dependencies = ActivityComponent.class, modules = {UserModule.class})
-public interface UserComponent {
-  void inject(UserListFragment userListFragment);
-  void inject(UserDetailsFragment userDetailsFragment);
+@Component(dependencies = ActivityComponent.class)
+public interface InitComponent {
+  void inject(InitFragment initFragment);
 }
