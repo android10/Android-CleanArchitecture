@@ -16,7 +16,13 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
+import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -29,6 +35,11 @@ public class ActivityModule {
 
   public ActivityModule(Activity activity) {
     this.activity = activity;
+  }
+
+  @Provides @PerActivity
+  Navigator provideNavigator() {
+    return new Navigator();
   }
 
   /**

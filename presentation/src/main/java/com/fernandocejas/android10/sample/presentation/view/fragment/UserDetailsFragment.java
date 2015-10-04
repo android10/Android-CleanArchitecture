@@ -4,6 +4,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,16 +13,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.fernandocejas.android10.sample.presentation.R;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Fragment that shows details of a certain user.
@@ -42,6 +49,8 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Bind(R.id.rl_progress) RelativeLayout rl_progress;
   @Bind(R.id.rl_retry) RelativeLayout rl_retry;
   @Bind(R.id.bt_retry) Button bt_retry;
+
+  private UserComponent userComponent;
 
   public UserDetailsFragment() { super(); }
 
@@ -69,6 +78,13 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.initialize();
   }
 
+  private void initializeInjector() {
+    this.userComponent = DaggerUserComponent.builder()
+            .activityComponent(getComponent(ActivityComponent.class))
+            .userModule(new UserModule(this.userId))
+            .build();
+  }
+
   @Override public void onResume() {
     super.onResume();
     this.userDetailsPresenter.resume();
@@ -90,10 +106,11 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   }
 
   private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
-    this.userDetailsPresenter.setView(this);
     this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
-    this.userDetailsPresenter.initialize(this.userId);
+    this.initializeInjector();
+    userComponent.inject(this);
+    this.userDetailsPresenter.setView(this);
+    this.userDetailsPresenter.initialize();
   }
 
   @Override public void renderUser(UserModel user) {
@@ -137,12 +154,18 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
    */
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize(this.userId);
+      this.userDetailsPresenter.initialize();
     }
   }
 
   @OnClick(R.id.bt_retry)
   void onButtonRetryClick() {
     UserDetailsFragment.this.loadUserDetails();
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    getActivity().setTitle(R.string.activity_title_user_details);
   }
 }
