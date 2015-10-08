@@ -36,7 +36,7 @@ import javax.inject.Named;
  * layer.
  */
 @PerActivity
-public class UserListPresenter extends DefaultSubscriber<List<User>> implements Presenter {
+public class UserListPresenter implements Presenter {
 
   private UserListView viewListView;
 
