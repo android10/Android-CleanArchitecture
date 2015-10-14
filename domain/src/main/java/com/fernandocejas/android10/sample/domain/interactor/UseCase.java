@@ -17,8 +17,8 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import rx.Subscriber;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
@@ -52,14 +52,15 @@ public abstract class UseCase {
   /**
    * Executes the current use case.
    *
-   * @param UseCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
+   * @param useCaseSubscriber The guy who will be listening to the observable build with
+   * {@link #buildUseCaseObservable()}.
    */
   @SuppressWarnings("unchecked")
-  public void execute(Subscriber UseCaseSubscriber) {
+  public void execute(Subscriber useCaseSubscriber) {
     this.subscription = this.buildUseCaseObservable()
         .subscribeOn(Schedulers.from(threadExecutor))
         .observeOn(postExecutionThread.getScheduler())
-        .subscribe(UseCaseSubscriber);
+        .subscribe(useCaseSubscriber);
   }
 
   /**

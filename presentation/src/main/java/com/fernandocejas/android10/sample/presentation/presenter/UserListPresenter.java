@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.presentation.presenter;
 
-import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
@@ -35,42 +34,34 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerFragment
-public class UserListPresenter extends DefaultSubscriber<List<User>> implements Presenter {
+@PerFragment public class UserListPresenter implements Presenter {
 
-  private UserListView viewListView;
-
+  private final UserListView viewListView;
   private final UseCase getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase, UserModelDataMapper userModelDataMapper) {
+  @Inject public UserListPresenter(@Named("userList") UseCase getUserListUserCase,
+      UserModelDataMapper userModelDataMapper, UserListView viewListView) {
+
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
+    this.viewListView = viewListView;
   }
 
-  public void setView(@NonNull UserListView view) {
-    this.viewListView = view;
+  @Override public void resume() {
   }
 
-  @Override public void resume() {}
-
-  @Override public void pause() {}
+  @Override public void pause() {
+  }
 
   @Override public void destroy() {
     this.getUserListUseCase.unsubscribe();
   }
 
-  /**
-   * Initializes the presenter by start retrieving the user list.
-   */
   public void initialize() {
     this.loadUserList();
   }
 
-  /**
-   * Loads all users.
-   */
   private void loadUserList() {
     this.hideViewRetry();
     this.showViewLoading();
@@ -98,8 +89,8 @@ public class UserListPresenter extends DefaultSubscriber<List<User>> implements 
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewListView.getContext(),
-        errorBundle.getException());
+    String errorMessage =
+        ErrorMessageFactory.create(this.viewListView.getContext(), errorBundle.getException());
     this.viewListView.showError(errorMessage);
   }
 
@@ -110,23 +101,21 @@ public class UserListPresenter extends DefaultSubscriber<List<User>> implements 
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(new UserListSubscriber());
-  }
+    this.getUserListUseCase.execute(new DefaultSubscriber<List<User>>() {
 
-  private final class UserListSubscriber extends DefaultSubscriber<List<User>> {
+      @Override public void onCompleted() {
+        UserListPresenter.this.hideViewLoading();
+      }
 
-    @Override public void onCompleted() {
-      UserListPresenter.this.hideViewLoading();
-    }
+      @Override public void onError(Throwable e) {
+        UserListPresenter.this.hideViewLoading();
+        UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+        UserListPresenter.this.showViewRetry();
+      }
 
-    @Override public void onError(Throwable e) {
-      UserListPresenter.this.hideViewLoading();
-      UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-      UserListPresenter.this.showViewRetry();
-    }
-
-    @Override public void onNext(List<User> users) {
-      UserListPresenter.this.showUsersCollectionInView(users);
-    }
+      @Override public void onNext(List<User> users) {
+        UserListPresenter.this.showUsersCollectionInView(users);
+      }
+    });
   }
 }

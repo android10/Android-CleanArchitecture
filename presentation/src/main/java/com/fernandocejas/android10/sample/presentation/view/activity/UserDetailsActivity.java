@@ -8,6 +8,7 @@ package com.fernandocejas.android10.sample.presentation.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
@@ -32,22 +33,20 @@ public class UserDetailsActivity extends BaseInjectableActivity<UserComponent> {
     return callingIntent;
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
     setContentView(R.layout.activity_user_details);
-
-    this.initializeActivity(savedInstanceState);
+    recreateState(savedInstanceState);
   }
 
-  @Override protected void onSaveInstanceState(Bundle outState) {
-    if (outState != null) {
-      outState.putInt(INSTANCE_STATE_PARAM_USER_ID, this.userId);
-    }
+  @Override protected void onSaveInstanceState(@NonNull Bundle outState) {
+    outState.putInt(INSTANCE_STATE_PARAM_USER_ID, this.userId);
     super.onSaveInstanceState(outState);
   }
 
-  @Override protected UserComponent initializeInjector() {
+  @Override protected UserComponent initializeActivityComponent() {
     return DaggerUserComponent.builder()
         .applicationComponent(getApplicationComponent())
         .activityModule(getActivityModule())
@@ -55,9 +54,7 @@ public class UserDetailsActivity extends BaseInjectableActivity<UserComponent> {
         .build();
   }
 
-  //private
-
-  private void initializeActivity(Bundle savedInstanceState) {
+  private void recreateState(Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       this.userId = getIntent().getIntExtra(INTENT_EXTRA_PARAM_USER_ID, -1);
       addFragment(R.id.fl_fragment, new UserDetailsFragment());

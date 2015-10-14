@@ -1,6 +1,6 @@
 package com.fernandocejas.android10.sample.presentation.view.activity;
 
-import android.app.Fragment;
+import android.os.Bundle;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ActivityComponent;
 
@@ -12,10 +12,16 @@ public abstract class BaseInjectableActivity<T extends ActivityComponent> extend
 
   private T component;
 
-  //component initialization is done here to enable subclasses to have time for inserting
-  //fragments and all needed data, that itself has to have some things injected
-  @Override public void onAttachFragment(Fragment fragment) {
-    component = initializeInjector();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+
+  @Override
+  protected void onStart(){
+    super.onStart();
+    component = initializeActivityComponent();
   }
 
   @Override protected void onDestroy() {
@@ -23,9 +29,14 @@ public abstract class BaseInjectableActivity<T extends ActivityComponent> extend
     component = null;
   }
 
-  protected abstract T initializeInjector();
-
   public T getComponent() {
     return component;
   }
+
+  /***
+   * Initialize ActivityComponent used for injection in fragments
+   *
+   * @return - created ActivityComponent
+   */
+  protected abstract T initializeActivityComponent();
 }

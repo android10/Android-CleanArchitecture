@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.presentation.presenter;
 
-import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
@@ -33,22 +32,17 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerFragment
-public class UserDetailsPresenter implements Presenter {
+@PerFragment public class UserDetailsPresenter implements Presenter {
 
-  /** id used to retrieve user details */
   private final UserDetailsView userDetailsView;
   private final UseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
-  final int userId;
 
   @Inject public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
-      UserModelDataMapper userModelDataMapper,
-      int userId,
-      UserDetailsView userDetailsView) {
+      UserModelDataMapper userModelDataMapper, UserDetailsView userDetailsView) {
+
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
-    this.userId = userId;
     this.userDetailsView = userDetailsView;
   }
 
@@ -62,16 +56,10 @@ public class UserDetailsPresenter implements Presenter {
     this.getUserDetailsUseCase.unsubscribe();
   }
 
-  /**
-   * Initializes the presenter by start retrieving user details.
-   */
-  public void initialize() {
+  @Override public void initialize() {
     this.loadUserDetails();
   }
 
-  /**
-   * Loads user details.
-   */
   private void loadUserDetails() {
     this.hideViewRetry();
     this.showViewLoading();
@@ -106,23 +94,20 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
-  }
+    this.getUserDetailsUseCase.execute(new DefaultSubscriber<User>() {
+      @Override public void onCompleted() {
+        UserDetailsPresenter.this.hideViewLoading();
+      }
 
-  private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
+      @Override public void onError(Throwable e) {
+        UserDetailsPresenter.this.hideViewLoading();
+        UserDetailsPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+        UserDetailsPresenter.this.showViewRetry();
+      }
 
-    @Override public void onCompleted() {
-      UserDetailsPresenter.this.hideViewLoading();
-    }
-
-    @Override public void onError(Throwable e) {
-      UserDetailsPresenter.this.hideViewLoading();
-      UserDetailsPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-      UserDetailsPresenter.this.showViewRetry();
-    }
-
-    @Override public void onNext(User user) {
-      UserDetailsPresenter.this.showUserDetailsInView(user);
-    }
+      @Override public void onNext(User user) {
+        UserDetailsPresenter.this.showUserDetailsInView(user);
+      }
+    });
   }
 }

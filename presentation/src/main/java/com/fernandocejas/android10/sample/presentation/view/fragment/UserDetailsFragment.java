@@ -20,6 +20,7 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserDetailsViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.fernandocejas.android10.sample.presentation.presenter.Presenter;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
@@ -28,10 +29,10 @@ import javax.inject.Inject;
 /**
  * Fragment that shows details of a certain user.
  */
-public class UserDetailsFragment extends BaseInjectableFragment<UserComponent>
+public class UserDetailsFragment
+    extends BaseInjectableFragment<UserComponent>
     implements UserDetailsView {
 
-  @Inject int userId;
   @Inject UserDetailsPresenter userDetailsPresenter;
 
   @Bind(R.id.iv_cover) AutoLoadImageView iv_cover;
@@ -56,11 +57,6 @@ public class UserDetailsFragment extends BaseInjectableFragment<UserComponent>
     return fragmentView;
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    this.userDetailsPresenter.initialize();
-  }
-
   @Override protected Class<UserComponent> getActivityComponentClass() {
     return UserComponent.class;
   }
@@ -71,30 +67,14 @@ public class UserDetailsFragment extends BaseInjectableFragment<UserComponent>
         .inject(this);
   }
 
-  @Override public void onResume() {
-    super.onResume();
-    this.userDetailsPresenter.resume();
-  }
-
-  @Override public void onPause() {
-    super.onPause();
-    this.userDetailsPresenter.pause();
-  }
-
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
-  }
-
-  @Override public void onDestroy() {
-    super.onDestroy();
-    this.userDetailsPresenter.destroy();
+  @Override protected Presenter getPresenter() {
+    return userDetailsPresenter;
   }
 
   @Override public void renderUser(UserModel user) {
     if (user != null) {
       this.iv_cover.setImageUrl(user.getCoverUrl());
-      this.tv_fullname.setText(user.getFullName());
+      this.tv_fullname.setText(user.getFullName() + " " + user.getUserId());
       this.tv_email.setText(user.getEmail());
       this.tv_followers.setText(String.valueOf(user.getFollowers()));
       this.tv_description.setText(user.getDescription());
@@ -127,16 +107,15 @@ public class UserDetailsFragment extends BaseInjectableFragment<UserComponent>
     return getActivity().getApplicationContext();
   }
 
-  /**
-   * Loads all users.
-   */
+  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
+    UserDetailsFragment.this.loadUserDetails();
+  }
+
+  //private
+
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
       this.userDetailsPresenter.initialize();
     }
-  }
-
-  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
-    UserDetailsFragment.this.loadUserDetails();
   }
 }

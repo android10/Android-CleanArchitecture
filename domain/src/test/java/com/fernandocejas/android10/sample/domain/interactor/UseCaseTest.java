@@ -77,8 +77,8 @@ public class UseCaseTest {
       return Observable.empty();
     }
 
-    @Override public void execute(Subscriber UseCaseSubscriber) {
-      super.execute(UseCaseSubscriber);
+    @Override public void execute(Subscriber useCaseSubscriber) {
+      super.execute(useCaseSubscriber);
     }
   }
 }

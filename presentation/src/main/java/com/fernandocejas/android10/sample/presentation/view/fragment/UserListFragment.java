@@ -21,6 +21,7 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserListViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.fernandocejas.android10.sample.presentation.presenter.Presenter;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
@@ -32,7 +33,8 @@ import javax.inject.Inject;
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseInjectableFragment<UserComponent>
+public class UserListFragment
+    extends BaseInjectableFragment<UserComponent>
     implements UserListView {
 
   /**
@@ -75,12 +77,6 @@ public class UserListFragment extends BaseInjectableFragment<UserComponent>
     return fragmentView;
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    this.userListPresenter.setView(this);
-    this.loadUserList();
-  }
-
   @Override protected Class<UserComponent> getActivityComponentClass() {
     return UserComponent.class;
   }
@@ -91,33 +87,8 @@ public class UserListFragment extends BaseInjectableFragment<UserComponent>
         .inject(this);
   }
 
-  @Override public void onResume() {
-    super.onResume();
-    this.userListPresenter.resume();
-  }
-
-  @Override public void onPause() {
-    super.onPause();
-    this.userListPresenter.pause();
-  }
-
-  @Override public void onDestroy() {
-    super.onDestroy();
-    this.userListPresenter.destroy();
-  }
-
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
-  }
-
-  private void setupUI() {
-    this.usersLayoutManager = new UsersLayoutManager(getActivity());
-    this.rv_users.setLayoutManager(usersLayoutManager);
-
-    this.usersAdapter = new UsersAdapter(getActivity(), new ArrayList<UserModel>());
-    this.usersAdapter.setOnItemClickListener(onItemClickListener);
-    this.rv_users.setAdapter(usersAdapter);
+  @Override protected Presenter getPresenter() {
+    return userListPresenter;
   }
 
   @Override public void showLoading() {
@@ -158,15 +129,23 @@ public class UserListFragment extends BaseInjectableFragment<UserComponent>
     return this.getActivity().getApplicationContext();
   }
 
-  /**
-   * Loads all users.
-   */
+  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
+    UserListFragment.this.loadUserList();
+  }
+
+  //private
+
   private void loadUserList() {
     this.userListPresenter.initialize();
   }
 
-  @OnClick(R.id.bt_retry) void onButtonRetryClick() {
-    UserListFragment.this.loadUserList();
+  private void setupUI() {
+    this.usersLayoutManager = new UsersLayoutManager(getActivity());
+    this.rv_users.setLayoutManager(usersLayoutManager);
+
+    this.usersAdapter = new UsersAdapter(getActivity(), new ArrayList<UserModel>());
+    this.usersAdapter.setOnItemClickListener(onItemClickListener);
+    this.rv_users.setAdapter(usersAdapter);
   }
 
   private UsersAdapter.OnItemClickListener onItemClickListener =

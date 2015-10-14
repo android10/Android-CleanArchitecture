@@ -34,12 +34,14 @@ public class GetUserDetails extends UseCase {
   @Inject
   public GetUserDetails(int userId, UserRepository userRepository,
       ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+
     super(threadExecutor, postExecutionThread);
     this.userId = userId;
     this.userRepository = userRepository;
   }
 
   @Override protected Observable buildUseCaseObservable() {
+
     return this.userRepository.user(this.userId);
   }
 }
