@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
-import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
+import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
@@ -33,31 +33,30 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
+@PerFragment
 public class UserDetailsPresenter implements Presenter {
 
   /** id used to retrieve user details */
-  private int userId;
-
-  private UserDetailsView viewDetailsView;
-
+  private final UserDetailsView userDetailsView;
   private final UseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
+  final int userId;
 
-  @Inject
-  public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
-      UserModelDataMapper userModelDataMapper) {
+  @Inject public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
+      UserModelDataMapper userModelDataMapper,
+      int userId,
+      UserDetailsView userDetailsView) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
+    this.userId = userId;
+    this.userDetailsView = userDetailsView;
   }
 
-  public void setView(@NonNull UserDetailsView view) {
-    this.viewDetailsView = view;
+  @Override public void resume() {
   }
 
-  @Override public void resume() {}
-
-  @Override public void pause() {}
+  @Override public void pause() {
+  }
 
   @Override public void destroy() {
     this.getUserDetailsUseCase.unsubscribe();
@@ -66,8 +65,7 @@ public class UserDetailsPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving user details.
    */
-  public void initialize(int userId) {
-    this.userId = userId;
+  public void initialize() {
     this.loadUserDetails();
   }
 
@@ -81,30 +79,30 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void showViewLoading() {
-    this.viewDetailsView.showLoading();
+    this.userDetailsView.showLoading();
   }
 
   private void hideViewLoading() {
-    this.viewDetailsView.hideLoading();
+    this.userDetailsView.hideLoading();
   }
 
   private void showViewRetry() {
-    this.viewDetailsView.showRetry();
+    this.userDetailsView.showRetry();
   }
 
   private void hideViewRetry() {
-    this.viewDetailsView.hideRetry();
+    this.userDetailsView.hideRetry();
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewDetailsView.getContext(),
-        errorBundle.getException());
-    this.viewDetailsView.showError(errorMessage);
+    String errorMessage =
+        ErrorMessageFactory.create(this.userDetailsView.getContext(), errorBundle.getException());
+    this.userDetailsView.showError(errorMessage);
   }
 
   private void showUserDetailsInView(User user) {
     final UserModel userModel = this.userModelDataMapper.transform(user);
-    this.viewDetailsView.renderUser(userModel);
+    this.userDetailsView.renderUser(userModel);
   }
 
   private void getUserDetails() {

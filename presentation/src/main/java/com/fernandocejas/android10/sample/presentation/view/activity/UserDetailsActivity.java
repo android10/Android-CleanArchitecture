@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
-import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
@@ -19,13 +18,12 @@ import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetails
 /**
  * Activity that shows details of a certain user.
  */
-public class UserDetailsActivity extends BaseActivity implements HasComponent<UserComponent> {
+public class UserDetailsActivity extends BaseInjectableActivity<UserComponent> {
 
   private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
   private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
 
   private int userId;
-  private UserComponent userComponent;
 
   public static Intent getCallingIntent(Context context, int userId) {
     Intent callingIntent = new Intent(context, UserDetailsActivity.class);
@@ -40,7 +38,6 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     setContentView(R.layout.activity_user_details);
 
     this.initializeActivity(savedInstanceState);
-    this.initializeInjector();
   }
 
   @Override protected void onSaveInstanceState(Bundle outState) {
@@ -50,9 +47,16 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     super.onSaveInstanceState(outState);
   }
 
-  /**
-   * Initializes this activity.
-   */
+  @Override protected UserComponent initializeInjector() {
+    return DaggerUserComponent.builder()
+        .applicationComponent(getApplicationComponent())
+        .activityModule(getActivityModule())
+        .userModule(new UserModule(this.userId))
+        .build();
+  }
+
+  //private
+
   private void initializeActivity(Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       this.userId = getIntent().getIntExtra(INTENT_EXTRA_PARAM_USER_ID, -1);
@@ -60,17 +64,5 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     } else {
       this.userId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_USER_ID);
     }
-  }
-
-  private void initializeInjector() {
-    this.userComponent = DaggerUserComponent.builder()
-        .applicationComponent(getApplicationComponent())
-        .activityModule(getActivityModule())
-        .userModule(new UserModule(this.userId))
-        .build();
-  }
-
-  @Override public UserComponent getComponent() {
-    return userComponent;
   }
 }

@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserDetailsViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
@@ -27,7 +28,8 @@ import javax.inject.Inject;
 /**
  * Fragment that shows details of a certain user.
  */
-public class UserDetailsFragment extends BaseFragment implements UserDetailsView {
+public class UserDetailsFragment extends BaseInjectableFragment<UserComponent>
+    implements UserDetailsView {
 
   @Inject int userId;
   @Inject UserDetailsPresenter userDetailsPresenter;
@@ -56,7 +58,17 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.initialize();
+    this.userDetailsPresenter.initialize();
+  }
+
+  @Override protected Class<UserComponent> getActivityComponentClass() {
+    return UserComponent.class;
+  }
+
+  @Override protected void injectFragmentDependencies(Class<UserComponent> activityComponentClass) {
+    this.getComponent(activityComponentClass)
+        .plus(new UserDetailsViewModule(this))
+        .inject(this);
   }
 
   @Override public void onResume() {
@@ -77,12 +89,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Override public void onDestroy() {
     super.onDestroy();
     this.userDetailsPresenter.destroy();
-  }
-
-  private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
-    this.userDetailsPresenter.setView(this);
-    this.userDetailsPresenter.initialize(this.userId);
   }
 
   @Override public void renderUser(UserModel user) {
@@ -126,7 +132,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
    */
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize(this.userId);
+      this.userDetailsPresenter.initialize();
     }
   }
 

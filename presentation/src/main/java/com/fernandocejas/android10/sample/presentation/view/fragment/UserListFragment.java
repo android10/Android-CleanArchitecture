@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2014 android10.org. All rights reserved.
+ *
  * @author Fernando Cejas (the android10 coder)
  */
 package com.fernandocejas.android10.sample.presentation.view.fragment;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserListViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -30,7 +32,8 @@ import javax.inject.Inject;
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseFragment implements UserListView {
+public class UserListFragment extends BaseInjectableFragment<UserComponent>
+    implements UserListView {
 
   /**
    * Interface for listening user list events.
@@ -51,7 +54,9 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   private UserListListener userListListener;
 
-  public UserListFragment() { super(); }
+  public UserListFragment() {
+    super();
+  }
 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
@@ -72,8 +77,18 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    this.initialize();
+    this.userListPresenter.setView(this);
     this.loadUserList();
+  }
+
+  @Override protected Class<UserComponent> getActivityComponentClass() {
+    return UserComponent.class;
+  }
+
+  @Override protected void injectFragmentDependencies(Class<UserComponent> activityComponentClass) {
+    this.getComponent(activityComponentClass)
+        .plus(new UserListViewModule(this))
+        .inject(this);
   }
 
   @Override public void onResume() {
@@ -94,11 +109,6 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public void onDestroyView() {
     super.onDestroyView();
     ButterKnife.unbind(this);
-  }
-
-  private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
-    this.userListPresenter.setView(this);
   }
 
   private void setupUI() {
@@ -130,7 +140,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public void renderUserList(Collection<UserModel> userModelCollection) {
     if (userModelCollection != null) {
-        this.usersAdapter.setUsersCollection(userModelCollection);
+      this.usersAdapter.setUsersCollection(userModelCollection);
     }
   }
 
@@ -162,9 +172,9 @@ public class UserListFragment extends BaseFragment implements UserListView {
   private UsersAdapter.OnItemClickListener onItemClickListener =
       new UsersAdapter.OnItemClickListener() {
         @Override public void onUserItemClicked(UserModel userModel) {
-            if (UserListFragment.this.userListPresenter != null && userModel != null) {
-              UserListFragment.this.userListPresenter.onUserClicked(userModel);
-            }
+          if (UserListFragment.this.userListPresenter != null && userModel != null) {
+            UserListFragment.this.userListPresenter.onUserClicked(userModel);
+          }
         }
       };
 }

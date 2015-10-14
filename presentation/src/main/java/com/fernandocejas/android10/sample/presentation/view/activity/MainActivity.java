@@ -14,8 +14,7 @@ public class MainActivity extends BaseActivity {
 
   @Bind(R.id.btn_LoadData) Button btn_LoadData;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
@@ -24,8 +23,7 @@ public class MainActivity extends BaseActivity {
   /**
    * Goes to the user list screen.
    */
-  @OnClick(R.id.btn_LoadData)
-  void navigateToUserList() {
+  @OnClick(R.id.btn_LoadData) void navigateToUserList() {
     this.navigator.navigateToUserList(this);
   }
 }
