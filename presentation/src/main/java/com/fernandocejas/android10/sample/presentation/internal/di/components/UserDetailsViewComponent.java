@@ -29,6 +29,7 @@ import dagger.Subcomponent;
  * {@link PerFragment}
  */
 
+
 @PerFragment
 @Subcomponent( modules = {UserDetailsViewModule.class})
 public interface UserDetailsViewComponent {
