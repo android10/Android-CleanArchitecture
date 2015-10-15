@@ -26,7 +26,7 @@ import rx.Observable;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving a collection of all {@link User}.
  */
-public class GetUserList extends UseCase {
+public class GetUserList extends UseCase<GetUserListUseCaseParams> {
 
   private final UserRepository userRepository;
 

@@ -20,7 +20,6 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserDetailsViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
-import com.fernandocejas.android10.sample.presentation.presenter.Presenter;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView;
@@ -30,10 +29,10 @@ import javax.inject.Inject;
  * Fragment that shows details of a certain user.
  */
 public class UserDetailsFragment
-    extends BaseInjectableFragment<UserComponent>
+    extends BaseInjectableFragment<UserComponent, UserDetailsPresenter<UserDetailsFragment>, UserDetailsFragment>
     implements UserDetailsView {
 
-  @Inject UserDetailsPresenter userDetailsPresenter;
+  @Inject UserDetailsPresenter<UserDetailsFragment> userDetailsPresenter;
 
   @Bind(R.id.iv_cover) AutoLoadImageView iv_cover;
   @Bind(R.id.tv_fullname) TextView tv_fullname;
@@ -61,13 +60,17 @@ public class UserDetailsFragment
     return UserComponent.class;
   }
 
+  @Override protected UserDetailsFragment getViewForPresenter() {
+    return this;
+  }
+
   @Override protected void injectFragmentDependencies(Class<UserComponent> activityComponentClass) {
     this.getComponent(activityComponentClass)
         .plus(new UserDetailsViewModule(this))
         .inject(this);
   }
 
-  @Override protected Presenter getPresenter() {
+  @Override protected UserDetailsPresenter<UserDetailsFragment> getPresenter() {
     return userDetailsPresenter;
   }
 
@@ -108,14 +111,12 @@ public class UserDetailsFragment
   }
 
   @OnClick(R.id.bt_retry) void onButtonRetryClick() {
-    UserDetailsFragment.this.loadUserDetails();
+    loadUserDetails();
   }
 
   //private
 
   private void loadUserDetails() {
-    if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize();
-    }
+    this.userDetailsPresenter.initialize(this);
   }
 }

@@ -54,8 +54,12 @@ dependencies {
   def testDependencies = rootProject.ext.dataTestDependencies
 
   compile project(':domain')
+
   apt dataDependencies.daggerCompiler
+
   provided dataDependencies.javaxAnnotation
+  provided dataDependencies.lombok
+
   compile dataDependencies.dagger
   compile dataDependencies.okHttp
   compile dataDependencies.gson

@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import rx.Observable;
-import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
@@ -50,7 +49,7 @@ public class UseCaseTest {
     TestScheduler testScheduler = new TestScheduler();
     given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
-    useCase.execute(testSubscriber);
+    useCase.setupUseCase(null).execute(testSubscriber);
 
     assertThat(testSubscriber.getOnNextEvents().size(), is(0));
   }
@@ -59,7 +58,7 @@ public class UseCaseTest {
   public void testSubscriptionWhenExecutingUseCase() {
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
 
-    useCase.execute(testSubscriber);
+    useCase.setupUseCase(null).execute(testSubscriber);
     useCase.unsubscribe();
 
     assertThat(testSubscriber.isUnsubscribed(), is(true));
@@ -75,10 +74,6 @@ public class UseCaseTest {
 
     @Override protected Observable buildUseCaseObservable() {
       return Observable.empty();
-    }
-
-    @Override public void execute(Subscriber useCaseSubscriber) {
-      super.execute(useCaseSubscriber);
     }
   }
 }

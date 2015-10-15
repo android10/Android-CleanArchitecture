@@ -12,14 +12,11 @@ public abstract class BaseInjectableActivity<T extends ActivityComponent> extend
 
   private T component;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
-
-  @Override
-  protected void onStart(){
+  @Override protected void onStart() {
     super.onStart();
     component = initializeActivityComponent();
   }

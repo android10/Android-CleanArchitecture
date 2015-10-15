@@ -65,12 +65,15 @@ dependencies {
   compile project(':data')
 
   apt presentationDependencies.daggerCompiler
+
   compile presentationDependencies.dagger
   compile presentationDependencies.butterKnife
   compile presentationDependencies.recyclerView
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
+
   provided presentationDependencies.javaxAnnotation
+  provided presentationDependencies.lombok
 
   androidTestCompile presentationTestDependencies.mockito
   androidTestCompile presentationTestDependencies.dexmaker

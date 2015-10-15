@@ -27,6 +27,9 @@ import rx.Observable;
 
 /**
  * {@link UserRepository} for retrieving user data.
+ * TODO: think about removing Observable from here. this is another concern separate from
+ * data retrieval. Similarly thing as Transactional on DAO layer, Observable should probably
+ * not be here
  */
 @Singleton
 public class UserDataRepository implements UserRepository {

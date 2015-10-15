@@ -21,7 +21,6 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserListViewModule;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
-import com.fernandocejas.android10.sample.presentation.presenter.Presenter;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
@@ -34,7 +33,7 @@ import javax.inject.Inject;
  * Fragment that shows a list of Users.
  */
 public class UserListFragment
-    extends BaseInjectableFragment<UserComponent>
+    extends BaseInjectableFragment<UserComponent, UserListPresenter<UserListFragment>, UserListFragment>
     implements UserListView {
 
   /**
@@ -44,7 +43,7 @@ public class UserListFragment
     void onUserClicked(final UserModel userModel);
   }
 
-  @Inject UserListPresenter userListPresenter;
+  @Inject UserListPresenter<UserListFragment> userListPresenter;
 
   @Bind(R.id.rv_users) RecyclerView rv_users;
   @Bind(R.id.rl_progress) RelativeLayout rl_progress;
@@ -81,13 +80,17 @@ public class UserListFragment
     return UserComponent.class;
   }
 
+  @Override protected UserListFragment getViewForPresenter() {
+    return this;
+  }
+
   @Override protected void injectFragmentDependencies(Class<UserComponent> activityComponentClass) {
     this.getComponent(activityComponentClass)
         .plus(new UserListViewModule(this))
         .inject(this);
   }
 
-  @Override protected Presenter getPresenter() {
+  @Override protected UserListPresenter<UserListFragment> getPresenter() {
     return userListPresenter;
   }
 
@@ -130,13 +133,13 @@ public class UserListFragment
   }
 
   @OnClick(R.id.bt_retry) void onButtonRetryClick() {
-    UserListFragment.this.loadUserList();
+    loadUserList();
   }
 
   //private
 
   private void loadUserList() {
-    this.userListPresenter.initialize();
+    this.userListPresenter.initialize(this);
   }
 
   private void setupUI() {

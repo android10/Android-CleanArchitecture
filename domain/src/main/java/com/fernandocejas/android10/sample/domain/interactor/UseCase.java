@@ -31,7 +31,9 @@ import rx.subscriptions.Subscriptions;
  * By convention each UseCase implementation will return the result using a {@link rx.Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase {
+public abstract class UseCase<T extends UseCase.UseCaseParams> {
+
+  protected T useCaseParams;
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -44,24 +46,15 @@ public abstract class UseCase {
     this.postExecutionThread = postExecutionThread;
   }
 
+  public Executor setupUseCase(T useCaseParams){
+    this.useCaseParams = useCaseParams;
+    return new Executor();
+  }
+
   /**
    * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.
    */
   protected abstract Observable buildUseCaseObservable();
-
-  /**
-   * Executes the current use case.
-   *
-   * @param useCaseSubscriber The guy who will be listening to the observable build with
-   * {@link #buildUseCaseObservable()}.
-   */
-  @SuppressWarnings("unchecked")
-  public void execute(Subscriber useCaseSubscriber) {
-    this.subscription = this.buildUseCaseObservable()
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler())
-        .subscribe(useCaseSubscriber);
-  }
 
   /**
    * Unsubscribes from current {@link rx.Subscription}.
@@ -69,6 +62,26 @@ public abstract class UseCase {
   public void unsubscribe() {
     if (!subscription.isUnsubscribed()) {
       subscription.unsubscribe();
+    }
+    useCaseParams = null;
+  }
+
+  public static class UseCaseParams{}
+
+  public class Executor {
+    /**
+     * Executes the current use case.
+     *
+     * @param useCaseSubscriber The guy who will be listening to the observable build with
+     * {@link #buildUseCaseObservable()}.
+     */
+    @SuppressWarnings("unchecked")
+    public void execute(Subscriber useCaseSubscriber) {
+      UseCase.this.subscription = UseCase.this.buildUseCaseObservable()
+          .subscribeOn(Schedulers.from(threadExecutor))
+          .observeOn(postExecutionThread.getScheduler())
+          .subscribe(useCaseSubscriber);
+      useCaseParams = null;
     }
   }
 }
