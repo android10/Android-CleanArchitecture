@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@ package com.fernandocejas.android10.sample.test.presenter;
 import android.content.Context;
 import android.test.AndroidTestCase;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetailsUseCaseParams;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
@@ -33,32 +34,29 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
 
   private static final int FAKE_USER_ID = 123;
 
-  private UserDetailsPresenter userDetailsPresenter;
+  private UserDetailsPresenter<UserDetailsView> userDetailsPresenter;
 
-  @Mock
-  private Context mockContext;
-  @Mock
-  private UserDetailsView mockUserDetailsView;
-  @Mock
-  private GetUserDetails mockGetUserDetails;
-  @Mock
-  private UserModelDataMapper mockUserModelDataMapper;
+  @Mock private Context mockContext;
+  @Mock private UserDetailsView mockUserDetailsView;
+  @Mock private GetUserDetails mockGetUserDetails;
+  @Mock private GetUserDetails.Executor executor;
+  @Mock private UserModelDataMapper mockUserModelDataMapper;
 
   @Override protected void setUp() throws Exception {
     super.setUp();
     MockitoAnnotations.initMocks(this);
-    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetails,
-        mockUserModelDataMapper);
-    userDetailsPresenter.setView(mockUserDetailsView);
+    userDetailsPresenter =
+        new UserDetailsPresenter<>(mockGetUserDetails, mockUserModelDataMapper, FAKE_USER_ID);
   }
 
   public void testUserDetailsPresenterInitialize() {
     given(mockUserDetailsView.getContext()).willReturn(mockContext);
+    given(mockGetUserDetails.setupUseCase(any(GetUserDetailsUseCaseParams.class))).willReturn(executor);
 
-    userDetailsPresenter.initialize(FAKE_USER_ID);
+    userDetailsPresenter.initialize(mockUserDetailsView);
 
     verify(mockUserDetailsView).hideRetry();
     verify(mockUserDetailsView).showLoading();
-    verify(mockGetUserDetails).execute(any(Subscriber.class));
+    verify(executor).execute(any(Subscriber.class));
   }
 }

@@ -39,18 +39,14 @@ public class JobExecutor implements ThreadExecutor {
   // Sets the Time Unit to seconds
   private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
 
-  private final BlockingQueue<Runnable> workQueue;
-
   private final ThreadPoolExecutor threadPoolExecutor;
-
-  private final ThreadFactory threadFactory;
 
   @Inject
   public JobExecutor() {
-    this.workQueue = new LinkedBlockingQueue<>();
-    this.threadFactory = new JobThreadFactory();
+    BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+    ThreadFactory threadFactory = new JobThreadFactory();
     this.threadPoolExecutor = new ThreadPoolExecutor(INITIAL_POOL_SIZE, MAX_POOL_SIZE,
-        KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, this.workQueue, this.threadFactory);
+        KEEP_ALIVE_TIME, KEEP_ALIVE_TIME_UNIT, workQueue, threadFactory);
   }
 
   @Override public void execute(Runnable runnable) {

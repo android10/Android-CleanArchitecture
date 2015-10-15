@@ -45,6 +45,10 @@ import javax.inject.Named;
   public UserListPresenter(@Named("userList") UseCase<GetUserListUseCaseParams> getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
 
+    if(getUserListUserCase == null || userModelDataMapper == null){
+      throw new IllegalArgumentException("All arguments for constructor have to be set");
+    }
+
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
   }
@@ -97,6 +101,7 @@ import javax.inject.Named;
   }
 
   private void getUserList() {
+
     this.getUserListUseCase.setupUseCase(GetUserListUseCaseParams.builder().build())
         .execute(new DefaultSubscriber<List<User>>() {
 

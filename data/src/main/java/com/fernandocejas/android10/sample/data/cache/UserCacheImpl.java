@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,8 +29,7 @@ import rx.Subscriber;
 /**
  * {@link UserCache} implementation.
  */
-@Singleton
-public class UserCacheImpl implements UserCache {
+@Singleton public class UserCacheImpl implements UserCache {
 
   private static final String SETTINGS_FILE_NAME = "com.fernandocejas.android10.SETTINGS";
   private static final String SETTINGS_KEY_LAST_CACHE_UPDATE = "last_cache_update";
@@ -51,8 +50,7 @@ public class UserCacheImpl implements UserCache {
    * @param userCacheSerializer {@link JsonSerializer} for object serialization.
    * @param fileManager {@link FileManager} for saving serialized objects to the file system.
    */
-  @Inject
-  public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
+  @Inject public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
       FileManager fileManager, ThreadExecutor executor) {
     if (context == null || userCacheSerializer == null || fileManager == null || executor == null) {
       throw new IllegalArgumentException("Invalid null parameter");
@@ -86,8 +84,7 @@ public class UserCacheImpl implements UserCache {
       File userEntitiyFile = this.buildFile(userEntity.getUserId());
       if (!isCached(userEntity.getUserId())) {
         String jsonString = this.serializer.serialize(userEntity);
-        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntitiyFile,
-            jsonString));
+        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntitiyFile, jsonString));
         setLastCacheUpdateTimeMillis();
       }
     }
@@ -122,13 +119,7 @@ public class UserCacheImpl implements UserCache {
    * @return A valid file.
    */
   private File buildFile(int userId) {
-    StringBuilder fileNameBuilder = new StringBuilder();
-    fileNameBuilder.append(this.cacheDir.getPath());
-    fileNameBuilder.append(File.separator);
-    fileNameBuilder.append(DEFAULT_FILE_NAME);
-    fileNameBuilder.append(userId);
-
-    return new File(fileNameBuilder.toString());
+    return new File(this.cacheDir.getPath() + File.separator + DEFAULT_FILE_NAME + userId);
   }
 
   /**

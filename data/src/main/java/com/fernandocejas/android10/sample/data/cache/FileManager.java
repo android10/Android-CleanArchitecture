@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,12 +47,8 @@ public class FileManager {
         FileWriter writer = new FileWriter(file);
         writer.write(fileContent);
         writer.close();
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
-      } finally {
-
       }
     }
   }
@@ -74,12 +69,10 @@ public class FileManager {
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         while ((stringLine = bufferedReader.readLine()) != null) {
-          fileContentBuilder.append(stringLine + "\n");
+          fileContentBuilder.append(stringLine).append("\n");
         }
         bufferedReader.close();
         fileReader.close();
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }

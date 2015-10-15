@@ -57,6 +57,8 @@ android {
   }
 }
 
+check.dependsOn connectedCheck
+
 dependencies {
   def presentationDependencies = rootProject.ext.presentationDependencies
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
