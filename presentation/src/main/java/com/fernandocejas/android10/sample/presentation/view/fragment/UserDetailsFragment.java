@@ -56,6 +56,10 @@ public class UserDetailsFragment
     return fragmentView;
   }
 
+  @Override protected Class<UserComponent> getActivityComponentClass() {
+    return UserComponent.class;
+  }
+
   @Override protected UserDetailsFragment getViewForPresenter() {
     return this;
   }
