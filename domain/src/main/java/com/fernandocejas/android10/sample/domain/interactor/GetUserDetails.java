@@ -26,7 +26,7 @@ import rx.Observable;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving data related to an specific {@link User}.
  */
-public class GetUserDetails extends UseCase<GetUserDetailsUseCaseParams> {
+public class GetUserDetails extends UseCase<GetUserDetailsUseCaseParams, User> {
 
   private final UserRepository userRepository;
 
@@ -37,7 +37,7 @@ public class GetUserDetails extends UseCase<GetUserDetailsUseCaseParams> {
     this.userRepository = userRepository;
   }
 
-  @Override protected Observable buildUseCaseObservable() {
+  @Override protected Observable<User> buildUseCaseObservable() {
 
     if (super.useCaseParams.getUserId() == -1) {
       throw new RuntimeException("Use case not initialized");

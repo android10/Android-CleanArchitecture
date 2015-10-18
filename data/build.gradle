@@ -56,6 +56,7 @@ dependencies {
   compile project(':domain')
 
   apt dataDependencies.daggerCompiler
+  apt dataDependencies.lombok
 
   provided dataDependencies.javaxAnnotation
   provided dataDependencies.lombok

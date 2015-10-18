@@ -37,12 +37,12 @@ import javax.inject.Named;
     extends LoadDataViewPresenter<T> {
 
   //injected
-  private final UseCase<GetUserDetailsUseCaseParams> getUserDetailsUseCase;
+  private final UseCase<GetUserDetailsUseCaseParams, User> getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
   private final int userId;
 
   @Inject public UserDetailsPresenter(
-      @Named("userDetails") UseCase<GetUserDetailsUseCaseParams> getUserDetailsUseCase,
+      @Named("userDetails") UseCase<GetUserDetailsUseCaseParams, User> getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper, int userId) {
 
     this.getUserDetailsUseCase = getUserDetailsUseCase;

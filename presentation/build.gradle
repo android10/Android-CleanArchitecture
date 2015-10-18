@@ -67,6 +67,7 @@ dependencies {
   compile project(':data')
 
   apt presentationDependencies.daggerCompiler
+  apt dataDependencies.lombok
 
   compile presentationDependencies.dagger
   compile presentationDependencies.butterKnife

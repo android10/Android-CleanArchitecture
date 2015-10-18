@@ -30,10 +30,14 @@ import rx.subscriptions.Subscriptions;
  *
  * By convention each UseCase implementation will return the result using a {@link rx.Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
+ *
+ * P - represents parameters passed to the use case
+ * R - represents the type of the result
+ *
  */
-public abstract class UseCase<T extends UseCase.UseCaseParams> {
+public abstract class UseCase<P extends UseCase.UseCaseParams, R> {
 
-  protected T useCaseParams;
+  protected P useCaseParams;
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -46,7 +50,7 @@ public abstract class UseCase<T extends UseCase.UseCaseParams> {
     this.postExecutionThread = postExecutionThread;
   }
 
-  public Executor setupUseCase(T useCaseParams){
+  public Executor setupUseCase(P useCaseParams){
     this.useCaseParams = useCaseParams;
     return new Executor();
   }
@@ -54,7 +58,7 @@ public abstract class UseCase<T extends UseCase.UseCaseParams> {
   /**
    * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable();
+  protected abstract Observable<R> buildUseCaseObservable();
 
   /**
    * Unsubscribes from current {@link rx.Subscription}.
@@ -76,7 +80,7 @@ public abstract class UseCase<T extends UseCase.UseCaseParams> {
      * {@link #buildUseCaseObservable()}.
      */
     @SuppressWarnings("unchecked")
-    public void execute(Subscriber useCaseSubscriber) {
+    public void execute(Subscriber<R> useCaseSubscriber) {
       UseCase.this.subscription = UseCase.this.buildUseCaseObservable()
           .subscribeOn(Schedulers.from(threadExecutor))
           .observeOn(postExecutionThread.getScheduler())

@@ -19,6 +19,7 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
+import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -26,7 +27,7 @@ import rx.Observable;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving a collection of all {@link User}.
  */
-public class GetUserList extends UseCase<GetUserListUseCaseParams> {
+public class GetUserList extends UseCase<GetUserListUseCaseParams, List<User>> {
 
   private final UserRepository userRepository;
 
@@ -38,7 +39,7 @@ public class GetUserList extends UseCase<GetUserListUseCaseParams> {
     this.userRepository = userRepository;
   }
 
-  @Override public Observable buildUseCaseObservable() {
+  @Override public Observable<List<User>> buildUseCaseObservable() {
 
     return this.userRepository.users();
   }

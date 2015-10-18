@@ -38,14 +38,14 @@ import javax.inject.Named;
 @PerActivity public class UserListPresenter<T extends UserListView>
     extends LoadDataViewPresenter<T> {
 
-  private final UseCase<GetUserListUseCaseParams> getUserListUseCase;
+  private final UseCase<GetUserListUseCaseParams, List<User>> getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  @Inject
-  public UserListPresenter(@Named("userList") UseCase<GetUserListUseCaseParams> getUserListUserCase,
+  @Inject public UserListPresenter(
+      @Named("userList") UseCase<GetUserListUseCaseParams, List<User>> getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
 
-    if(getUserListUserCase == null || userModelDataMapper == null){
+    if (getUserListUserCase == null || userModelDataMapper == null) {
       throw new IllegalArgumentException("All arguments for constructor have to be set");
     }
 
@@ -102,22 +102,23 @@ import javax.inject.Named;
 
   private void getUserList() {
 
-    this.getUserListUseCase.setupUseCase(GetUserListUseCaseParams.builder().build())
-        .execute(new DefaultSubscriber<List<User>>() {
+    UseCase<GetUserListUseCaseParams, List<User>>.Executor executor =
+        this.getUserListUseCase.setupUseCase(GetUserListUseCaseParams.builder().build());
+    executor.execute(new DefaultSubscriber<List<User>>() {
 
-          @Override public void onCompleted() {
-            UserListPresenter.this.hideViewLoading();
-          }
+      @Override public void onCompleted() {
+        UserListPresenter.this.hideViewLoading();
+      }
 
-          @Override public void onError(Throwable e) {
-            UserListPresenter.this.hideViewLoading();
-            UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            UserListPresenter.this.showViewRetry();
-          }
+      @Override public void onError(Throwable e) {
+        UserListPresenter.this.hideViewLoading();
+        UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+        UserListPresenter.this.showViewRetry();
+      }
 
-          @Override public void onNext(List<User> users) {
-            UserListPresenter.this.showUsersCollectionInView(users);
-          }
-        });
+      @Override public void onNext(List<User> users) {
+        UserListPresenter.this.showUsersCollectionInView(users);
+      }
+    });
   }
 }

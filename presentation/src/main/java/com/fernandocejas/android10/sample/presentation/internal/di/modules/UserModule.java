@@ -15,17 +15,16 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
-import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
-import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetailsUseCaseParams;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseParams;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
-import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import dagger.Module;
 import dagger.Provides;
+import java.util.List;
 import javax.inject.Named;
 
 /**
@@ -47,15 +46,15 @@ import javax.inject.Named;
   }
 
   @Provides @PerActivity @Named("userList")
-  UseCase<GetUserListUseCaseParams> provideGetUserListUseCase(GetUserList getUserList) {
+  UseCase<GetUserListUseCaseParams, List<User>> provideGetUserListUseCase(GetUserList getUserList) {
 
     return getUserList;
   }
 
   @Provides @PerActivity @Named("userDetails")
-  UseCase<GetUserDetailsUseCaseParams> provideGetUserDetailsUseCase(UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  UseCase<GetUserDetailsUseCaseParams, User> provideGetUserDetailsUseCase(
+      GetUserDetails getUserDetails) {
 
-    return new GetUserDetails(userRepository, threadExecutor, postExecutionThread);
+    return getUserDetails;
   }
 }
