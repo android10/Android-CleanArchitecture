@@ -21,7 +21,7 @@ import lombok.Setter;
 /**
  * Class that represents a User in the domain layer.
  */
-public class User {
+public class User implements DomainObject{
 
   private final @Getter int userId;
 

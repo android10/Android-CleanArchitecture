@@ -19,6 +19,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.mapper.EntityJsonMapper;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
 import java.net.MalformedURLException;
@@ -32,7 +33,7 @@ import rx.Subscriber;
 public class RestApiImpl implements RestApi {
 
   private final Context context;
-  private final UserEntityJsonMapper userEntityJsonMapper;
+  private final EntityJsonMapper<UserEntity> userEntityJsonMapper;
 
   /**
    * Constructor of the class
@@ -40,7 +41,7 @@ public class RestApiImpl implements RestApi {
    * @param context {@link android.content.Context}.
    * @param userEntityJsonMapper {@link UserEntityJsonMapper}.
    */
-  public RestApiImpl(Context context, UserEntityJsonMapper userEntityJsonMapper) {
+  public RestApiImpl(Context context, EntityJsonMapper<UserEntity> userEntityJsonMapper) {
     if (context == null || userEntityJsonMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
@@ -56,8 +57,7 @@ public class RestApiImpl implements RestApi {
           try {
             String responseUserEntities = getUserEntitiesFromApi();
             if (responseUserEntities != null) {
-              subscriber.onNext(userEntityJsonMapper.transformUserEntityCollection(
-                  responseUserEntities));
+              subscriber.onNext(userEntityJsonMapper.jsonToEntityList(responseUserEntities));
               subscriber.onCompleted();
             } else {
               subscriber.onError(new NetworkConnectionException());
@@ -80,7 +80,7 @@ public class RestApiImpl implements RestApi {
           try {
             String responseUserDetails = getUserDetailsFromApi(userId);
             if (responseUserDetails != null) {
-              subscriber.onNext(userEntityJsonMapper.transformUserEntity(responseUserDetails));
+              subscriber.onNext(userEntityJsonMapper.jsonToEntity(responseUserDetails));
               subscriber.onCompleted();
             } else {
               subscriber.onError(new NetworkConnectionException());

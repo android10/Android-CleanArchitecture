@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,7 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
 import android.content.Context;
+import com.fernandocejas.android10.sample.data.internal.di.modules.DataModule;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
@@ -28,13 +29,17 @@ import javax.inject.Singleton;
  * A component whose lifetime is the life of the application.
  */
 @Singleton // Constraints this component to one-per-application or unscoped bindings.
-@Component(modules = ApplicationModule.class)
+@Component(modules = { ApplicationModule.class, DataModule.class })
+//@Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
   void inject(BaseActivity baseActivity);
 
   //Exposed to sub-graphs.
   Context context();
+
   ThreadExecutor threadExecutor();
+
   PostExecutionThread postExecutionThread();
+
   UserRepository userRepository();
 }

@@ -34,7 +34,7 @@ public class UserEntityDataMapperTest extends ApplicationTestCase {
   private static final int FAKE_USER_ID = 123;
   private static final String FAKE_FULLNAME = "Tony Stark";
 
-  private UserEntityDataMapper userEntityDataMapper;
+  private EntityDataMapper<UserEntity, User> userEntityDataMapper;
 
   @Before
   public void setUp() throws Exception {

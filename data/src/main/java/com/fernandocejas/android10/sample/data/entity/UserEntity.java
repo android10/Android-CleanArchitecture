@@ -22,7 +22,7 @@ import lombok.Setter;
 /**
  * User Entity used in the data layer.
  */
-public class UserEntity {
+public class UserEntity implements Entity {
 
   @SerializedName("id") @Getter @Setter private int userId;
 
