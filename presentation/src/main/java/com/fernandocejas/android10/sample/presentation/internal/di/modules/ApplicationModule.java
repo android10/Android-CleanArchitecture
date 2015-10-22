@@ -16,13 +16,9 @@
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
 import android.content.Context;
-import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
-import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.android10.sample.presentation.AndroidApplication;
 import com.fernandocejas.android10.sample.presentation.UIThread;
 import com.fernandocejas.android10.sample.presentation.navigation.Navigator;
@@ -55,13 +51,5 @@ public class ApplicationModule {
 
   @Provides @Singleton PostExecutionThread providePostExecutionThread(UIThread uiThread) {
     return uiThread;
-  }
-
-  @Provides @Singleton UserCache provideUserCache(UserCacheImpl userCache) {
-    return userCache;
-  }
-
-  @Provides @Singleton UserRepository provideUserRepository(UserDataRepository userDataRepository) {
-    return userDataRepository;
   }
 }

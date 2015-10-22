@@ -56,9 +56,6 @@ public class UserListActivityTest extends ActivityInstrumentationTestCase2<UserL
   }
 
   private Intent createTargetIntent() {
-    Intent intentLaunchActivity =
-        UserListActivity.getCallingIntent(getInstrumentation().getTargetContext());
-
-    return intentLaunchActivity;
+    return UserListActivity.getCallingIntent(getInstrumentation().getTargetContext());
   }
 }

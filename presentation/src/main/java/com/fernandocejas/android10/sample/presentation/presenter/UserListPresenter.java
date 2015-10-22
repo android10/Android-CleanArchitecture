@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,11 +15,11 @@
  */
 package com.fernandocejas.android10.sample.presentation.presenter;
 
-import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListUseCaseParams;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
@@ -35,42 +35,33 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
-public class UserListPresenter extends DefaultSubscriber<List<User>> implements Presenter {
+@PerActivity public class UserListPresenter<T extends UserListView>
+    extends LoadDataViewPresenter<T> {
 
-  private UserListView viewListView;
-
-  private final UseCase getUserListUseCase;
+  private final UseCase<GetUserListUseCaseParams, List<User>> getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase, UserModelDataMapper userModelDataMapper) {
+  @Inject public UserListPresenter(
+      @Named("userList") UseCase<GetUserListUseCaseParams, List<User>> getUserListUserCase,
+      UserModelDataMapper userModelDataMapper) {
+
+    if (getUserListUserCase == null || userModelDataMapper == null) {
+      throw new IllegalArgumentException("All arguments for constructor have to be set");
+    }
+
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
   }
-
-  public void setView(@NonNull UserListView view) {
-    this.viewListView = view;
-  }
-
-  @Override public void resume() {}
-
-  @Override public void pause() {}
 
   @Override public void destroy() {
     this.getUserListUseCase.unsubscribe();
   }
 
-  /**
-   * Initializes the presenter by start retrieving the user list.
-   */
-  public void initialize() {
+  @Override public void initialize(T view) {
+    super.initialize(view);
     this.loadUserList();
   }
 
-  /**
-   * Loads all users.
-   */
   private void loadUserList() {
     this.hideViewRetry();
     this.showViewLoading();
@@ -78,55 +69,56 @@ public class UserListPresenter extends DefaultSubscriber<List<User>> implements 
   }
 
   public void onUserClicked(UserModel userModel) {
-    this.viewListView.viewUser(userModel);
+    this.view.viewUser(userModel);
   }
 
   private void showViewLoading() {
-    this.viewListView.showLoading();
+    super.view.showLoading();
   }
 
   private void hideViewLoading() {
-    this.viewListView.hideLoading();
+    super.view.hideLoading();
   }
 
   private void showViewRetry() {
-    this.viewListView.showRetry();
+    super.view.showRetry();
   }
 
   private void hideViewRetry() {
-    this.viewListView.hideRetry();
+    super.view.hideRetry();
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewListView.getContext(),
-        errorBundle.getException());
-    this.viewListView.showError(errorMessage);
+    String errorMessage =
+        ErrorMessageFactory.create(super.view.getContext(), errorBundle.getException());
+    super.view.showError(errorMessage);
   }
 
   private void showUsersCollectionInView(Collection<User> usersCollection) {
     final Collection<UserModel> userModelsCollection =
         this.userModelDataMapper.transform(usersCollection);
-    this.viewListView.renderUserList(userModelsCollection);
+    super.view.renderUserList(userModelsCollection);
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(new UserListSubscriber());
-  }
 
-  private final class UserListSubscriber extends DefaultSubscriber<List<User>> {
+    UseCase<GetUserListUseCaseParams, List<User>>.Executor executor =
+        this.getUserListUseCase.setupUseCase(GetUserListUseCaseParams.builder().build());
+    executor.execute(new DefaultSubscriber<List<User>>() {
 
-    @Override public void onCompleted() {
-      UserListPresenter.this.hideViewLoading();
-    }
+      @Override public void onCompleted() {
+        UserListPresenter.this.hideViewLoading();
+      }
 
-    @Override public void onError(Throwable e) {
-      UserListPresenter.this.hideViewLoading();
-      UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-      UserListPresenter.this.showViewRetry();
-    }
+      @Override public void onError(Throwable e) {
+        UserListPresenter.this.hideViewLoading();
+        UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+        UserListPresenter.this.showViewRetry();
+      }
 
-    @Override public void onNext(List<User> users) {
-      UserListPresenter.this.showUsersCollectionInView(users);
-    }
+      @Override public void onNext(List<User> users) {
+        UserListPresenter.this.showUsersCollectionInView(users);
+      }
+    });
   }
 }

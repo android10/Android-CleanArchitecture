@@ -61,7 +61,7 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
 
   @Test
   public void testTransformUserEntityHappyCase() {
-    UserEntity userEntity = userEntityJsonMapper.transformUserEntity(JSON_RESPONSE_USER_DETAILS);
+    UserEntity userEntity = userEntityJsonMapper.jsonToEntity(JSON_RESPONSE_USER_DETAILS);
 
     assertThat(userEntity.getUserId(), is(1));
     assertThat(userEntity.getFullname(), is(equalTo("Simon Hill")));
@@ -71,8 +71,7 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
   @Test
   public void testTransformUserEntityCollectionHappyCase() {
     Collection<UserEntity> userEntityCollection =
-        userEntityJsonMapper.transformUserEntityCollection(
-            JSON_RESPONSE_USER_COLLECTION);
+        userEntityJsonMapper.jsonToEntityList(JSON_RESPONSE_USER_COLLECTION);
 
     assertThat(((UserEntity) userEntityCollection.toArray()[0]).getUserId(), is(1));
     assertThat(((UserEntity) userEntityCollection.toArray()[1]).getUserId(), is(12));
@@ -82,12 +81,12 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
   @Test
   public void testTransformUserEntityNotValidResponse() {
     expectedException.expect(JsonSyntaxException.class);
-    userEntityJsonMapper.transformUserEntity("ironman");
+    userEntityJsonMapper.jsonToEntity("ironman");
   }
 
   @Test
   public void testTransformUserEntityCollectionNotValidResponse() {
     expectedException.expect(JsonSyntaxException.class);
-    userEntityJsonMapper.transformUserEntityCollection("Tony Stark");
+    userEntityJsonMapper.jsonToEntityList("Tony Stark");
   }
 }

@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.domain.interactor;
+package com.fernandocejas.android10.sample.presentation.internal.di;
+
+import java.lang.annotation.Retention;
+import javax.inject.Scope;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Default subscriber base class to be used whenever you want default error handling.
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the fragnebt to be memorized in the
+ * correct component.
  */
-public abstract class DefaultSubscriber<T> extends rx.Subscriber<T> {
-  @Override public void onCompleted() {
-    // no-op by default.
-  }
-
-  @Override public void onError(Throwable e) {
-    // no-op by default.
-  }
-
-  @Override public void onNext(T t) {
-    // no-op by default.
-  }
-}
+@Scope
+@Retention(RUNTIME)
+public @interface PerFragment {}

@@ -13,21 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.domain.interactor;
+package com.fernandocejas.android10.sample.presentation.internal.di.modules;
+
+import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
+import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import dagger.Module;
+import dagger.Provides;
 
 /**
- * Default subscriber base class to be used whenever you want default error handling.
+ * A module to wrap the Fragment state and expose it to the graph.
  */
-public abstract class DefaultSubscriber<T> extends rx.Subscriber<T> {
-  @Override public void onCompleted() {
-    // no-op by default.
+@Module
+public class UserDetailsViewModule {
+
+  private UserDetailsView userDetailsView;
+
+  public UserDetailsViewModule(UserDetailsView userDetailsView) {
+    this.userDetailsView = userDetailsView;
   }
 
-  @Override public void onError(Throwable e) {
-    // no-op by default.
-  }
-
-  @Override public void onNext(T t) {
-    // no-op by default.
+  @Provides @PerFragment UserDetailsView userDetailsView() {
+    return this.userDetailsView;
   }
 }

@@ -57,6 +57,8 @@ android {
   }
 }
 
+check.dependsOn connectedCheck
+
 dependencies {
   def presentationDependencies = rootProject.ext.presentationDependencies
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
@@ -65,12 +67,16 @@ dependencies {
   compile project(':data')
 
   apt presentationDependencies.daggerCompiler
+  apt dataDependencies.lombok
+
   compile presentationDependencies.dagger
   compile presentationDependencies.butterKnife
   compile presentationDependencies.recyclerView
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
+
   provided presentationDependencies.javaxAnnotation
+  provided presentationDependencies.lombok
 
   androidTestCompile presentationTestDependencies.mockito
   androidTestCompile presentationTestDependencies.dexmaker

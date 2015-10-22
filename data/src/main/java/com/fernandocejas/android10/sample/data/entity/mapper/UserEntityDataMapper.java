@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,11 +27,10 @@ import javax.inject.Singleton;
  * Mapper class used to transform {@link UserEntity} (in the data layer) to {@link User} in the
  * domain layer.
  */
-@Singleton
-public class UserEntityDataMapper {
+@Singleton public class UserEntityDataMapper implements EntityDataMapper<UserEntity, User> {
 
-  @Inject
-  public UserEntityDataMapper() {}
+  @Inject public UserEntityDataMapper() {
+  }
 
   /**
    * Transform a {@link UserEntity} into an {@link User}.
@@ -39,7 +38,8 @@ public class UserEntityDataMapper {
    * @param userEntity Object to be transformed.
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
-  public User transform(UserEntity userEntity) {
+  @Override public User transform(UserEntity userEntity) {
+
     User user = null;
     if (userEntity != null) {
       user = new User(userEntity.getUserId());
@@ -59,8 +59,9 @@ public class UserEntityDataMapper {
    * @param userEntityCollection Object Collection to be transformed.
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
-  public List<User> transform(Collection<UserEntity> userEntityCollection) {
-    List<User> userList = new ArrayList<>(20);
+  @Override public List<User> transform(Collection<UserEntity> userEntityCollection) {
+
+    List<User> userList = new ArrayList<>(userEntityCollection.size());
     User user;
     for (UserEntity userEntity : userEntityCollection) {
       user = transform(userEntity);

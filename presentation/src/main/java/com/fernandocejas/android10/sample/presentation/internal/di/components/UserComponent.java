@@ -17,6 +17,8 @@ package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserDetailsViewModule;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserListViewModule;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
@@ -29,6 +31,9 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, UserModule.class})
 public interface UserComponent extends ActivityComponent {
-  void inject(UserListFragment userListFragment);
-  void inject(UserDetailsFragment userDetailsFragment);
+
+  UserDetailsViewComponent plus(UserDetailsViewModule userDetailsViewModule);
+
+  UserListViewComponent plus(UserListViewModule userListViewModule);
+
 }

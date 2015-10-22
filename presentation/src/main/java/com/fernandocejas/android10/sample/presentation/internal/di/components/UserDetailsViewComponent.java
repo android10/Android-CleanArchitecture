@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,21 +15,22 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.components;
 
-import android.app.Activity;
-import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.ActivityModule;
+import com.fernandocejas.android10.sample.presentation.internal.di.PerFragment;
+import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserDetailsViewModule;
+import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
 import dagger.Component;
+import dagger.Subcomponent;
 
 /**
  * A base component upon which fragment's components may depend.
  * Activity-level components should extend this component.
  *
- * Subtypes of ActivityComponent should be decorated with annotation:
- * {@link com.fernandocejas.android10.sample.presentation.internal.di.PerActivity}
+ * Subtypes of UserDetailsViewComponent should be decorated with annotation:
+ * {@link PerFragment}
  */
-@PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
-public interface ActivityComponent {
-  //Exposed to sub-graphs.
-  Activity activity();
+
+@PerFragment
+@Subcomponent( modules = {UserDetailsViewModule.class})
+public interface UserDetailsViewComponent {
+  void inject(UserDetailsFragment userDetailsFragment);
 }

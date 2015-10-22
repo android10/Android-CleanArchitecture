@@ -21,6 +21,7 @@ ext {
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
   androidAnnotationsVersion = '20.0.0'
+  lombokVersion = '1.16.4'
 
   //Testing
   robolectricVersion = '3.0'
@@ -40,6 +41,7 @@ ext {
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+      lombok:             "org.projectlombok:lombok:$lombokVersion",
   ]
 
   presentationTestDependencies = [
@@ -55,6 +57,7 @@ ext {
       dagger:             "com.google.dagger:dagger:${daggerVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+      lombok:             "org.projectlombok:lombok:$lombokVersion",
   ]
 
   domainTestDependencies = [
@@ -70,7 +73,8 @@ ext {
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
+      androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+      lombok:             "org.projectlombok:lombok:$lombokVersion",
   ]
 
   dataTestDependencies = [

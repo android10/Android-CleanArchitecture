@@ -73,15 +73,12 @@ public class UserDetailsActivityTest extends ActivityInstrumentationTestCase2<Us
   }
 
   public void testLoadUserHappyCaseData() {
-    onView(withId(R.id.tv_fullname)).check(matches(withText("John Sanchez")));
+    onView(withId(R.id.tv_fullname)).check(matches(withText("John Sanchez 10")));
     onView(withId(R.id.tv_email)).check(matches(withText("dmedina@katz.edu")));
     onView(withId(R.id.tv_followers)).check(matches(withText("4523")));
   }
 
   private Intent createTargetIntent() {
-    Intent intentLaunchActivity =
-        UserDetailsActivity.getCallingIntent(getInstrumentation().getTargetContext(), FAKE_USER_ID);
-
-    return intentLaunchActivity;
+    return UserDetailsActivity.getCallingIntent(getInstrumentation().getTargetContext(), FAKE_USER_ID);
   }
 }

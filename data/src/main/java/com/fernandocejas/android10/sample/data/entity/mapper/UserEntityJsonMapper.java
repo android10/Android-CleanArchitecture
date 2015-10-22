@@ -26,7 +26,7 @@ import javax.inject.Inject;
 /**
  * Class used to transform from Strings representing json to valid objects.
  */
-public class UserEntityJsonMapper {
+public class UserEntityJsonMapper implements EntityJsonMapper<UserEntity>{
 
   private final Gson gson;
 
@@ -35,42 +35,22 @@ public class UserEntityJsonMapper {
     this.gson = new Gson();
   }
 
-  /**
-   * Transform from valid json string to {@link UserEntity}.
-   *
-   * @param userJsonResponse A json representing a user profile.
-   * @return {@link UserEntity}.
-   * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
-   */
-  public UserEntity transformUserEntity(String userJsonResponse) throws JsonSyntaxException {
-    try {
-      Type userEntityType = new TypeToken<UserEntity>() {}.getType();
-      UserEntity userEntity = this.gson.fromJson(userJsonResponse, userEntityType);
+  @Override
+  public UserEntity jsonToEntity(String userJsonResponse) throws JsonSyntaxException {
 
-      return userEntity;
-    } catch (JsonSyntaxException jsonException) {
-      throw jsonException;
-    }
+    Type userEntityType = new TypeToken<UserEntity>() {}.getType();
+
+    return this.gson.fromJson(userJsonResponse, userEntityType);
   }
 
-  /**
-   * Transform from valid json string to List of {@link UserEntity}.
-   *
-   * @param userListJsonResponse A json representing a collection of users.
-   * @return List of {@link UserEntity}.
-   * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
-   */
-  public List<UserEntity> transformUserEntityCollection(String userListJsonResponse)
+  @Override
+  public List<UserEntity> jsonToEntityList(String userListJsonResponse)
       throws JsonSyntaxException {
 
     List<UserEntity> userEntityCollection;
-    try {
-      Type listOfUserEntityType = new TypeToken<List<UserEntity>>() {}.getType();
-      userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
+    Type listOfUserEntityType = new TypeToken<List<UserEntity>>() {}.getType();
+    userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
 
-      return userEntityCollection;
-    } catch (JsonSyntaxException jsonException) {
-      throw jsonException;
-    }
+    return userEntityCollection;
   }
 }

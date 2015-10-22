@@ -40,8 +40,9 @@ public class GetUserDetailsTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    getUserDetails = new GetUserDetails(FAKE_USER_ID, mockUserRepository,
+    getUserDetails = new GetUserDetails(mockUserRepository,
         mockThreadExecutor, mockPostExecutionThread);
+    getUserDetails.setupUseCase(GetUserDetailsUseCaseParams.builder().userId(FAKE_USER_ID).build());
   }
 
   @Test

@@ -17,8 +17,8 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import rx.Subscriber;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
@@ -30,8 +30,14 @@ import rx.subscriptions.Subscriptions;
  *
  * By convention each UseCase implementation will return the result using a {@link rx.Subscriber}
  * that will execute its job in a background thread and will post the result in the UI thread.
+ *
+ * P - represents parameters passed to the use case
+ * R - represents the type of the result
+ *
  */
-public abstract class UseCase {
+public abstract class UseCase<P extends UseCase.UseCaseParams, R> {
+
+  protected P useCaseParams;
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -44,23 +50,15 @@ public abstract class UseCase {
     this.postExecutionThread = postExecutionThread;
   }
 
+  public Executor setupUseCase(P useCaseParams){
+    this.useCaseParams = useCaseParams;
+    return new Executor();
+  }
+
   /**
    * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable();
-
-  /**
-   * Executes the current use case.
-   *
-   * @param UseCaseSubscriber The guy who will be listen to the observable build with {@link #buildUseCaseObservable()}.
-   */
-  @SuppressWarnings("unchecked")
-  public void execute(Subscriber UseCaseSubscriber) {
-    this.subscription = this.buildUseCaseObservable()
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler())
-        .subscribe(UseCaseSubscriber);
-  }
+  protected abstract Observable<R> buildUseCaseObservable();
 
   /**
    * Unsubscribes from current {@link rx.Subscription}.
@@ -68,6 +66,26 @@ public abstract class UseCase {
   public void unsubscribe() {
     if (!subscription.isUnsubscribed()) {
       subscription.unsubscribe();
+    }
+    useCaseParams = null;
+  }
+
+  public static class UseCaseParams{}
+
+  public class Executor {
+    /**
+     * Executes the current use case.
+     *
+     * @param useCaseSubscriber The guy who will be listening to the observable build with
+     * {@link #buildUseCaseObservable()}.
+     */
+    @SuppressWarnings("unchecked")
+    public void execute(Subscriber<R> useCaseSubscriber) {
+      UseCase.this.subscription = UseCase.this.buildUseCaseObservable()
+          .subscribeOn(Schedulers.from(threadExecutor))
+          .observeOn(postExecutionThread.getScheduler())
+          .subscribe(useCaseSubscriber);
+      useCaseParams = null;
     }
   }
 }

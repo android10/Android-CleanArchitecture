@@ -15,6 +15,8 @@
  */
 package com.fernandocejas.android10.sample.data.repository;
 
+import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.mapper.EntityDataMapper;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
@@ -27,12 +29,15 @@ import rx.Observable;
 
 /**
  * {@link UserRepository} for retrieving user data.
+ * TODO: think about removing Observable from here. this is another concern separate from
+ * data retrieval. Similarly thing as Transactional on DAO layer, Observable should probably
+ * not be here
  */
 @Singleton
 public class UserDataRepository implements UserRepository {
 
   private final UserDataStoreFactory userDataStoreFactory;
-  private final UserEntityDataMapper userEntityDataMapper;
+  private final EntityDataMapper<UserEntity, User> userEntityDataMapper;
 
   /**
    * Constructs a {@link UserRepository}.
@@ -42,7 +47,7 @@ public class UserDataRepository implements UserRepository {
    */
   @Inject
   public UserDataRepository(UserDataStoreFactory dataStoreFactory,
-      UserEntityDataMapper userEntityDataMapper) {
+      EntityDataMapper<UserEntity, User> userEntityDataMapper) {
     this.userDataStoreFactory = dataStoreFactory;
     this.userEntityDataMapper = userEntityDataMapper;
   }

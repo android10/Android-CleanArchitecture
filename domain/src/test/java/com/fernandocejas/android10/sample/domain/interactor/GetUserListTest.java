@@ -40,6 +40,7 @@ public class GetUserListTest {
     MockitoAnnotations.initMocks(this);
     getUserList = new GetUserList(mockUserRepository, mockThreadExecutor,
         mockPostExecutionThread);
+    getUserList.setupUseCase(GetUserListUseCaseParams.builder().build());
   }
 
   @Test

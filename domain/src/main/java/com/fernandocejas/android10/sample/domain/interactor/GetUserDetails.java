@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,20 +26,22 @@ import rx.Observable;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving data related to an specific {@link User}.
  */
-public class GetUserDetails extends UseCase {
+public class GetUserDetails extends UseCase<GetUserDetailsUseCaseParams, User> {
 
-  private final int userId;
   private final UserRepository userRepository;
 
-  @Inject
-  public GetUserDetails(int userId, UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  @Inject public GetUserDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
+      PostExecutionThread postExecutionThread) {
+
     super(threadExecutor, postExecutionThread);
-    this.userId = userId;
     this.userRepository = userRepository;
   }
 
-  @Override protected Observable buildUseCaseObservable() {
-    return this.userRepository.user(this.userId);
+  @Override protected Observable<User> buildUseCaseObservable() {
+
+    if (super.useCaseParams.getUserId() == -1) {
+      throw new RuntimeException("Use case not initialized");
+    }
+    return this.userRepository.user(this.useCaseParams.getUserId());
   }
 }

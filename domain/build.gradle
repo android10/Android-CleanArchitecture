@@ -9,11 +9,7 @@ configurations {
   provided
 }
 
-sourceSets {
-  main {
-    compileClasspath += configurations.provided
-  }
-}
+sourceSets.main.compileClasspath += configurations.provided
 
 dependencies {
   def domainDependencies = rootProject.ext.domainDependencies
@@ -21,6 +17,7 @@ dependencies {
 
   provided domainDependencies.daggerCompiler
   provided domainDependencies.javaxAnnotation
+  provided domainDependencies.lombok
 
   compile domainDependencies.dagger
   compile domainDependencies.rxJava
