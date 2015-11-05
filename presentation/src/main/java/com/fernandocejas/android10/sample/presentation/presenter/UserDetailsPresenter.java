@@ -26,6 +26,7 @@ import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -111,6 +112,7 @@ public class UserDetailsPresenter implements Presenter {
     this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
   }
 
+  @RxLogSubscriber
   private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
 
     @Override public void onCompleted() {

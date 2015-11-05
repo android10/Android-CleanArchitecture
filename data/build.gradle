@@ -7,15 +7,14 @@ buildscript {
   }
 }
 
-repositories {
-  mavenCentral()
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.fernandocejas.frodo'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+  defaultPublishConfig "debug"
+
   def globalConfiguration = rootProject.extensions.getByName("ext")
 
   compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")

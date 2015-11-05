@@ -21,6 +21,7 @@ import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import java.net.MalformedURLException;
 import java.util.List;
 import rx.Observable;
@@ -48,6 +49,7 @@ public class RestApiImpl implements RestApi {
     this.userEntityJsonMapper = userEntityJsonMapper;
   }
 
+  @RxLogObservable
   @Override public Observable<List<UserEntity>> userEntityList() {
     return Observable.create(new Observable.OnSubscribe<List<UserEntity>>() {
       @Override public void call(Subscriber<? super List<UserEntity>> subscriber) {
@@ -72,6 +74,7 @@ public class RestApiImpl implements RestApi {
     });
   }
 
+  @RxLogObservable
   @Override public Observable<UserEntity> userEntityById(final int userId) {
     return Observable.create(new Observable.OnSubscribe<UserEntity>() {
       @Override public void call(Subscriber<? super UserEntity> subscriber) {
