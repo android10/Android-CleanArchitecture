@@ -3,8 +3,8 @@ jdk: oraclejdk8
 
 android:
   components:
-    - build-tools-21.1.2
-    - android-19
+    - build-tools-23.0.1
+    - android-21
 
 script:
   ./gradlew build
