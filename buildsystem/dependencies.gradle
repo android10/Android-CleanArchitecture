@@ -20,15 +20,15 @@ ext {
   javaxAnnotationVersion = '1.0'
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
-  androidAnnotationsVersion = '20.0.0'
+  androidAnnotationsVersion = '23.1.1'
 
   //Testing
   robolectricVersion = '3.0'
   jUnitVersion = '4.12'
   assertJVersion = '1.7.1'
-  mockitoVersion = '1.10.19'
-  dexmakerVersion = '1.2'
-  espressoVersion = '2.2'
+  mockitoVersion = '1.9.5'
+  dexmakerVersion = '1.0'
+  espressoVersion = '2.0'
   testingSupportLibVersion = '0.1'
 
 

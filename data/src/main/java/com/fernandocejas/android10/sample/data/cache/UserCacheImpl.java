@@ -24,7 +24,6 @@ import java.io.File;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * {@link UserCache} implementation.
@@ -64,24 +63,22 @@ public class UserCacheImpl implements UserCache {
     this.threadExecutor = executor;
   }
 
-  @Override public synchronized Observable<UserEntity> get(final int userId) {
-    return Observable.create(new Observable.OnSubscribe<UserEntity>() {
-      @Override public void call(Subscriber<? super UserEntity> subscriber) {
-        File userEntityFile = UserCacheImpl.this.buildFile(userId);
-        String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
-        UserEntity userEntity = UserCacheImpl.this.serializer.deserialize(fileContent);
+  @Override public Observable<UserEntity> get(final int userId) {
+    return Observable.create(subscriber -> {
+      File userEntityFile = UserCacheImpl.this.buildFile(userId);
+      String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
+      UserEntity userEntity = UserCacheImpl.this.serializer.deserialize(fileContent);
 
-        if (userEntity != null) {
-          subscriber.onNext(userEntity);
-          subscriber.onCompleted();
-        } else {
-          subscriber.onError(new UserNotFoundException());
-        }
+      if (userEntity != null) {
+        subscriber.onNext(userEntity);
+        subscriber.onCompleted();
+      } else {
+        subscriber.onError(new UserNotFoundException());
       }
     });
   }
 
-  @Override public synchronized void put(UserEntity userEntity) {
+  @Override public void put(UserEntity userEntity) {
     if (userEntity != null) {
       File userEntitiyFile = this.buildFile(userEntity.getUserId());
       if (!isCached(userEntity.getUserId())) {
@@ -111,7 +108,7 @@ public class UserCacheImpl implements UserCache {
     return expired;
   }
 
-  @Override public synchronized void evictAll() {
+  @Override public void evictAll() {
     this.executeAsynchronously(new CacheEvictor(this.fileManager, this.cacheDir));
   }
 
