@@ -12,15 +12,15 @@ ext {
   androidCompileSdkVersion = 21
 
   //Libraries
-  daggerVersion = '2.0'
+  daggerVersion = '2.0.2'
   butterKnifeVersion = '7.0.1'
-  recyclerViewVersion = '21.0.3'
+  recyclerViewVersion = '22.2.0'
   rxJavaVersion = '1.0.14'
-  rxAndroidVersion = '0.25.0'
+  rxAndroidVersion = '1.0.1'
   javaxAnnotationVersion = '1.0'
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
-  androidAnnotationsVersion = '20.0.0'
+  androidAnnotationsVersion = '22.2.0'
 
   //Testing
   robolectricVersion = '3.0'
