@@ -64,7 +64,7 @@ public class UserCacheImpl implements UserCache {
     this.threadExecutor = executor;
   }
 
-  @Override public synchronized Observable<UserEntity> get(final int userId) {
+  @Override public Observable<UserEntity> get(final int userId) {
     return Observable.create(new Observable.OnSubscribe<UserEntity>() {
       @Override public void call(Subscriber<? super UserEntity> subscriber) {
         File userEntityFile = UserCacheImpl.this.buildFile(userId);
@@ -81,7 +81,7 @@ public class UserCacheImpl implements UserCache {
     });
   }
 
-  @Override public synchronized void put(UserEntity userEntity) {
+  @Override public void put(UserEntity userEntity) {
     if (userEntity != null) {
       File userEntitiyFile = this.buildFile(userEntity.getUserId());
       if (!isCached(userEntity.getUserId())) {
@@ -111,7 +111,7 @@ public class UserCacheImpl implements UserCache {
     return expired;
   }
 
-  @Override public synchronized void evictAll() {
+  @Override public void evictAll() {
     this.executeAsynchronously(new CacheEvictor(this.fileManager, this.cacheDir));
   }
 
