@@ -14,13 +14,13 @@ ext {
   //Libraries
   daggerVersion = '2.0.2'
   butterKnifeVersion = '7.0.1'
-  recyclerViewVersion = '23.0.1'
+  recyclerViewVersion = '21.0.3'
   rxJavaVersion = '1.0.14'
   rxAndroidVersion = '1.0.1'
   javaxAnnotationVersion = '1.0'
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
-  androidAnnotationsVersion = '23.0.1'
+  androidAnnotationsVersion = '21.0.3'
 
   //Testing
   robolectricVersion = '3.0'
