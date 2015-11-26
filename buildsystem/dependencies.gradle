@@ -21,6 +21,9 @@ ext {
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
   androidAnnotationsVersion = '21.0.3'
+  retrofitVersion = '2.0.0-beta2'
+  retroGsonConverterVersion = '2.0.0-beta2'
+  retroRxAdapterVersion = '2.0.0-beta2'
 
   //Testing
   robolectricVersion = '3.0'
@@ -70,7 +73,10 @@ ext {
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-      androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
+      androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+      retrofit:           "com.squareup.retrofit:retrofit:${retrofitVersion}",
+      retroGsonConverter: "com.squareup.retrofit:converter-gson:${retroGsonConverterVersion}",
+      retroRxAdapter:     "com.squareup.retrofit:adapter-rxjava:${retroRxAdapterVersion}",
   ]
 
   dataTestDependencies = [
