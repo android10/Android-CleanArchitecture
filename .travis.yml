@@ -1,6 +1,12 @@
 language: android
 jdk: oraclejdk8
 
+before_script:
+    - echo y | android update sdk --no-ui --all --filter build-tools-23.0.1
+    - echo y | android update sdk --no-ui --all --filter android-23
+    - echo y | android update sdk --no-ui --all --filter extra-android-support
+    - echo y | android update sdk --no-ui --all --filter extra-android-m2repository
+
 android:
   components:
     - build-tools-23.0.1
