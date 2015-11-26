@@ -16,12 +16,14 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import android.content.Context;
+import com.fernandocejas.android10.sample.data.BuildConfig;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.net.RestApi;
-import com.fernandocejas.android10.sample.data.net.RestApiImpl;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 
 /**
  * Factory that creates different implementations of {@link UserDataStore}.
@@ -60,8 +62,13 @@ public class UserDataStoreFactory {
    * Create {@link UserDataStore} to retrieve data from the Cloud.
    */
   public UserDataStore createCloudDataStore() {
-    UserEntityJsonMapper userEntityJsonMapper = new UserEntityJsonMapper();
-    RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        .build();
+
+    RestApi restApi = retrofit.create(RestApi.class);
 
     return new CloudUserDataStore(restApi, this.userCache);
   }

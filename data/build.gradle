@@ -26,6 +26,15 @@ android {
     versionCode globalConfiguration.getAt("androidVersionCode")
   }
 
+  buildTypes {
+    debug {
+      buildConfigField "String","BASE_URL","\"http://www.android10.org/\""
+    }
+    release {
+      buildConfigField "String","BASE_URL","\"http://www.android10.org/\""
+    }
+  }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
@@ -61,6 +70,9 @@ dependencies {
   compile dataDependencies.rxJava
   compile dataDependencies.rxAndroid
   compile dataDependencies.androidAnnotations
+  compile dataDependencies.retrofit
+  compile dataDependencies.retroGsonConverter
+  compile dataDependencies.retroRxAdapter
 
   testCompile testDependencies.junit
   testCompile testDependencies.assertj
