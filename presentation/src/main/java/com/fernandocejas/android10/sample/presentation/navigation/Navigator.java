@@ -29,7 +29,7 @@ import javax.inject.Singleton;
 public class Navigator {
 
   @Inject
-  public void Navigator() {
+  public Navigator() {
     //empty
   }
 
