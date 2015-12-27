@@ -2,45 +2,45 @@ apply from: 'buildsystem/ci.gradle'
 apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
-  repositories {
-    jcenter()
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    classpath "com.fernandocejas.frodo:frodo-plugin:0.8.2"
-  }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "com.fernandocejas.frodo:frodo-plugin:0.8.2"
+    }
 }
 
 allprojects {
-  ext {
-    androidApplicationId = 'com.fernanependocejas.android10.sample.presentation'
-    androidVersionCode = 1
-    androidVersionName = "1.0"
-    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
-    testApplicationId = 'com.fernandocejas.android10.sample.presentation.test'
-  }
+    ext {
+        androidApplicationId = 'com.fernanependocejas.android10.sample.presentation'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.fernandocejas.android10.sample.presentation.test'
+    }
 }
 
 task wrapper(type: Wrapper) {
-  description 'Creates the gradle wrapper.'
-  gradleVersion '2.10'
+    description 'Creates the gradle wrapper.'
+    gradleVersion '2.10'
 }
 
 task runDomainUnitTests(dependsOn: [':domain:test']) {
-  description 'Run unit tests for the domain layer.'
+    description 'Run unit tests for the domain layer.'
 }
 
 task runDataUnitTests(dependsOn: [':data:cleanTestDebugUnitTest', ':data:testDebugUnitTest']) {
-  description 'Run unit tests for the data layer.'
+    description 'Run unit tests for the data layer.'
 }
 
 task runUnitTests(dependsOn: ['runDomainUnitTests', 'runDataUnitTests']) {
-  description 'Run unit tests for both domain and data layers.'
+    description 'Run unit tests for both domain and data layers.'
 }
 
 task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
-  description 'Run application acceptance tests.'
+    description 'Run application acceptance tests.'
 }
 
