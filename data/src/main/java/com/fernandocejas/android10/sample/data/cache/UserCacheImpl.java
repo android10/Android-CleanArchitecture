@@ -64,6 +64,7 @@ public class UserCacheImpl implements UserCache {
   }
 
   @Override public Observable<UserEntity> get(final int userId) {
+<<<<<<< HEAD
     return Observable.create(subscriber -> {
       File userEntityFile = UserCacheImpl.this.buildFile(userId);
       String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
@@ -74,6 +75,20 @@ public class UserCacheImpl implements UserCache {
         subscriber.onCompleted();
       } else {
         subscriber.onError(new UserNotFoundException());
+=======
+    return Observable.create(new Observable.OnSubscribe<UserEntity>() {
+      @Override public void call(Subscriber<? super UserEntity> subscriber) {
+        File userEntityFile = UserCacheImpl.this.buildFile(userId);
+        String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
+        UserEntity userEntity = UserCacheImpl.this.serializer.deserialize(fileContent);
+
+        if (userEntity != null) {
+          subscriber.onNext(userEntity);
+          subscriber.onCompleted();
+        } else {
+          subscriber.onError(new UserNotFoundException());
+        }
+>>>>>>> ea29aff... Remove useless synchronized code. 
       }
     });
   }
