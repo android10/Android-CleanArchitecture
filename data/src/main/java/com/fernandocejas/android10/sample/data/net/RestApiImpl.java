@@ -58,7 +58,7 @@ public class RestApiImpl implements RestApi {
           String responseUserEntities = getUserEntitiesFromApi();
           if (responseUserEntities != null) {
             subscriber.onNext(userEntityJsonMapper.transformUserEntityCollection(
-                responseUserEntities));
+                    responseUserEntities));
             subscriber.onCompleted();
           } else {
             subscriber.onError(new NetworkConnectionException());
@@ -111,7 +111,7 @@ public class RestApiImpl implements RestApi {
     boolean isConnected;
 
     ConnectivityManager connectivityManager =
-        (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
     isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
 
