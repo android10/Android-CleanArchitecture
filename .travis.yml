@@ -7,4 +7,4 @@ android:
     - android-21
 
 script:
-  ./gradlew build
+  - ./gradlew build
