@@ -3,6 +3,9 @@ jdk: oraclejdk8
 
 android:
   components:
+    # Update Android SDK Tools
+    - tools
+
     - build-tools-23.0.2
     - android-23
 
