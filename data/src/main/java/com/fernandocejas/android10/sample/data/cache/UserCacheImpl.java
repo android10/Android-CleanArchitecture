@@ -52,7 +52,7 @@ public class UserCacheImpl implements UserCache {
    */
   @Inject
   public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
-      FileManager fileManager, ThreadExecutor executor) {
+                       FileManager fileManager, ThreadExecutor executor) {
     if (context == null || userCacheSerializer == null || fileManager == null || executor == null) {
       throw new IllegalArgumentException("Invalid null parameter");
     }
@@ -84,7 +84,7 @@ public class UserCacheImpl implements UserCache {
       if (!isCached(userEntity.getUserId())) {
         String jsonString = this.serializer.serialize(userEntity);
         this.executeAsynchronously(new CacheWriter(this.fileManager, userEntitiyFile,
-            jsonString));
+                jsonString));
         setLastCacheUpdateTimeMillis();
       }
     }
@@ -134,7 +134,7 @@ public class UserCacheImpl implements UserCache {
   private void setLastCacheUpdateTimeMillis() {
     long currentMillis = System.currentTimeMillis();
     this.fileManager.writeToPreferences(this.context, SETTINGS_FILE_NAME,
-        SETTINGS_KEY_LAST_CACHE_UPDATE, currentMillis);
+            SETTINGS_KEY_LAST_CACHE_UPDATE, currentMillis);
   }
 
   /**
@@ -142,7 +142,7 @@ public class UserCacheImpl implements UserCache {
    */
   private long getLastCacheUpdateTimeMillis() {
     return this.fileManager.getFromPreferences(this.context, SETTINGS_FILE_NAME,
-        SETTINGS_KEY_LAST_CACHE_UPDATE);
+            SETTINGS_KEY_LAST_CACHE_UPDATE);
   }
 
   /**
