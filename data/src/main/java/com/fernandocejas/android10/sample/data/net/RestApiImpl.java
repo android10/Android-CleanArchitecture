@@ -26,8 +26,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 import rx.Observable;
 
-import static com.fernandocejas.frodo.annotation.RxLogObservable.Scope.SCHEDULERS;
-
 /**
  * {@link RestApi} implementation for retrieving data from the network.
  */
@@ -50,7 +48,7 @@ public class RestApiImpl implements RestApi {
     this.userEntityJsonMapper = userEntityJsonMapper;
   }
 
-  @RxLogObservable(SCHEDULERS)
+  @RxLogObservable
   @Override public Observable<List<UserEntity>> userEntityList() {
     return Observable.create(subscriber -> {
       if (isThereInternetConnection()) {
@@ -72,7 +70,7 @@ public class RestApiImpl implements RestApi {
     });
   }
 
-  @RxLogObservable(SCHEDULERS)
+  @RxLogObservable
   @Override public Observable<UserEntity> userEntityById(final int userId) {
     return Observable.create(subscriber -> {
       if (isThereInternetConnection()) {
