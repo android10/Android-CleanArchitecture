@@ -65,7 +65,7 @@ public class JobExecutor implements ThreadExecutor {
     private int counter = 0;
 
     @Override public Thread newThread(Runnable runnable) {
-      return new Thread(runnable, THREAD_NAME + counter);
+      return new Thread(runnable, THREAD_NAME + counter++);
     }
   }
 }
