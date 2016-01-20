@@ -60,6 +60,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
     }
   }
 
+  @Override public void onDetach() {
+    super.onDetach();
+    this.userListListener = null;
+  }
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
