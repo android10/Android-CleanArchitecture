@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
+import com.fernandocejas.android10.sample.presentation.SubscriptionDecorator;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -34,8 +35,7 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
-public class UserDetailsPresenter implements Presenter {
+@PerActivity public class UserDetailsPresenter implements Presenter {
 
   /** id used to retrieve user details */
   private int userId;
@@ -45,8 +45,7 @@ public class UserDetailsPresenter implements Presenter {
   private final UseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  @Inject
-  public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
+  @Inject public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -56,9 +55,11 @@ public class UserDetailsPresenter implements Presenter {
     this.viewDetailsView = view;
   }
 
-  @Override public void resume() {}
+  @Override public void resume() {
+  }
 
-  @Override public void pause() {}
+  @Override public void pause() {
+  }
 
   @Override public void destroy() {
     this.getUserDetailsUseCase.unsubscribe();
@@ -98,8 +99,8 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewDetailsView.getContext(),
-        errorBundle.getException());
+    String errorMessage =
+        ErrorMessageFactory.create(this.viewDetailsView.getContext(), errorBundle.getException());
     this.viewDetailsView.showError(errorMessage);
   }
 
@@ -109,11 +110,10 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
+    this.getUserDetailsUseCase.execute(new SubscriptionDecorator<>(new UserDetailsSubscriber()));
   }
 
-  @RxLogSubscriber
-  private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
+  @RxLogSubscriber private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
 
     @Override public void onCompleted() {
       UserDetailsPresenter.this.hideViewLoading();

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
+import com.fernandocejas.android10.sample.presentation.SubscriptionDecorator;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -35,16 +36,15 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
-public class UserListPresenter implements Presenter {
+@PerActivity public class UserListPresenter implements Presenter {
 
   private UserListView viewListView;
 
   private final UseCase getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
-  @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase, UserModelDataMapper userModelDataMapper) {
+  @Inject public UserListPresenter(@Named("userList") UseCase getUserListUserCase,
+      UserModelDataMapper userModelDataMapper) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
   }
@@ -53,9 +53,11 @@ public class UserListPresenter implements Presenter {
     this.viewListView = view;
   }
 
-  @Override public void resume() {}
+  @Override public void resume() {
+  }
 
-  @Override public void pause() {}
+  @Override public void pause() {
+  }
 
   @Override public void destroy() {
     this.getUserListUseCase.unsubscribe();
@@ -98,8 +100,8 @@ public class UserListPresenter implements Presenter {
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewListView.getContext(),
-        errorBundle.getException());
+    String errorMessage =
+        ErrorMessageFactory.create(this.viewListView.getContext(), errorBundle.getException());
     this.viewListView.showError(errorMessage);
   }
 
@@ -110,7 +112,7 @@ public class UserListPresenter implements Presenter {
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(new UserListSubscriber());
+    this.getUserListUseCase.execute(new SubscriptionDecorator<>(new UserListSubscriber()));
   }
 
   private final class UserListSubscriber extends DefaultSubscriber<List<User>> {

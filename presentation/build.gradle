@@ -71,6 +71,7 @@ dependencies {
   compile presentationDependencies.recyclerView
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
+  compile presentationDependencies.leakCanary
   provided presentationDependencies.javaxAnnotation
 
   androidTestCompile presentationTestDependencies.mockito
