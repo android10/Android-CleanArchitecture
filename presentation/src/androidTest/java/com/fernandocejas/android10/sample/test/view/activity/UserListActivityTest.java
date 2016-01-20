@@ -17,38 +17,43 @@ package com.fernandocejas.android10.sample.test.view.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.view.activity.UserListActivity;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UserListActivityTest extends ActivityInstrumentationTestCase2<UserListActivity> {
+@RunWith(AndroidJUnit4.class)
+public class UserListActivityTest {
 
   private UserListActivity userListActivity;
 
-  public UserListActivityTest() {
-    super(UserListActivity.class);
+  @Rule public ActivityTestRule<UserListActivity> activityRule = new ActivityTestRule<>(
+      UserListActivity.class,
+      true,   // initialTouchMode
+      false); // launchActivity. False to set up mocks before activity launch
+
+  @Before public void setUp() {
+    activityRule.launchActivity(createTargetIntent());
+    userListActivity = activityRule.getActivity();
   }
 
-  @Override protected void setUp() throws Exception {
-    super.setUp();
-    this.setActivityIntent(createTargetIntent());
-    userListActivity = getActivity();
-  }
-
-  @Override protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-
+  @Test
   public void testContainsUserListFragment() {
     Fragment userListFragment =
         userListActivity.getFragmentManager().findFragmentById(R.id.fragmentUserList);
     assertThat(userListFragment, is(notNullValue()));
   }
 
+  @Test
   public void testContainsProperTitle() {
     String actualTitle = this.userListActivity.getTitle().toString().trim();
 
@@ -57,7 +62,7 @@ public class UserListActivityTest extends ActivityInstrumentationTestCase2<UserL
 
   private Intent createTargetIntent() {
     Intent intentLaunchActivity =
-        UserListActivity.getCallingIntent(getInstrumentation().getTargetContext());
+        UserListActivity.getCallingIntent(InstrumentationRegistry.getTargetContext());
 
     return intentLaunchActivity;
   }

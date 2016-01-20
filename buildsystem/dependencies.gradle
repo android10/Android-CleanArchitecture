@@ -15,11 +15,11 @@ ext {
   daggerVersion = '2.0.2'
   butterKnifeVersion = '7.0.1'
   recyclerViewVersion = '21.0.3'
-  rxJavaVersion = '1.0.14'
+  rxJavaVersion = '1.0.16'
   rxAndroidVersion = '1.0.1'
   javaxAnnotationVersion = '1.0'
-  gsonVersion = '2.3'
-  okHttpVersion = '2.5.0'
+  gsonVersion = '2.4'
+  okHttpVersion = '2.6.0'
   androidAnnotationsVersion = '21.0.3'
 
   //Testing
@@ -28,8 +28,8 @@ ext {
   assertJVersion = '1.7.1'
   mockitoVersion = '1.9.5'
   dexmakerVersion = '1.0'
-  espressoVersion = '2.0'
-  testingSupportLibVersion = '0.1'
+  espressoVersion = '2.2.1'
+  testingSupportLibVersion = '0.4.1'
 
 
   presentationDependencies = [
@@ -47,7 +47,8 @@ ext {
       dexmaker:           "com.google.dexmaker:dexmaker:${dexmakerVersion}",
       dexmakerMockito:    "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
       espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
-      testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+      testRules:          "com.android.support.test:rules:${testingSupportLibVersion}",
+      testRunner:          "com.android.support.test:rules:${testingSupportLibVersion}"
   ]
 
   domainDependencies = [

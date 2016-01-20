@@ -76,6 +76,13 @@ dependencies {
   androidTestCompile presentationTestDependencies.mockito
   androidTestCompile presentationTestDependencies.dexmaker
   androidTestCompile presentationTestDependencies.dexmakerMockito
-  androidTestCompile presentationTestDependencies.espresso
-  androidTestCompile presentationTestDependencies.testingSupportLib
+  androidTestCompile (presentationTestDependencies.espresso) {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
+  androidTestCompile (presentationTestDependencies.testRules) {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
+  androidTestCompile (presentationTestDependencies.testRunner) {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
 }
