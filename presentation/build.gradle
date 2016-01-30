@@ -61,6 +61,7 @@ android {
 dependencies {
   def presentationDependencies = rootProject.ext.presentationDependencies
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+  def developmentDependencies = rootProject.ext.developmentDependencies
 
   compile project(':domain')
   compile project(':data')
@@ -78,4 +79,6 @@ dependencies {
   androidTestCompile presentationTestDependencies.dexmakerMockito
   androidTestCompile presentationTestDependencies.espresso
   androidTestCompile presentationTestDependencies.testingSupportLib
+
+  debugCompile developmentDependencies.leakCanary
 }

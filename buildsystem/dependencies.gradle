@@ -31,6 +31,8 @@ ext {
   espressoVersion = '2.0'
   testingSupportLibVersion = '0.1'
 
+  //Development
+  leakCanaryVersion = '1.3.1'
 
   presentationDependencies = [
       daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -78,5 +80,9 @@ ext {
       assertj:            "org.assertj:assertj-core:${assertJVersion}",
       mockito:            "org.mockito:mockito-core:${mockitoVersion}",
       robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
+  ]
+
+  developmentDependencies = [
+      leakCanary: "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
   ]
 }
