@@ -80,5 +80,6 @@ dependencies {
   androidTestCompile presentationTestDependencies.espresso
   androidTestCompile presentationTestDependencies.testingSupportLib
 
-  debugCompile developmentDependencies.leakCanary
+  //Development
+  compile developmentDependencies.leakCanary
 }
