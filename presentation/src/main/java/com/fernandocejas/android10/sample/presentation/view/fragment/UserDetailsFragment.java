@@ -30,8 +30,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   private static final String ARGUMENT_KEY_USER_ID = "org.android10.ARGUMENT_USER_ID";
 
-  private int userId;
-
   @Inject UserDetailsPresenter userDetailsPresenter;
 
   @Bind(R.id.iv_cover) AutoLoadImageView iv_cover;
@@ -70,7 +68,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     this.userDetailsPresenter.setView(this);
-    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
     this.userDetailsPresenter.initialize();
   }
 

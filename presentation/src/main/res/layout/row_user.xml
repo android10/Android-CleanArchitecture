@@ -24,6 +24,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:textSize="@dimen/lv_row_text_size"
+      android:textColor="@android:color/black"
       android:gravity="center_vertical"
       android:singleLine="true"
       android:ellipsize="end"

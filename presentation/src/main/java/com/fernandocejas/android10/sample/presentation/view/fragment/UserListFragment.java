@@ -24,7 +24,6 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserListPresent
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.inject.Inject;
 
@@ -41,14 +40,12 @@ public class UserListFragment extends BaseFragment implements UserListView {
   }
 
   @Inject UserListPresenter userListPresenter;
+  @Inject UsersAdapter usersAdapter;
 
   @Bind(R.id.rv_users) RecyclerView rv_users;
   @Bind(R.id.rl_progress) RelativeLayout rl_progress;
   @Bind(R.id.rl_retry) RelativeLayout rl_retry;
   @Bind(R.id.bt_retry) Button bt_retry;
-
-  private UsersAdapter usersAdapter;
-  private UsersLayoutManager usersLayoutManager;
 
   private UserListListener userListListener;
 
@@ -72,7 +69,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
       Bundle savedInstanceState) {
     final View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
     ButterKnife.bind(this, fragmentView);
-    setupUI();
+    setupRecyclerView();
     return fragmentView;
   }
 
@@ -92,23 +89,15 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.userListPresenter.pause();
   }
 
-  @Override public void onDestroy() {
-    super.onDestroy();
-    this.userListPresenter.destroy();
-  }
-
   @Override public void onDestroyView() {
     super.onDestroyView();
+    rv_users.setAdapter(null);
     ButterKnife.unbind(this);
   }
 
-  private void setupUI() {
-    this.usersLayoutManager = new UsersLayoutManager(getActivity());
-    this.rv_users.setLayoutManager(usersLayoutManager);
-
-    this.usersAdapter = new UsersAdapter(getActivity(), new ArrayList<UserModel>());
-    this.usersAdapter.setOnItemClickListener(onItemClickListener);
-    this.rv_users.setAdapter(usersAdapter);
+  @Override public void onDestroy() {
+    super.onDestroy();
+    this.userListPresenter.destroy();
   }
 
   @Override public void showLoading() {
@@ -147,6 +136,12 @@ public class UserListFragment extends BaseFragment implements UserListView {
 
   @Override public Context context() {
     return this.getActivity().getApplicationContext();
+  }
+
+  private void setupRecyclerView() {
+    this.usersAdapter.setOnItemClickListener(onItemClickListener);
+    this.rv_users.setLayoutManager(new UsersLayoutManager(context()));
+    this.rv_users.setAdapter(usersAdapter);
   }
 
   /**

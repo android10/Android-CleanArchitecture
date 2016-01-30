@@ -15,7 +15,9 @@ import butterknife.ButterKnife;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Adaptar that manages a collection of {@link UserModel}.
@@ -31,11 +33,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   private OnItemClickListener onItemClickListener;
 
-  public UsersAdapter(Context context, Collection<UserModel> usersCollection) {
-    this.validateUsersCollection(usersCollection);
+  @Inject
+  public UsersAdapter(Context context) {
     this.layoutInflater =
         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    this.usersCollection = (List<UserModel>) usersCollection;
+    this.usersCollection = Collections.emptyList();
   }
 
   @Override public int getItemCount() {
@@ -43,10 +45,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   }
 
   @Override public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = this.layoutInflater.inflate(R.layout.row_user, parent, false);
-    UserViewHolder userViewHolder = new UserViewHolder(view);
-
-    return userViewHolder;
+    final View view = this.layoutInflater.inflate(R.layout.row_user, parent, false);
+    return new UserViewHolder(view);
   }
 
   @Override public void onBindViewHolder(UserViewHolder holder, final int position) {
