@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,9 +37,6 @@ import javax.inject.Named;
 @PerActivity
 public class UserDetailsPresenter implements Presenter {
 
-  /** id used to retrieve user details */
-  private int userId;
-
   private UserDetailsView viewDetailsView;
 
   private final UseCase getUserDetailsUseCase;
@@ -68,8 +65,7 @@ public class UserDetailsPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving user details.
    */
-  public void initialize(int userId) {
-    this.userId = userId;
+  public void initialize() {
     this.loadUserDetails();
   }
 

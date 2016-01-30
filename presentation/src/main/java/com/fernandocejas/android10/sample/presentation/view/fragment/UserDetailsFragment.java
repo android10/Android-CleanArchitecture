@@ -71,7 +71,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     super.onViewCreated(view, savedInstanceState);
     this.userDetailsPresenter.setView(this);
     this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
-    this.userDetailsPresenter.initialize(this.userId);
+    this.userDetailsPresenter.initialize();
   }
 
   @Override public void onResume() {
@@ -135,7 +135,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
    */
   private void loadUserDetails() {
     if (this.userDetailsPresenter != null) {
-      this.userDetailsPresenter.initialize(this.userId);
+      this.userDetailsPresenter.initialize();
     }
   }
 
