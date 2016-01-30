@@ -59,6 +59,7 @@ public class UserListPresenter implements Presenter {
 
   @Override public void destroy() {
     this.getUserListUseCase.unsubscribe();
+    this.viewListView = null;
   }
 
   /**

@@ -62,6 +62,7 @@ public class UserDetailsPresenter implements Presenter {
 
   @Override public void destroy() {
     this.getUserDetailsUseCase.unsubscribe();
+    this.viewDetailsView = null;
   }
 
   /**
