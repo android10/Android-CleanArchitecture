@@ -128,7 +128,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     this.showToastMessage(message);
   }
 
-  @Override public Context getContext() {
+  @Override public Context context() {
     return getActivity().getApplicationContext();
   }
 

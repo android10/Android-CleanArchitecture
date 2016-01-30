@@ -53,7 +53,7 @@ public class UserDetailsPresenterTest extends AndroidTestCase {
   }
 
   public void testUserDetailsPresenterInitialize() {
-    given(mockUserDetailsView.getContext()).willReturn(mockContext);
+    given(mockUserDetailsView.context()).willReturn(mockContext);
 
     userDetailsPresenter.initialize(FAKE_USER_ID);
 

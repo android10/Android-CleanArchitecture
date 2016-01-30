@@ -98,7 +98,7 @@ public class UserListPresenter implements Presenter {
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewListView.getContext(),
+    String errorMessage = ErrorMessageFactory.create(this.viewListView.context(),
         errorBundle.getException());
     this.viewListView.showError(errorMessage);
   }

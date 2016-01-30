@@ -98,7 +98,7 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void showErrorMessage(ErrorBundle errorBundle) {
-    String errorMessage = ErrorMessageFactory.create(this.viewDetailsView.getContext(),
+    String errorMessage = ErrorMessageFactory.create(this.viewDetailsView.context(),
         errorBundle.getException());
     this.viewDetailsView.showError(errorMessage);
   }

@@ -50,7 +50,7 @@ public class UserListPresenterTest extends AndroidTestCase {
   }
 
   public void testUserListPresenterInitialize() {
-    given(mockUserListView.getContext()).willReturn(mockContext);
+    given(mockUserListView.context()).willReturn(mockContext);
 
     userListPresenter.initialize();
 

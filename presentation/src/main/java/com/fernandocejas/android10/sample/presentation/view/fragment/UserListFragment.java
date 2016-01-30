@@ -144,7 +144,7 @@ public class UserListFragment extends BaseFragment implements UserListView {
     this.showToastMessage(message);
   }
 
-  @Override public Context getContext() {
+  @Override public Context context() {
     return this.getActivity().getApplicationContext();
   }
 
