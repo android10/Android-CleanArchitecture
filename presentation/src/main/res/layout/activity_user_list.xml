@@ -3,9 +3,8 @@
     android:layout_height="match_parent"
     >
 
-  <fragment
-      android:name="com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment"
-      android:id="@+id/fragmentUserList"
+  <FrameLayout
+      android:id="@+id/fragmentContainer"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       />

@@ -43,30 +43,35 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Bind(R.id.rl_retry) RelativeLayout rl_retry;
   @Bind(R.id.bt_retry) Button bt_retry;
 
-  public UserDetailsFragment() { super(); }
+  public UserDetailsFragment() {
+    setRetainInstance(true);
+  }
 
-  public static UserDetailsFragment newInstance(int userId) {
+  public static UserDetailsFragment create(int userId) {
     UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
-
     Bundle argumentsBundle = new Bundle();
     argumentsBundle.putInt(ARGUMENT_KEY_USER_ID, userId);
     userDetailsFragment.setArguments(argumentsBundle);
-
     return userDetailsFragment;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    this.getComponent(UserComponent.class).inject(this);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
-    View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
+    final View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
     ButterKnife.bind(this, fragmentView);
-
     return fragmentView;
   }
 
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    this.initialize();
+  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    this.userDetailsPresenter.setView(this);
+    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
+    this.userDetailsPresenter.initialize(this.userId);
   }
 
   @Override public void onResume() {
@@ -87,13 +92,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Override public void onDestroy() {
     super.onDestroy();
     this.userDetailsPresenter.destroy();
-  }
-
-  private void initialize() {
-    this.getComponent(UserComponent.class).inject(this);
-    this.userDetailsPresenter.setView(this);
-    this.userId = getArguments().getInt(ARGUMENT_KEY_USER_ID);
-    this.userDetailsPresenter.initialize(this.userId);
   }
 
   @Override public void renderUser(UserModel user) {
