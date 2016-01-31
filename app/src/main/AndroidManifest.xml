@@ -13,7 +13,7 @@
       android:theme="@style/AppTheme">
 
     <activity
-        android:name="com.fernandocejas.android10.sample.app.view.activity.MainActivity"
+        android:name=".core.view.activity.MainActivity"
         android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -22,12 +22,12 @@
     </activity>
 
     <activity
-        android:name="com.fernandocejas.android10.sample.app.view.activity.UserListActivity"
+        android:name=".users.UserListActivity"
         android:label="@string/activity_title_user_list">
     </activity>
 
     <activity
-        android:name="com.fernandocejas.android10.sample.app.view.activity.UserDetailsActivity"
+        android:name=".users.UserDetailsActivity"
         android:label="@string/activity_title_user_details">
     </activity>
   </application>

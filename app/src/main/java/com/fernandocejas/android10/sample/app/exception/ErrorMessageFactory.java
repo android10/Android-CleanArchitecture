@@ -16,9 +16,9 @@
 package com.fernandocejas.android10.sample.app.exception;
 
 import android.content.Context;
-import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.app.R;
+import com.fernandocejas.android10.sample.app.data.exception.NetworkConnectionException;
+import com.fernandocejas.android10.sample.app.data.exception.UserNotFoundException;
 
 /**
  * Factory used to create error messages from an Exception as a condition.

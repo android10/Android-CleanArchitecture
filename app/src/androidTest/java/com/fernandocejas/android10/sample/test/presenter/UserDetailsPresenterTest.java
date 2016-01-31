@@ -17,10 +17,10 @@ package com.fernandocejas.android10.sample.test.presenter;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
-import com.fernandocejas.android10.sample.app.mapper.UserModelDataMapper;
-import com.fernandocejas.android10.sample.app.presenter.UserDetailsPresenter;
-import com.fernandocejas.android10.sample.app.view.UserDetailsView;
+import com.fernandocejas.android10.sample.app.users.GetUserDetails;
+import com.fernandocejas.android10.sample.app.users.UserModelDataMapper;
+import com.fernandocejas.android10.sample.app.users.UserDetailsPresenter;
+import com.fernandocejas.android10.sample.app.users.UserDetailsView;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import rx.Subscriber;

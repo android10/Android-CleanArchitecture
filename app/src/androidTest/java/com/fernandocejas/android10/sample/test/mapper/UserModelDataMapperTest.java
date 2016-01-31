@@ -15,9 +15,9 @@
  */
 package com.fernandocejas.android10.sample.test.mapper;
 
-import com.fernandocejas.android10.sample.domain.User;
-import com.fernandocejas.android10.sample.app.mapper.UserModelDataMapper;
-import com.fernandocejas.android10.sample.app.model.UserModel;
+import com.fernandocejas.android10.sample.app.users.User;
+import com.fernandocejas.android10.sample.app.users.UserModelDataMapper;
+import com.fernandocejas.android10.sample.app.users.UserModel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

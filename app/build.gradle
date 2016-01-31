@@ -1,6 +1,16 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+  }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
+apply plugin: 'me.tatarka.retrolambda'
 
 frodo {
   enabled = true
@@ -24,8 +34,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 
   packagingOptions {
@@ -65,17 +75,19 @@ android {
 dependencies {
   def presentationDependencies = rootProject.ext.presentationDependencies
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
+  def dataDependencies = rootProject.ext.dataDependencies
+  def testDependencies = rootProject.ext.dataTestDependencies
   def developmentDependencies = rootProject.ext.developmentDependencies
-
-  compile project(':domain')
-  compile project(':data')
 
   apt presentationDependencies.daggerCompiler
   compile presentationDependencies.dagger
+  compile dataDependencies.okHttp
+  compile dataDependencies.gson
   compile presentationDependencies.butterKnife
   compile presentationDependencies.recyclerView
   compile presentationDependencies.rxJava
   compile presentationDependencies.rxAndroid
+  compile dataDependencies.androidAnnotations
   provided presentationDependencies.javaxAnnotation
 
   androidTestCompile presentationTestDependencies.mockito
@@ -83,6 +95,11 @@ dependencies {
   androidTestCompile presentationTestDependencies.dexmakerMockito
   androidTestCompile presentationTestDependencies.espresso
   androidTestCompile presentationTestDependencies.testingSupportLib
+
+  testCompile testDependencies.junit
+  testCompile testDependencies.assertj
+  testCompile testDependencies.mockito
+  testCompile testDependencies.robolectric
 
   //Development
   compile developmentDependencies.leakCanary

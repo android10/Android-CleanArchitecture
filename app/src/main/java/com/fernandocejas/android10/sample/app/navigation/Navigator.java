@@ -17,8 +17,8 @@ package com.fernandocejas.android10.sample.app.navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import com.fernandocejas.android10.sample.app.view.activity.UserDetailsActivity;
-import com.fernandocejas.android10.sample.app.view.activity.UserListActivity;
+import com.fernandocejas.android10.sample.app.users.UserDetailsActivity;
+import com.fernandocejas.android10.sample.app.users.UserListActivity;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

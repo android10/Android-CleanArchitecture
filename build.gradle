@@ -28,19 +28,11 @@ task wrapper(type: Wrapper) {
   gradleVersion '2.12'
 }
 
-task runDomainUnitTests(dependsOn: [':domain:test']) {
-  description 'Run unit tests for the domain layer.'
+task runUnitTests(dependsOn: [':app:cleanTestDebugUnitTest', ':app:testDebugUnitTest']) {
+  description 'Run application unit tests.'
 }
 
-task runDataUnitTests(dependsOn: [':data:cleanTestDebugUnitTest', ':data:testDebugUnitTest']) {
-  description 'Run unit tests for the data layer.'
-}
-
-task runUnitTests(dependsOn: ['runDomainUnitTests', 'runDataUnitTests']) {
-  description 'Run unit tests for both domain and data layers.'
-}
-
-task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
+task runAcceptanceTests(dependsOn: [':app:connectedAndroidTest']) {
   description 'Run application acceptance tests.'
 }
 

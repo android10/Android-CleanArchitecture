@@ -16,9 +16,9 @@
 package com.fernandocejas.android10.sample.app;
 
 import android.app.Application;
-import com.fernandocejas.android10.sample.app.internal.di.components.ApplicationComponent;
-import com.fernandocejas.android10.sample.app.internal.di.components.DaggerApplicationComponent;
-import com.fernandocejas.android10.sample.app.internal.di.modules.ApplicationModule;
+import com.fernandocejas.android10.sample.app.core.di.components.ApplicationComponent;
+import com.fernandocejas.android10.sample.app.core.di.components.DaggerApplicationComponent;
+import com.fernandocejas.android10.sample.app.core.di.modules.ApplicationModule;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
