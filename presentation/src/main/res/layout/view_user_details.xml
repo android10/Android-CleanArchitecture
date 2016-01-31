@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
   <com.fernandocejas.android10.sample.presentation.view.component.AutoLoadImageView
@@ -15,15 +15,16 @@
   <TextView
       android:id="@+id/tv_fullname"
       style="@style/AppTheme.TextViewHeader"
+      android:freezesText="true"
       />
 
   <LinearLayout
-      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_marginLeft="@dimen/activity_horizontal_margin"
-      android:layout_marginRight="@dimen/activity_horizontal_margin">
-
+      android:layout_marginRight="@dimen/activity_horizontal_margin"
+      android:orientation="vertical"
+      >
     <TextView
         style="@style/AppTheme.TextViewTitle"
         android:text="@string/view_text_email"
@@ -32,8 +33,8 @@
         android:id="@+id/tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:freezesText="true"
         />
-
     <TextView
         style="@style/AppTheme.TextViewTitle"
         android:text="@string/view_text_followers"
@@ -42,6 +43,7 @@
         android:id="@+id/tv_followers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:freezesText="true"
         />
 
     <TextView
@@ -52,6 +54,7 @@
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:freezesText="true"
         />
   </LinearLayout>
 

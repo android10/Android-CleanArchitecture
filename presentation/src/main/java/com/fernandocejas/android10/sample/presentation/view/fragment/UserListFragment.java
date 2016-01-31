@@ -76,7 +76,9 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     this.userListPresenter.setView(this);
-    this.loadUserList();
+    if (savedInstanceState == null) {
+      this.loadUserList();
+    }
   }
 
   @Override public void onResume() {
@@ -98,6 +100,11 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public void onDestroy() {
     super.onDestroy();
     this.userListPresenter.destroy();
+  }
+
+  @Override public void onDetach() {
+    super.onDetach();
+    this.userListListener = null;
   }
 
   @Override public void showLoading() {

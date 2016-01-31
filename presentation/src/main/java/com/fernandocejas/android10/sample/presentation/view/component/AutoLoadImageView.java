@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2014 android10.org. All rights reserved.
+ *
  * @author Fernando Cejas (the android10 coder)
  */
 package com.fernandocejas.android10.sample.presentation.view.component;
@@ -10,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
@@ -29,7 +32,8 @@ public class AutoLoadImageView extends ImageView {
 
   private static final String BASE_IMAGE_NAME_CACHED = "image_";
 
-  private int imagePlaceHolderResourceId = -1;
+  private String imageUrl = null;
+  private int imagePlaceHolderResId = -1;
   private DiskCache cache = new DiskCache(getContext().getCacheDir());
 
   public AutoLoadImageView(Context context) {
@@ -44,15 +48,36 @@ public class AutoLoadImageView extends ImageView {
     super(context, attrs, defStyle);
   }
 
+  @Override protected Parcelable onSaveInstanceState() {
+    Parcelable superState = super.onSaveInstanceState();
+    SavedState savedState = new SavedState(superState);
+    savedState.imagePlaceHolderResId = this.imagePlaceHolderResId;
+    savedState.imageUrl = this.imageUrl;
+    return savedState;
+  }
+
+  @Override protected void onRestoreInstanceState(Parcelable state) {
+    if(!(state instanceof SavedState)) {
+      super.onRestoreInstanceState(state);
+      return;
+    }
+    SavedState savedState = (SavedState)state;
+    super.onRestoreInstanceState(savedState.getSuperState());
+    this.imagePlaceHolderResId = savedState.imagePlaceHolderResId;
+    this.imageUrl = savedState.imageUrl;
+    this.setImageUrl(this.imageUrl);
+  }
+
   /**
    * Set an image from a remote url.
    *
    * @param imageUrl The url of the resource to load.
    */
   public void setImageUrl(final String imageUrl) {
+    this.imageUrl = imageUrl;
     AutoLoadImageView.this.loadImagePlaceHolder();
-    if (imageUrl != null) {
-      this.loadImageFromUrl(imageUrl);
+    if (this.imageUrl != null) {
+      this.loadImageFromUrl(this.imageUrl);
     } else {
       this.loadImagePlaceHolder();
     }
@@ -64,7 +89,7 @@ public class AutoLoadImageView extends ImageView {
    * @param resourceId The resource id to use as a place holder.
    */
   public void setImagePlaceHolder(int resourceId) {
-    this.imagePlaceHolderResourceId = resourceId;
+    this.imagePlaceHolderResId = resourceId;
     this.loadImagePlaceHolder();
   }
 
@@ -126,11 +151,11 @@ public class AutoLoadImageView extends ImageView {
    * Loads the image place holder if any has been assigned.
    */
   private void loadImagePlaceHolder() {
-    if (this.imagePlaceHolderResourceId != -1) {
+    if (this.imagePlaceHolderResId != -1) {
       ((Activity) getContext()).runOnUiThread(new Runnable() {
         @Override public void run() {
           AutoLoadImageView.this.setImageResource(
-              AutoLoadImageView.this.imagePlaceHolderResourceId);
+              AutoLoadImageView.this.imagePlaceHolderResId);
         }
       });
     }
@@ -309,5 +334,38 @@ public class AutoLoadImageView extends ImageView {
       String fullPath = this.cacheDir.getPath() + File.separator + fileName;
       return new File(fullPath);
     }
+  }
+
+  private static class SavedState extends BaseSavedState {
+    int imagePlaceHolderResId;
+    String imageUrl;
+
+    SavedState(Parcelable superState) {
+      super(superState);
+    }
+
+    private SavedState(Parcel in) {
+      super(in);
+      this.imagePlaceHolderResId = in.readInt();
+      this.imageUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+      super.writeToParcel(out, flags);
+      out.writeInt(this.imagePlaceHolderResId);
+      out.writeString(this.imageUrl);
+    }
+
+    public static final Parcelable.Creator<SavedState> CREATOR =
+        new Parcelable.Creator<SavedState>() {
+          public SavedState createFromParcel(Parcel in) {
+            return new SavedState(in);
+          }
+
+          public SavedState[] newArray(int size) {
+            return new SavedState[size];
+          }
+        };
   }
 }

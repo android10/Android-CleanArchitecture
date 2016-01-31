@@ -28,8 +28,6 @@ import javax.inject.Inject;
  */
 public class UserDetailsFragment extends BaseFragment implements UserDetailsView {
 
-  private static final String ARGUMENT_KEY_USER_ID = "org.android10.ARGUMENT_USER_ID";
-
   @Inject UserDetailsPresenter userDetailsPresenter;
 
   @Bind(R.id.iv_cover) AutoLoadImageView iv_cover;
@@ -43,14 +41,6 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
   public UserDetailsFragment() {
     setRetainInstance(true);
-  }
-
-  public static UserDetailsFragment create(int userId) {
-    UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
-    Bundle argumentsBundle = new Bundle();
-    argumentsBundle.putInt(ARGUMENT_KEY_USER_ID, userId);
-    userDetailsFragment.setArguments(argumentsBundle);
-    return userDetailsFragment;
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +58,9 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     this.userDetailsPresenter.setView(this);
-    this.userDetailsPresenter.initialize();
+    if (savedInstanceState == null) {
+      this.loadUserDetails();
+    }
   }
 
   @Override public void onResume() {
