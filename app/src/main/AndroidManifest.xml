@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fernandocejas.android10.sample.presentation">
+    package="com.fernandocejas.android10.sample.app">
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
   <application
       android:allowBackup="true"
-      android:name=".AndroidApplication"
+      android:name="com.fernandocejas.android10.sample.app.AndroidApplication"
       android:icon="@drawable/ic_launcher"
       android:label="@string/app_name"
       android:theme="@style/AppTheme">
 
     <activity
-        android:name=".view.activity.MainActivity"
+        android:name="com.fernandocejas.android10.sample.app.view.activity.MainActivity"
         android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -22,12 +22,12 @@
     </activity>
 
     <activity
-        android:name=".view.activity.UserListActivity"
+        android:name="com.fernandocejas.android10.sample.app.view.activity.UserListActivity"
         android:label="@string/activity_title_user_list">
     </activity>
 
     <activity
-        android:name=".view.activity.UserDetailsActivity"
+        android:name="com.fernandocejas.android10.sample.app.view.activity.UserDetailsActivity"
         android:label="@string/activity_title_user_details">
     </activity>
   </application>
