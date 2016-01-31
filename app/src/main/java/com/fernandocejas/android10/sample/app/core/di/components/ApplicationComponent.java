@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.app.core.di.components;
 
 import android.content.Context;
 import com.fernandocejas.android10.sample.app.core.executor.PostExecutionThread;
-import com.fernandocejas.android10.sample.app.data.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.app.core.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.app.users.UserRepository;
 import com.fernandocejas.android10.sample.app.core.di.modules.ApplicationModule;
 import com.fernandocejas.android10.sample.app.core.view.activity.BaseActivity;

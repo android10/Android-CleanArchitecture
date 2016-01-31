@@ -16,8 +16,8 @@
 package com.fernandocejas.android10.sample.test.exception;
 
 import android.test.AndroidTestCase;
-import com.fernandocejas.android10.sample.app.data.exception.NetworkConnectionException;
-import com.fernandocejas.android10.sample.app.data.exception.UserNotFoundException;
+import com.fernandocejas.android10.sample.app.exception.NetworkConnectionException;
+import com.fernandocejas.android10.sample.app.users.UserNotFoundException;
 import com.fernandocejas.android10.sample.app.R;
 import com.fernandocejas.android10.sample.app.exception.ErrorMessageFactory;
 

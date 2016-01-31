@@ -16,12 +16,12 @@
 package com.fernandocejas.android10.sample.app.core.di.modules;
 
 import android.content.Context;
-import com.fernandocejas.android10.sample.app.data.cache.UserCache;
-import com.fernandocejas.android10.sample.app.data.cache.UserCacheImpl;
-import com.fernandocejas.android10.sample.app.data.executor.JobExecutor;
-import com.fernandocejas.android10.sample.app.data.repository.UserDataRepository;
+import com.fernandocejas.android10.sample.app.users.cache.UserCache;
+import com.fernandocejas.android10.sample.app.users.cache.UserCacheImpl;
+import com.fernandocejas.android10.sample.app.core.executor.JobExecutor;
+import com.fernandocejas.android10.sample.app.users.UserDataRepository;
 import com.fernandocejas.android10.sample.app.core.executor.PostExecutionThread;
-import com.fernandocejas.android10.sample.app.data.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.app.core.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.app.users.UserRepository;
 import com.fernandocejas.android10.sample.app.AndroidApplication;
 import com.fernandocejas.android10.sample.app.core.executor.UIThread;
