@@ -4,7 +4,7 @@
  */
 package com.fernandocejas.android10.sample.app.users;
 
-import com.fernandocejas.android10.sample.app.core.view.component.LoadDataView;
+import com.fernandocejas.android10.sample.app.view.component.LoadDataView;
 import java.util.Collection;
 
 /**

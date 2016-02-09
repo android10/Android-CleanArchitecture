@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.app.users;
 
 import com.fernandocejas.android10.sample.app.core.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.app.core.executor.ThreadExecutor;
-import com.fernandocejas.android10.sample.app.core.interactor.UseCase;
+import com.fernandocejas.android10.sample.app.interactor.UseCase;
 import javax.inject.Inject;
 import rx.Observable;
 

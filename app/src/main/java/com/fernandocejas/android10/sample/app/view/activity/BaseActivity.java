@@ -1,4 +1,4 @@
-package com.fernandocejas.android10.sample.app.core.view.activity;
+package com.fernandocejas.android10.sample.app.view.activity;
 
 import android.app.Activity;
 import android.app.Fragment;

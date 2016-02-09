@@ -14,7 +14,7 @@ import com.fernandocejas.android10.sample.app.core.di.HasComponent;
 import com.fernandocejas.android10.sample.app.core.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.app.core.di.components.UserComponent;
 import com.fernandocejas.android10.sample.app.core.di.modules.UserModule;
-import com.fernandocejas.android10.sample.app.core.view.activity.BaseActivity;
+import com.fernandocejas.android10.sample.app.view.activity.BaseActivity;
 
 /**
  * Activity that shows details of a certain user.
