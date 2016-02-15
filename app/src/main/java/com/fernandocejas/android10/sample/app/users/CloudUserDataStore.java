@@ -15,8 +15,8 @@
  */
 package com.fernandocejas.android10.sample.app.users;
 
-import com.fernandocejas.android10.sample.app.users.cache.UserCache;
 import com.fernandocejas.android10.sample.app.data.RestApi;
+import com.fernandocejas.android10.sample.app.users.cache.UserCache;
 import java.util.List;
 import rx.Observable;
 import rx.functions.Action1;
