@@ -53,7 +53,7 @@ public class UserDetailsActivityTest extends ActivityInstrumentationTestCase2<Us
 
   public void testContainsUserDetailsFragment() {
     Fragment userDetailsFragment =
-        userDetailsActivity.getFragmentManager().findFragmentById(R.id.fl_fragment);
+        userDetailsActivity.getFragmentManager().findFragmentById(R.id.fragmentContainer);
     assertThat(userDetailsFragment, is(notNullValue()));
   }
 

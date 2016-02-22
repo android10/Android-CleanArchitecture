@@ -45,7 +45,7 @@ public class UserListActivityTest extends ActivityInstrumentationTestCase2<UserL
 
   public void testContainsUserListFragment() {
     Fragment userListFragment =
-        userListActivity.getFragmentManager().findFragmentById(R.id.fragmentUserList);
+        userListActivity.getFragmentManager().findFragmentById(R.id.fragmentContainer);
     assertThat(userListFragment, is(notNullValue()));
   }
 
