@@ -32,6 +32,12 @@ Here are some useful Gradle/adb commands for executing this example:
  * `./gradlew installDebug` - Install the debug apk on the current connected device.
  * `./gradlew runUnitTests` - Execute domain and data layer tests (both unit and integration).
  * `./gradlew runAcceptanceTests` - Execute espresso and instrumentation acceptance tests.
+ 
+Discussions
+-----------------
+
+Refer to the issues section: https://github.com/android10/Android-CleanArchitecture/issues
+ 
 
 Code style
 -----------
