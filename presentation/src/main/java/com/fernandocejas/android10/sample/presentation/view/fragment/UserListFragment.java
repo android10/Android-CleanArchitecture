@@ -14,9 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
@@ -24,13 +22,24 @@ import com.fernandocejas.android10.sample.presentation.presenter.UserListPresent
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersAdapter;
 import com.fernandocejas.android10.sample.presentation.view.adapter.UsersLayoutManager;
+
 import java.util.Collection;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Fragment that shows a list of Users.
  */
 public class UserListFragment extends BaseFragment implements UserListView {
+
+  private static final String INSTANCE_STATE_PARAM_SHOW_LOADING
+          = "org.android10.STATE_PARAM_SHOW_LOADING";
+  private static final String INSTANCE_STATE_PARAM_SHOW_RETRY
+          = "org.android10.STATE_PARAM_SHOW_RETRY";
 
   /**
    * Interface for listening user list events.
@@ -81,6 +90,22 @@ public class UserListFragment extends BaseFragment implements UserListView {
     }
   }
 
+  @Override
+  public void onViewStateRestored(Bundle savedInstanceState) {
+    super.onViewStateRestored(savedInstanceState);
+    if (savedInstanceState == null) {
+      return;
+    }
+    boolean loadingVisible = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_SHOW_LOADING);
+    boolean retryVisible = savedInstanceState.getBoolean(INSTANCE_STATE_PARAM_SHOW_RETRY);
+    if (loadingVisible) {
+      showLoading();
+    }
+    if (retryVisible) {
+      showRetry();
+    }
+  }
+
   @Override public void onResume() {
     super.onResume();
     this.userListPresenter.resume();
@@ -89,6 +114,15 @@ public class UserListFragment extends BaseFragment implements UserListView {
   @Override public void onPause() {
     super.onPause();
     this.userListPresenter.pause();
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    boolean loadingVisible = rl_progress.getVisibility() == View.VISIBLE;
+    boolean retryVisible = rl_retry.getVisibility() == View.VISIBLE;
+    outState.putBoolean(INSTANCE_STATE_PARAM_SHOW_LOADING, loadingVisible);
+    outState.putBoolean(INSTANCE_STATE_PARAM_SHOW_RETRY, retryVisible);
   }
 
   @Override public void onDestroyView() {
