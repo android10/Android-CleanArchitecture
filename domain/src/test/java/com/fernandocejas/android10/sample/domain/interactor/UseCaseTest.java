@@ -26,6 +26,8 @@ import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
+import java.util.Arrays;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
@@ -34,13 +36,12 @@ public class UseCaseTest {
 
   private UseCaseTestClass useCase;
 
-  @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    this.useCase = new UseCaseTestClass(mockThreadExecutor, mockPostExecutionThread);
+    this.useCase = new UseCaseTestClass(new DefaultThreadExecutor(), mockPostExecutionThread);
   }
 
   @Test
@@ -51,8 +52,9 @@ public class UseCaseTest {
     given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
     useCase.execute(testSubscriber);
+    testScheduler.triggerActions();
 
-    assertThat(testSubscriber.getOnNextEvents().size(), is(0));
+    testSubscriber.assertReceivedOnNext(Arrays.asList(1, 2, 3));
   }
 
   @Test
@@ -74,11 +76,19 @@ public class UseCaseTest {
     }
 
     @Override protected Observable buildUseCaseObservable() {
-      return Observable.empty();
+      return Observable.just(1, 2, 3);
     }
 
     @Override public void execute(Subscriber UseCaseSubscriber) {
       super.execute(UseCaseSubscriber);
+    }
+  }
+
+  public class DefaultThreadExecutor implements ThreadExecutor {
+
+    @Override
+    public void execute(Runnable command) {
+      command.run();
     }
   }
 }
