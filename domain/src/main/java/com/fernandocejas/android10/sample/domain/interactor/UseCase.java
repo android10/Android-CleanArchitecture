@@ -36,7 +36,7 @@ public abstract class UseCase {
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
 
-  private Subscription subscription = Subscriptions.empty();
+  private Subscription subscription = Subscriptions.unsubscribed();
 
   protected UseCase(ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
@@ -57,6 +57,8 @@ public abstract class UseCase {
    */
   @SuppressWarnings("unchecked")
   public void execute(Subscriber UseCaseSubscriber) {
+    this.unsubscribe();
+    
     this.subscription = this.buildUseCaseObservable()
         .subscribeOn(Schedulers.from(threadExecutor))
         .observeOn(postExecutionThread.getScheduler())
