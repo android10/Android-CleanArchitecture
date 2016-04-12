@@ -60,11 +60,14 @@ public class UseCaseTest {
   @Test
   public void testSubscriptionWhenExecutingUseCase() {
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+    TestScheduler testScheduler = new TestScheduler();
+    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
     useCase.execute(testSubscriber);
-    useCase.unsubscribe();
+    assertThat(useCase.isUnsubscribed(), is(false));
 
-    assertThat(testSubscriber.isUnsubscribed(), is(true));
+    useCase.unsubscribe();
+    assertThat(useCase.isUnsubscribed(), is(true));
   }
 
   private static class UseCaseTestClass extends UseCase {
