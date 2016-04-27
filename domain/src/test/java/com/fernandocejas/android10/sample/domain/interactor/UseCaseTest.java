@@ -17,16 +17,19 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
-
-import java.util.Arrays;
+import rx.schedulers.Schedulers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -47,21 +50,19 @@ public class UseCaseTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testBuildUseCaseObservableReturnCorrectResult() {
+    given(mockPostExecutionThread.getScheduler()).willReturn(Schedulers.immediate());
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
-    TestScheduler testScheduler = new TestScheduler();
-    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
     useCase.execute(testSubscriber);
-    testScheduler.triggerActions();
+    testSubscriber.awaitTerminalEvent();
 
     testSubscriber.assertReceivedOnNext(Arrays.asList(1, 2, 3));
   }
 
   @Test
   public void testSubscriptionWhenExecutingUseCase() {
+    given(mockPostExecutionThread.getScheduler()).willReturn(Schedulers.immediate());
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
-    TestScheduler testScheduler = new TestScheduler();
-    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
     useCase.execute(testSubscriber);
     assertThat(useCase.isUnsubscribed(), is(false));
@@ -79,7 +80,7 @@ public class UseCaseTest {
     }
 
     @Override protected Observable buildUseCaseObservable() {
-      return Observable.just(1, 2, 3);
+      return Observable.just(1, 2, 3).delay(10, TimeUnit.MILLISECONDS);
     }
 
     @Override public void execute(Subscriber UseCaseSubscriber) {
