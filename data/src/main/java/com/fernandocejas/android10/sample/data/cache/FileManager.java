@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,12 +47,8 @@ public class FileManager {
         FileWriter writer = new FileWriter(file);
         writer.write(fileContent);
         writer.close();
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
-      } finally {
-
       }
     }
   }
@@ -78,8 +73,6 @@ public class FileManager {
         }
         bufferedReader.close();
         fileReader.close();
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -105,12 +98,14 @@ public class FileManager {
    *
    * @param directory The directory which its content will be deleted.
    */
-  public void clearDirectory(File directory) {
+  public boolean clearDirectory(File directory) {
+    boolean result = false;
     if (directory.exists()) {
       for (File file : directory.listFiles()) {
-        file.delete();
+        result = file.delete();
       }
     }
+    return result;
   }
 
   /**

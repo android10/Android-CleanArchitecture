@@ -16,6 +16,7 @@
 package com.fernandocejas.android10.sample.data.exception;
 
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.frodo.core.strings.Strings;
 
 /**
  * Wrapper around Exceptions used to manage errors in the repository.
@@ -35,9 +36,9 @@ public class RepositoryErrorBundle implements ErrorBundle {
 
   @Override
   public String getErrorMessage() {
-    String message = "";
+    String message = Strings.EMPTY;
     if (this.exception != null) {
-      this.exception.getMessage();
+      message = this.exception.getMessage();
     }
     return message;
   }
