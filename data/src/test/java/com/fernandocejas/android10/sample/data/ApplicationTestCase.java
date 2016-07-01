@@ -24,5 +24,5 @@ import org.robolectric.annotation.Config;
  * Inherit from this class to create a test.
  */
 @RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, application = ApplicationStub.class)
+@Config(constants = BuildConfig.class, application = ApplicationStub.class, sdk = 21)
 public abstract class ApplicationTestCase {}

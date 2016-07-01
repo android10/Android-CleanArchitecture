@@ -25,7 +25,7 @@ import rx.functions.Action1;
 /**
  * {@link UserDataStore} implementation based on connections to the api (Cloud).
  */
-public class CloudUserDataStore implements UserDataStore {
+class CloudUserDataStore implements UserDataStore {
 
   private final RestApi restApi;
   private final UserCache userCache;
@@ -42,7 +42,7 @@ public class CloudUserDataStore implements UserDataStore {
    * @param restApi The {@link RestApi} implementation to use.
    * @param userCache A {@link UserCache} to cache data retrieved from the api.
    */
-  public CloudUserDataStore(RestApi restApi, UserCache userCache) {
+  CloudUserDataStore(RestApi restApi, UserCache userCache) {
     this.restApi = restApi;
     this.userCache = userCache;
   }
