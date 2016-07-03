@@ -19,10 +19,9 @@ dependencies {
   def domainDependencies = rootProject.ext.domainDependencies
   def domainTestDependencies = rootProject.ext.domainTestDependencies
 
-  provided domainDependencies.daggerCompiler
   provided domainDependencies.javaxAnnotation
 
-  compile domainDependencies.dagger
+  compile domainDependencies.javaxInject
   compile domainDependencies.rxJava
 
   testCompile domainTestDependencies.junit
