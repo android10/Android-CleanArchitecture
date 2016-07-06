@@ -41,7 +41,7 @@ public abstract class BaseActivity extends Activity {
    * @return {@link com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent}
    */
   protected ApplicationComponent getApplicationComponent() {
-    return ((AndroidApplication)getApplication()).getApplicationComponent();
+    return ((AndroidApplication) getApplication()).getApplicationComponent();
   }
 
   /**
