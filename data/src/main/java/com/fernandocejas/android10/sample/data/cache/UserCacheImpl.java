@@ -80,10 +80,10 @@ public class UserCacheImpl implements UserCache {
 
   @Override public void put(UserEntity userEntity) {
     if (userEntity != null) {
-      File userEntitiyFile = this.buildFile(userEntity.getUserId());
+      File userEntityFile = this.buildFile(userEntity.getUserId());
       if (!isCached(userEntity.getUserId())) {
         String jsonString = this.serializer.serialize(userEntity);
-        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntitiyFile,
+        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntityFile,
             jsonString));
         setLastCacheUpdateTimeMillis();
       }

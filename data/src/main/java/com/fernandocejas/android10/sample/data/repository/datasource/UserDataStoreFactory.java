@@ -16,6 +16,7 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.net.RestApi;
@@ -33,10 +34,7 @@ public class UserDataStoreFactory {
   private final UserCache userCache;
 
   @Inject
-  public UserDataStoreFactory(Context context, UserCache userCache) {
-    if (context == null || userCache == null) {
-      throw new IllegalArgumentException("Constructor parameters cannot be null!!!");
-    }
+  public UserDataStoreFactory(@NonNull Context context, @NonNull UserCache userCache) {
     this.context = context.getApplicationContext();
     this.userCache = userCache;
   }
