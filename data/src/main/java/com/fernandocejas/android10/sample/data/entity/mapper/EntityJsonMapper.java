@@ -15,62 +15,76 @@
  */
 package com.fernandocejas.android10.sample.data.entity.mapper;
 
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
-import javax.inject.Inject;
 
 /**
  * Class used to transform from Strings representing json to valid objects.
  */
-public class UserEntityJsonMapper {
+public class EntityJsonMapper<T> {
 
   private final Gson gson;
+  private final Type type;
+  private ParameterizedType parameterizedType;
 
-  @Inject
-  public UserEntityJsonMapper() {
+  public EntityJsonMapper(Class<T> clazz) {
     this.gson = new Gson();
+    this.type = clazz;
   }
 
   /**
-   * Transform from valid json string to {@link UserEntity}.
+   * Transform from valid json string to an object type {@link T}.
    *
-   * @param userJsonResponse A json representing a user profile.
-   * @return {@link UserEntity}.
+   * @param json A json representing an object type {@link T}.
+   * @return {@link T}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public UserEntity transformUserEntity(String userJsonResponse) throws JsonSyntaxException {
+  public T transformUserEntity(String json) throws JsonSyntaxException {
     try {
-      Type userEntityType = new TypeToken<UserEntity>() {}.getType();
-      UserEntity userEntity = this.gson.fromJson(userJsonResponse, userEntityType);
-
-      return userEntity;
+      return gson.fromJson(json, type);
     } catch (JsonSyntaxException jsonException) {
       throw jsonException;
     }
   }
 
   /**
-   * Transform from valid json string to List of {@link UserEntity}.
+   * Transform from valid json string to List of {@link T}.
    *
-   * @param userListJsonResponse A json representing a collection of users.
-   * @return List of {@link UserEntity}.
+   * @param json A json representing a collection of objects type {@link T}.
+   * @return List of {@link T}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public List<UserEntity> transformUserEntityCollection(String userListJsonResponse)
+  public List<T> transformUserEntityCollection(String json)
       throws JsonSyntaxException {
-
-    List<UserEntity> userEntityCollection;
     try {
-      Type listOfUserEntityType = new TypeToken<List<UserEntity>>() {}.getType();
-      userEntityCollection = this.gson.fromJson(userListJsonResponse, listOfUserEntityType);
-
-      return userEntityCollection;
+      return gson.fromJson(json, getParameterizedType());
     } catch (JsonSyntaxException jsonException) {
       throw jsonException;
     }
+  }
+
+  private ParameterizedType getParameterizedType() {
+    if (parameterizedType == null) {
+      parameterizedType = new ParameterizedType() {
+        @Override public Type[] getActualTypeArguments() {
+          return new Type[] {type};
+        }
+
+        @Override public Type getOwnerType() {
+          return null;
+        }
+
+        @Override public Type getRawType() {
+          return List.class;
+        }
+      };
+    }
+
+    return parameterizedType;
   }
 }

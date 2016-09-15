@@ -28,7 +28,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UserEntityJsonMapperTest extends ApplicationTestCase {
+public class EntityMapperUtilTest extends ApplicationTestCase {
 
   private static final String JSON_RESPONSE_USER_DETAILS = "{\n"
       + "    \"id\": 1,\n"
@@ -49,19 +49,19 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
       + "    \"followers\": 1381\n"
       + "}]";
 
-  private UserEntityJsonMapper userEntityJsonMapper;
+  private EntityJsonMapper<UserEntity> entityJsonMapper;
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void setUp() {
-    userEntityJsonMapper = new UserEntityJsonMapper();
+    entityJsonMapper = new EntityJsonMapper<UserEntity>(UserEntity.class);
   }
 
   @Test
   public void testTransformUserEntityHappyCase() {
-    UserEntity userEntity = userEntityJsonMapper.transformUserEntity(JSON_RESPONSE_USER_DETAILS);
+    UserEntity userEntity = entityJsonMapper.transformUserEntity(JSON_RESPONSE_USER_DETAILS);
 
     assertThat(userEntity.getUserId(), is(1));
     assertThat(userEntity.getFullname(), is(equalTo("Simon Hill")));
@@ -71,7 +71,7 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
   @Test
   public void testTransformUserEntityCollectionHappyCase() {
     Collection<UserEntity> userEntityCollection =
-        userEntityJsonMapper.transformUserEntityCollection(
+        entityJsonMapper.transformUserEntityCollection(
             JSON_RESPONSE_USER_COLLECTION);
 
     assertThat(((UserEntity) userEntityCollection.toArray()[0]).getUserId(), is(1));
@@ -82,12 +82,12 @@ public class UserEntityJsonMapperTest extends ApplicationTestCase {
   @Test
   public void testTransformUserEntityNotValidResponse() {
     expectedException.expect(JsonSyntaxException.class);
-    userEntityJsonMapper.transformUserEntity("ironman");
+    entityJsonMapper.transformUserEntity("ironman");
   }
 
   @Test
   public void testTransformUserEntityCollectionNotValidResponse() {
     expectedException.expect(JsonSyntaxException.class);
-    userEntityJsonMapper.transformUserEntityCollection("Tony Stark");
+    entityJsonMapper.transformUserEntityCollection("Tony Stark");
   }
 }

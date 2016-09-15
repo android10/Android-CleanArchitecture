@@ -19,7 +19,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
+import com.fernandocejas.android10.sample.data.entity.mapper.EntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
 import com.fernandocejas.frodo.annotation.RxLogObservable;
 import java.net.MalformedURLException;
@@ -32,20 +32,20 @@ import rx.Observable;
 public class RestApiImpl implements RestApi {
 
   private final Context context;
-  private final UserEntityJsonMapper userEntityJsonMapper;
+  private final EntityJsonMapper<UserEntity> entityJsonMapper;
 
   /**
    * Constructor of the class
    *
    * @param context {@link android.content.Context}.
-   * @param userEntityJsonMapper {@link UserEntityJsonMapper}.
+   * @param entityJsonMapper {@link EntityJsonMapper}.
    */
-  public RestApiImpl(Context context, UserEntityJsonMapper userEntityJsonMapper) {
-    if (context == null || userEntityJsonMapper == null) {
+  public RestApiImpl(Context context, EntityJsonMapper entityJsonMapper) {
+    if (context == null || entityJsonMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
-    this.userEntityJsonMapper = userEntityJsonMapper;
+    this.entityJsonMapper = entityJsonMapper;
   }
 
   @RxLogObservable
@@ -55,7 +55,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserEntities = getUserEntitiesFromApi();
           if (responseUserEntities != null) {
-            subscriber.onNext(userEntityJsonMapper.transformUserEntityCollection(
+            subscriber.onNext(entityJsonMapper.transformUserEntityCollection(
                 responseUserEntities));
             subscriber.onCompleted();
           } else {
@@ -77,7 +77,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserDetails = getUserDetailsFromApi(userId);
           if (responseUserDetails != null) {
-            subscriber.onNext(userEntityJsonMapper.transformUserEntity(responseUserDetails));
+            subscriber.onNext(entityJsonMapper.transformUserEntity(responseUserDetails));
             subscriber.onCompleted();
           } else {
             subscriber.onError(new NetworkConnectionException());
