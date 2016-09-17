@@ -55,7 +55,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserEntities = getUserEntitiesFromApi();
           if (responseUserEntities != null) {
-            subscriber.onNext(entityJsonMapper.transformUserEntityCollection(
+            subscriber.onNext(entityJsonMapper.transformEntityCollection(
                 responseUserEntities));
             subscriber.onCompleted();
           } else {
@@ -77,7 +77,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserDetails = getUserDetailsFromApi(userId);
           if (responseUserDetails != null) {
-            subscriber.onNext(entityJsonMapper.transformUserEntity(responseUserDetails));
+            subscriber.onNext(entityJsonMapper.transformEntity(responseUserDetails));
             subscriber.onCompleted();
           } else {
             subscriber.onError(new NetworkConnectionException());

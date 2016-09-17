@@ -44,7 +44,7 @@ public class EntityJsonMapper<T> {
    * @return {@link T}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public T transformUserEntity(String json) throws JsonSyntaxException {
+  public T transformEntity(String json) throws JsonSyntaxException {
     try {
       return gson.fromJson(json, type);
     } catch (JsonSyntaxException jsonException) {
@@ -59,7 +59,7 @@ public class EntityJsonMapper<T> {
    * @return List of {@link T}.
    * @throws com.google.gson.JsonSyntaxException if the json string is not a valid json structure.
    */
-  public List<T> transformUserEntityCollection(String json)
+  public List<T> transformEntityCollection(String json)
       throws JsonSyntaxException {
     try {
       return gson.fromJson(json, getParameterizedType());
