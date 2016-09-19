@@ -17,15 +17,9 @@ package com.fernandocejas.android10.sample.app.users;
 
 import com.fernandocejas.android10.sample.app.ApplicationTestCase;
 import com.fernandocejas.android10.sample.app.users.cache.UserCache;
-import com.fernandocejas.android10.sample.app.users.CloudUserDataStore;
-import com.fernandocejas.android10.sample.app.users.DiskUserDataStore;
-import com.fernandocejas.android10.sample.app.users.UserDataStore;
-import com.fernandocejas.android10.sample.app.users.UserDataStoreFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RuntimeEnvironment;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -40,14 +34,11 @@ public class UserDataStoreFactoryTest extends ApplicationTestCase {
 
   private UserDataStoreFactory userDataStoreFactory;
 
-  @Mock
-  private UserCache mockUserCache;
+  @Mock private UserCache mockUserCache;
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    userDataStoreFactory =
-        new UserDataStoreFactory(RuntimeEnvironment.application, mockUserCache);
+    userDataStoreFactory = new UserDataStoreFactory(context(), mockUserCache);
   }
 
   @Test

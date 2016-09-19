@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.test.mapper;
+package com.fernandocejas.android10.sample.app.users;
 
-import com.fernandocejas.android10.sample.app.users.User;
-import com.fernandocejas.android10.sample.app.users.UserModelDataMapper;
-import com.fernandocejas.android10.sample.app.users.UserModel;
+import com.fernandocejas.android10.sample.app.ApplicationTestCase;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class UserModelDataMapperTest extends TestCase {
+public class UserModelDataMapperTest extends ApplicationTestCase {
 
   private static final int FAKE_USER_ID = 123;
   private static final String FAKE_FULLNAME = "Tony Stark";
 
   private UserModelDataMapper userModelDataMapper;
 
-  @Override protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() {
     userModelDataMapper = new UserModelDataMapper();
   }
 
+  @Test
   public void testTransformUser() {
     User user = createFakeUser();
     UserModel userModel = userModelDataMapper.transform(user);
@@ -49,6 +49,7 @@ public class UserModelDataMapperTest extends TestCase {
     assertThat(userModel.getFullName(), is(FAKE_FULLNAME));
   }
 
+  @Test
   public void testTransformUserCollection() {
     User mockUserOne = mock(User.class);
     User mockUserTwo = mock(User.class);

@@ -15,19 +15,19 @@
  */
 package com.fernandocejas.android10.sample.app.users;
 
-import com.fernandocejas.android10.sample.app.ApplicationTestCase;
 import com.fernandocejas.android10.sample.app.users.cache.UserCache;
-import com.fernandocejas.android10.sample.app.users.DiskUserDataStore;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 
-public class DiskUserDataStoreTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class DiskUserDataStoreTest {
 
   private static final int FAKE_USER_ID = 11;
 
@@ -39,7 +39,6 @@ public class DiskUserDataStoreTest extends ApplicationTestCase {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     diskUserDataStore = new DiskUserDataStore(mockUserCache);
   }
 

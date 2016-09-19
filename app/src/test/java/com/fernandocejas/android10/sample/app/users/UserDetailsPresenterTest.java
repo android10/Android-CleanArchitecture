@@ -13,45 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.test.presenter;
+package com.fernandocejas.android10.sample.app.users;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
-import com.fernandocejas.android10.sample.app.users.GetUserDetails;
-import com.fernandocejas.android10.sample.app.users.UserModelDataMapper;
-import com.fernandocejas.android10.sample.app.users.UserDetailsPresenter;
-import com.fernandocejas.android10.sample.app.users.UserDetailsView;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import rx.Subscriber;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
-public class UserDetailsPresenterTest extends AndroidTestCase {
-
-  private static final int FAKE_USER_ID = 123;
+@RunWith(MockitoJUnitRunner.class)
+public class UserDetailsPresenterTest {
 
   private UserDetailsPresenter userDetailsPresenter;
 
-  @Mock
-  private Context mockContext;
-  @Mock
-  private UserDetailsView mockUserDetailsView;
-  @Mock
-  private GetUserDetails mockGetUserDetails;
-  @Mock
-  private UserModelDataMapper mockUserModelDataMapper;
+  @Mock private Context mockContext;
+  @Mock private UserDetailsView mockUserDetailsView;
+  @Mock private GetUserDetails mockGetUserDetails;
+  @Mock private UserModelDataMapper mockUserModelDataMapper;
 
-  @Override protected void setUp() throws Exception {
-    super.setUp();
-    MockitoAnnotations.initMocks(this);
-    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetails,
-        mockUserModelDataMapper);
+  @Before
+  public void setUp() throws Exception {
+    userDetailsPresenter = new UserDetailsPresenter(mockGetUserDetails, mockUserModelDataMapper);
     userDetailsPresenter.setView(mockUserDetailsView);
   }
 
+  @Test
   public void testUserDetailsPresenterInitialize() {
     given(mockUserDetailsView.context()).willReturn(mockContext);
 

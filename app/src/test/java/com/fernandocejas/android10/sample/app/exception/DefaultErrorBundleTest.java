@@ -17,11 +17,13 @@ package com.fernandocejas.android10.sample.app.exception;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DefaultErrorBundleTest {
   private DefaultErrorBundle defaultErrorBundle;
 
@@ -30,7 +32,6 @@ public class DefaultErrorBundleTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     defaultErrorBundle = new DefaultErrorBundle(mockException);
   }
 

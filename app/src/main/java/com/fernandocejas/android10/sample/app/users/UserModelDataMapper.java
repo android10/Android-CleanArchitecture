@@ -37,7 +37,7 @@ public class UserModelDataMapper {
    * @param user Object to be transformed.
    * @return {@link UserModel}.
    */
-  public UserModel transform(User user) {
+  UserModel transform(User user) {
     if (user == null) {
       throw new IllegalArgumentException("Cannot transform a null value");
     }
@@ -57,7 +57,7 @@ public class UserModelDataMapper {
    * @param usersCollection Objects to be transformed.
    * @return List of {@link UserModel}.
    */
-  public Collection<UserModel> transform(Collection<User> usersCollection) {
+  Collection<UserModel> transform(Collection<User> usersCollection) {
     Collection<UserModel> userModelsCollection;
 
     if (usersCollection != null && !usersCollection.isEmpty()) {

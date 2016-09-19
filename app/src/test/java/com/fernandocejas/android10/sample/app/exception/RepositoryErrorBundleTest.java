@@ -15,15 +15,16 @@
  */
 package com.fernandocejas.android10.sample.app.exception;
 
-import com.fernandocejas.android10.sample.app.ApplicationTestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 
-public class RepositoryErrorBundleTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class RepositoryErrorBundleTest {
 
   private RepositoryErrorBundle repositoryErrorBundle;
 
@@ -32,11 +33,11 @@ public class RepositoryErrorBundleTest extends ApplicationTestCase {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     repositoryErrorBundle = new RepositoryErrorBundle(mockException);
   }
 
   @Test
+  @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   public void testGetErrorMessageInteraction() {
     repositoryErrorBundle.getErrorMessage();
 
