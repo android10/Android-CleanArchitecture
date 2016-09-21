@@ -23,7 +23,6 @@ import com.fernandocejas.android10.sample.app.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.app.interactor.UseCase;
 import com.fernandocejas.android10.sample.app.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.app.core.di.PerActivity;
-import com.fernandocejas.frodo.core.annotations.VisibleForTesting;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
@@ -64,7 +63,6 @@ public class UserListPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving the user list.
    */
-  @VisibleForTesting
   void initialize() {
     this.loadUserList();
   }
