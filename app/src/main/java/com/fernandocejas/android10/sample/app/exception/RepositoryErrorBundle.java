@@ -15,14 +15,16 @@
  */
 package com.fernandocejas.android10.sample.app.exception;
 
+import com.fernandocejas.frodo.core.strings.Strings;
+
 /**
  * Wrapper around Exceptions used to manage errors in the repository.
  */
-public class RepositoryErrorBundle implements ErrorBundle {
+class RepositoryErrorBundle implements ErrorBundle {
 
   private final Exception exception;
 
-  public RepositoryErrorBundle(Exception exception) {
+  RepositoryErrorBundle(Exception exception) {
     this.exception = exception;
   }
 
@@ -33,7 +35,7 @@ public class RepositoryErrorBundle implements ErrorBundle {
 
   @Override
   public String getErrorMessage() {
-    String message = "";
+    String message = Strings.EMPTY;
     if (this.exception != null) {
       message = this.exception.getMessage();
     }

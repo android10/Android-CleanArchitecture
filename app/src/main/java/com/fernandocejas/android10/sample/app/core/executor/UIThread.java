@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.app.core.executor;
 
-import com.fernandocejas.android10.sample.app.core.executor.PostExecutionThread;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import rx.Scheduler;
@@ -29,7 +28,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class UIThread implements PostExecutionThread {
 
   @Inject
-  public UIThread() {}
+  UIThread() {}
 
   @Override public Scheduler getScheduler() {
     return AndroidSchedulers.mainThread();

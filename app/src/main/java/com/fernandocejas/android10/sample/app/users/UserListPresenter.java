@@ -23,6 +23,7 @@ import com.fernandocejas.android10.sample.app.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.app.interactor.UseCase;
 import com.fernandocejas.android10.sample.app.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.app.core.di.PerActivity;
+import com.fernandocejas.frodo.core.annotations.VisibleForTesting;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
@@ -41,7 +42,7 @@ public class UserListPresenter implements Presenter {
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase,
+  UserListPresenter(@Named("userList") UseCase getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -63,7 +64,8 @@ public class UserListPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving the user list.
    */
-  public void initialize() {
+  @VisibleForTesting
+  void initialize() {
     this.loadUserList();
   }
 
@@ -76,7 +78,7 @@ public class UserListPresenter implements Presenter {
     this.getUserList();
   }
 
-  public void onUserClicked(UserModel userModel) {
+  void onUserClicked(UserModel userModel) {
     this.viewListView.viewUser(userModel);
   }
 

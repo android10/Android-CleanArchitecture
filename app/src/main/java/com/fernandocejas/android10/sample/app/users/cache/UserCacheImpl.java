@@ -92,8 +92,8 @@ public class UserCacheImpl implements UserCache {
   }
 
   @Override public boolean isCached(int userId) {
-    File userEntitiyFile = this.buildFile(userId);
-    return this.fileManager.exists(userEntitiyFile);
+    File userEntityFile = this.buildFile(userId);
+    return this.fileManager.exists(userEntityFile);
   }
 
   @Override public boolean isExpired() {
@@ -120,7 +120,7 @@ public class UserCacheImpl implements UserCache {
    * @return A valid file.
    */
   private File buildFile(int userId) {
-    StringBuilder fileNameBuilder = new StringBuilder();
+    final StringBuilder fileNameBuilder = new StringBuilder();
     fileNameBuilder.append(this.cacheDir.getPath());
     fileNameBuilder.append(File.separator);
     fileNameBuilder.append(DEFAULT_FILE_NAME);

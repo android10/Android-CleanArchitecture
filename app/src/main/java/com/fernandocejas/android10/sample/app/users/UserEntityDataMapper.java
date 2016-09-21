@@ -29,7 +29,7 @@ import javax.inject.Singleton;
 public class UserEntityDataMapper {
 
   @Inject
-  public UserEntityDataMapper() {}
+  UserEntityDataMapper() {}
 
   /**
    * Transform a {@link UserEntity} into an {@link User}.
@@ -37,7 +37,7 @@ public class UserEntityDataMapper {
    * @param userEntity Object to be transformed.
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
-  public User transform(UserEntity userEntity) {
+  User transform(UserEntity userEntity) {
     User user = null;
     if (userEntity != null) {
       user = new User(userEntity.getUserId());
@@ -57,11 +57,10 @@ public class UserEntityDataMapper {
    * @param userEntityCollection Object Collection to be transformed.
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
-  public List<User> transform(Collection<UserEntity> userEntityCollection) {
-    List<User> userList = new ArrayList<>(20);
-    User user;
+  List<User> transform(Collection<UserEntity> userEntityCollection) {
+    final List<User> userList = new ArrayList<>(20);
     for (UserEntity userEntity : userEntityCollection) {
-      user = transform(userEntity);
+      final User user = transform(userEntity);
       if (user != null) {
         userList.add(user);
       }

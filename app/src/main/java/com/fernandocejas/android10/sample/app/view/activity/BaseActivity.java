@@ -30,7 +30,7 @@ public abstract class BaseActivity extends Activity {
    * @param fragment The fragment to be added.
    */
   protected void addFragment(int containerViewId, Fragment fragment) {
-    FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
+    final FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
     fragmentTransaction.add(containerViewId, fragment);
     fragmentTransaction.commit();
   }

@@ -36,7 +36,7 @@ public class UserDataRepository implements UserRepository {
    * @param userEntityDataMapper {@link UserEntityDataMapper}.
    */
   @Inject
-  public UserDataRepository(UserDataStoreFactory dataStoreFactory,
+  UserDataRepository(UserDataStoreFactory dataStoreFactory,
       UserEntityDataMapper userEntityDataMapper) {
     this.userDataStoreFactory = dataStoreFactory;
     this.userEntityDataMapper = userEntityDataMapper;

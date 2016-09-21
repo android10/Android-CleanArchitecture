@@ -23,7 +23,7 @@ import javax.inject.Inject;
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
-  public interface OnItemClickListener {
+  interface OnItemClickListener {
     void onUserItemClicked(UserModel userModel);
   }
 
@@ -33,7 +33,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   private OnItemClickListener onItemClickListener;
 
   @Inject
-  public UsersAdapter(Context context) {
+  UsersAdapter(Context context) {
     this.layoutInflater =
         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
@@ -64,13 +64,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     return position;
   }
 
-  public void setUsersCollection(Collection<UserModel> usersCollection) {
+  void setUsersCollection(Collection<UserModel> usersCollection) {
     this.validateUsersCollection(usersCollection);
     this.usersCollection = (List<UserModel>) usersCollection;
     this.notifyDataSetChanged();
   }
 
-  public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+  void setOnItemClickListener (OnItemClickListener onItemClickListener) {
     this.onItemClickListener = onItemClickListener;
   }
 
@@ -83,7 +83,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   static class UserViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.title) TextView textViewTitle;
 
-    public UserViewHolder(View itemView) {
+    UserViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
     }

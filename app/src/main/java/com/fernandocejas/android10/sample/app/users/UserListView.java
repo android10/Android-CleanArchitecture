@@ -11,7 +11,7 @@ import java.util.Collection;
  * Interface representing a View in a model view presenter (MVP) pattern.
  * In this case is used as a view representing a list of {@link UserModel}.
  */
-public interface UserListView extends LoadDataView {
+interface UserListView extends LoadDataView {
   /**
    * Render a user list in the UI.
    *

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * Implements {@link java.util.concurrent.Callable} so when executed asynchronously can
  * return a value.
  */
-public class ApiConnection implements Callable<String> {
+class ApiConnection implements Callable<String> {
 
   private static final String CONTENT_TYPE_LABEL = "Content-Type";
   private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
@@ -41,7 +41,7 @@ public class ApiConnection implements Callable<String> {
     this.url = new URL(url);
   }
 
-  public static ApiConnection createGET(String url) throws MalformedURLException {
+  static ApiConnection createGET(String url) throws MalformedURLException {
     return new ApiConnection(url);
   }
 
@@ -52,7 +52,7 @@ public class ApiConnection implements Callable<String> {
    * @return A string response
    */
   @Nullable
-  public String requestSyncCall() {
+  String requestSyncCall() {
     connectToApi();
     return response;
   }

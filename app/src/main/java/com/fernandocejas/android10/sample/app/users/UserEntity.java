@@ -52,7 +52,7 @@ public class UserEntity {
     this.userId = userId;
   }
 
-  public String getCoverUrl() {
+  String getCoverUrl() {
     return coverUrl;
   }
 
@@ -64,11 +64,11 @@ public class UserEntity {
     return fullname;
   }
 
-  public void setFullname(String fullname) {
+  void setFullname(String fullname) {
     this.fullname = fullname;
   }
 
-  public String getDescription() {
+  String getDescription() {
     return description;
   }
 
@@ -84,7 +84,7 @@ public class UserEntity {
     this.followers = followers;
   }
 
-  public String getEmail() {
+  String getEmail() {
     return email;
   }
 
@@ -93,7 +93,7 @@ public class UserEntity {
   }
 
   @Override public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
+    final StringBuilder stringBuilder = new StringBuilder();
 
     stringBuilder.append("***** User Entity Details *****\n");
     stringBuilder.append("id=" + this.getUserId() + "\n");

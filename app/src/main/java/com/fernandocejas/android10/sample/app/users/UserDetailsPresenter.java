@@ -40,7 +40,7 @@ public class UserDetailsPresenter implements Presenter {
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
+  UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -62,7 +62,7 @@ public class UserDetailsPresenter implements Presenter {
   /**
    * Initializes the presenter by start retrieving user details.
    */
-  public void initialize() {
+  void initialize() {
     this.loadUserDetails();
   }
 

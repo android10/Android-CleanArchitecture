@@ -33,7 +33,7 @@ public class UserDataStoreFactory {
   private final UserCache userCache;
 
   @Inject
-  public UserDataStoreFactory(@NonNull Context context, @NonNull UserCache userCache) {
+  UserDataStoreFactory(@NonNull Context context, @NonNull UserCache userCache) {
     this.context = context.getApplicationContext();
     this.userCache = userCache;
   }
@@ -41,7 +41,7 @@ public class UserDataStoreFactory {
   /**
    * Create {@link UserDataStore} from a user id.
    */
-  public UserDataStore create(int userId) {
+  UserDataStore create(int userId) {
     UserDataStore userDataStore;
 
     if (!this.userCache.isExpired() && this.userCache.isCached(userId)) {
@@ -56,7 +56,7 @@ public class UserDataStoreFactory {
   /**
    * Create {@link UserDataStore} to retrieve data from the Cloud.
    */
-  public UserDataStore createCloudDataStore() {
+  UserDataStore createCloudDataStore() {
     UserEntityJsonMapper userEntityJsonMapper = new UserEntityJsonMapper();
     RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
 
