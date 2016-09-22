@@ -23,7 +23,7 @@ import rx.Observable;
  * RestApi for retrieving data from the network.
  */
 public interface RestApi {
-  String API_BASE_URL = "http://www.android10.org/myapi/";
+  String API_BASE_URL = "https://raw.githubusercontent.com/android10/Sample-Data/master/Android-CleanArchitecture/";
 
   /** Api url for getting all users */
   String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
