@@ -17,14 +17,19 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
+import rx.schedulers.Schedulers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -34,35 +39,36 @@ public class UseCaseTest {
 
   private UseCaseTestClass useCase;
 
-  @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
 
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    this.useCase = new UseCaseTestClass(mockThreadExecutor, mockPostExecutionThread);
+    this.useCase = new UseCaseTestClass(new DefaultThreadExecutor(), mockPostExecutionThread);
   }
 
   @Test
   @SuppressWarnings("unchecked")
   public void testBuildUseCaseObservableReturnCorrectResult() {
+    given(mockPostExecutionThread.getScheduler()).willReturn(Schedulers.immediate());
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
-    TestScheduler testScheduler = new TestScheduler();
-    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
     useCase.execute(testSubscriber);
+    testSubscriber.awaitTerminalEvent();
 
-    assertThat(testSubscriber.getOnNextEvents().size(), is(0));
+    testSubscriber.assertReceivedOnNext(Arrays.asList(1, 2, 3));
   }
 
   @Test
   public void testSubscriptionWhenExecutingUseCase() {
+    given(mockPostExecutionThread.getScheduler()).willReturn(Schedulers.immediate());
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
 
     useCase.execute(testSubscriber);
-    useCase.unsubscribe();
+    assertThat(useCase.isUnsubscribed(), is(false));
 
-    assertThat(testSubscriber.isUnsubscribed(), is(true));
+    useCase.unsubscribe();
+    assertThat(useCase.isUnsubscribed(), is(true));
   }
 
   private static class UseCaseTestClass extends UseCase {
@@ -74,11 +80,19 @@ public class UseCaseTest {
     }
 
     @Override protected Observable buildUseCaseObservable() {
-      return Observable.empty();
+      return Observable.just(1, 2, 3).delay(10, TimeUnit.MILLISECONDS);
     }
 
     @Override public void execute(Subscriber UseCaseSubscriber) {
       super.execute(UseCaseSubscriber);
+    }
+  }
+
+  public class DefaultThreadExecutor implements ThreadExecutor {
+
+    @Override
+    public void execute(Runnable command) {
+      command.run();
     }
   }
 }

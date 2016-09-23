@@ -71,4 +71,12 @@ public abstract class UseCase {
       subscription.unsubscribe();
     }
   }
+
+  /**
+   * Checks subscription status
+   * @return true if subscription.isUnsubscribed()
+   */
+  public boolean isUnsubscribed(){
+    return this.subscription.isUnsubscribed();
+  }
 }
