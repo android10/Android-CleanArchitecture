@@ -13,40 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.app.users.cache.serializer;
+package com.fernandocejas.android10.sample.app.data;
 
-import com.fernandocejas.android10.sample.app.users.UserEntity;
 import com.google.gson.Gson;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Class user as Serializer/Deserializer for user entities.
+ * Json Serializer/Deserializer.
  */
 @Singleton
-public class JsonSerializer {
+public class Serializer {
 
   private final Gson gson = new Gson();
 
-  @Inject
-  JsonSerializer() {}
+  @Inject Serializer() {}
 
   /**
    * Serialize an object to Json.
-   *
-   * @param userEntity {@link UserEntity} to serialize.
+   * @param object to serialize.
    */
-  public String serialize(UserEntity userEntity) {
-    return gson.toJson(userEntity, UserEntity.class);
+  public String serialize(Object object, Class clazz) {
+    return gson.toJson(object, clazz);
   }
 
   /**
    * Deserialize a json representation of an object.
-   *
-   * @param jsonString A json string to deserialize.
-   * @return {@link UserEntity}
+   * @param string A json string to deserialize.
    */
-  public UserEntity deserialize(String jsonString) {
-    return gson.fromJson(jsonString, UserEntity.class);
+  public <T> T deserialize(String string, Class<T> clazz) {
+    return gson.fromJson(string, clazz);
   }
 }
