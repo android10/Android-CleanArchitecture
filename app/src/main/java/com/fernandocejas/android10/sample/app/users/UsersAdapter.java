@@ -21,7 +21,7 @@ import javax.inject.Inject;
 /**
  * Adaptar that manages a collection of {@link UserModel}.
  */
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
+class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
   interface OnItemClickListener {
     void onUserItemClicked(UserModel userModel);
@@ -51,11 +51,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   @Override public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModel userModel = this.usersCollection.get(position);
     holder.textViewTitle.setText(userModel.getFullName());
-    holder.itemView.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        if (UsersAdapter.this.onItemClickListener != null) {
-          UsersAdapter.this.onItemClickListener.onUserItemClicked(userModel);
-        }
+    holder.itemView.setOnClickListener(v -> {
+      if (UsersAdapter.this.onItemClickListener != null) {
+        UsersAdapter.this.onItemClickListener.onUserItemClicked(userModel);
       }
     });
   }

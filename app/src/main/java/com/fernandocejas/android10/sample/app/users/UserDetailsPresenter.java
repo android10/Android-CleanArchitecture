@@ -32,7 +32,7 @@ import javax.inject.Named;
  * layer.
  */
 @PerActivity
-public class UserDetailsPresenter implements Presenter {
+class UserDetailsPresenter implements Presenter {
 
   private UserDetailsView viewDetailsView;
 

@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.app.core.di.modules;
+package com.fernandocejas.android10.sample.app.users;
 
+import com.fernandocejas.android10.sample.app.core.di.PerActivity;
 import com.fernandocejas.android10.sample.app.core.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.app.core.executor.ThreadExecutor;
-import com.fernandocejas.android10.sample.app.users.GetUserDetails;
-import com.fernandocejas.android10.sample.app.users.GetUserList;
 import com.fernandocejas.android10.sample.app.interactor.UseCase;
-import com.fernandocejas.android10.sample.app.users.UserRepository;
-import com.fernandocejas.android10.sample.app.core.di.PerActivity;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
@@ -30,13 +27,13 @@ import javax.inject.Named;
  * Dagger module that provides user related collaborators.
  */
 @Module
-public class UserModule {
+class UserModule {
 
   private int userId = -1;
 
-  public UserModule() {}
+  UserModule() {}
 
-  public UserModule(int userId) {
+  UserModule(int userId) {
     this.userId = userId;
   }
 

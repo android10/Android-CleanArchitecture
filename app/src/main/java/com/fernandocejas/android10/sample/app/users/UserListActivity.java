@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.view.Window;
 import com.fernandocejas.android10.sample.app.R;
 import com.fernandocejas.android10.sample.app.core.di.HasComponent;
-import com.fernandocejas.android10.sample.app.core.di.components.DaggerUserComponent;
-import com.fernandocejas.android10.sample.app.core.di.components.UserComponent;
 import com.fernandocejas.android10.sample.app.view.activity.BaseActivity;
 
 /**

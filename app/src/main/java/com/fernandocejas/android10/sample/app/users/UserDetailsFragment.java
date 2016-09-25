@@ -16,7 +16,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.fernandocejas.android10.sample.app.R;
-import com.fernandocejas.android10.sample.app.core.di.components.UserComponent;
 import com.fernandocejas.android10.sample.app.view.component.AutoLoadImageView;
 import com.fernandocejas.android10.sample.app.view.fragment.BaseFragment;
 import javax.inject.Inject;

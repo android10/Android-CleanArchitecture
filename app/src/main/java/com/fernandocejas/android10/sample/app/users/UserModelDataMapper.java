@@ -26,10 +26,10 @@ import javax.inject.Inject;
  * presentation layer.
  */
 @PerActivity
-public class UserModelDataMapper {
+class UserModelDataMapper {
 
   @Inject
-  public UserModelDataMapper() {}
+  UserModelDataMapper() {}
 
   /**
    * Transform a {@link User} into an {@link UserModel}.
@@ -41,7 +41,7 @@ public class UserModelDataMapper {
     if (user == null) {
       throw new IllegalArgumentException("Cannot transform a null value");
     }
-    UserModel userModel = new UserModel(user.getUserId());
+    final UserModel userModel = new UserModel(user.getUserId());
     userModel.setCoverUrl(user.getCoverUrl());
     userModel.setFullName(user.getFullName());
     userModel.setEmail(user.getEmail());

@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.app.core.di.components;
+package com.fernandocejas.android10.sample.app.users;
 
 import com.fernandocejas.android10.sample.app.core.di.PerActivity;
+import com.fernandocejas.android10.sample.app.core.di.components.ActivityComponent;
+import com.fernandocejas.android10.sample.app.core.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.app.core.di.modules.ActivityModule;
-import com.fernandocejas.android10.sample.app.core.di.modules.UserModule;
-import com.fernandocejas.android10.sample.app.users.UserDetailsFragment;
-import com.fernandocejas.android10.sample.app.users.UserListFragment;
 import dagger.Component;
 
 /**
@@ -28,7 +27,7 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, UserModule.class})
-public interface UserComponent extends ActivityComponent {
+interface UserComponent extends ActivityComponent {
   void inject(UserListFragment userListFragment);
   void inject(UserDetailsFragment userDetailsFragment);
 }

@@ -29,7 +29,7 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
-interface ActivityComponent {
+public interface ActivityComponent {
   //Exposed to sub-graphs.
   Activity activity();
 }
