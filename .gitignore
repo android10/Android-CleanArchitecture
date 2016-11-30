@@ -15,6 +15,7 @@ Thumbs.db
 *.class
   
 # generated files
+.gradletasknamecache
 bin/
 gen/
 build/
