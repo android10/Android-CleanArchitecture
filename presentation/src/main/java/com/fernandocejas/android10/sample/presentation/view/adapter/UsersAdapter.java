@@ -34,7 +34,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   private OnItemClickListener onItemClickListener;
 
   @Inject
-  public UsersAdapter(Context context) {
+  UsersAdapter(Context context) {
     this.layoutInflater =
         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
@@ -84,7 +84,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   static class UserViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.title) TextView textViewTitle;
 
-    public UserViewHolder(View itemView) {
+    UserViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
     }

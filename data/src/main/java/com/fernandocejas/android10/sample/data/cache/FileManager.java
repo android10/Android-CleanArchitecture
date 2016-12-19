@@ -32,7 +32,7 @@ import javax.inject.Singleton;
 public class FileManager {
 
   @Inject
-  public FileManager() {}
+  FileManager() {}
 
   /**
    * Writes a file to Disk.
@@ -41,7 +41,7 @@ public class FileManager {
    *
    * @param file The file to write to Disk.
    */
-  public void writeToFile(File file, String fileContent) {
+  void writeToFile(File file, String fileContent) {
     if (!file.exists()) {
       try {
         FileWriter writer = new FileWriter(file);
@@ -61,7 +61,7 @@ public class FileManager {
    * @param file The file to read from.
    * @return A string with the content of the file.
    */
-  public String readFileContent(File file) {
+  String readFileContent(File file) {
     StringBuilder fileContentBuilder = new StringBuilder();
     if (file.exists()) {
       String stringLine;
@@ -69,7 +69,7 @@ public class FileManager {
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         while ((stringLine = bufferedReader.readLine()) != null) {
-          fileContentBuilder.append(stringLine + "\n");
+          fileContentBuilder.append(stringLine).append("\n");
         }
         bufferedReader.close();
         fileReader.close();
@@ -87,7 +87,7 @@ public class FileManager {
    * @param file The file to check existence.
    * @return true if this file exists, false otherwise.
    */
-  public boolean exists(File file) {
+  boolean exists(File file) {
     return file.exists();
   }
 
@@ -98,7 +98,7 @@ public class FileManager {
    *
    * @param directory The directory which its content will be deleted.
    */
-  public boolean clearDirectory(File directory) {
+  boolean clearDirectory(File directory) {
     boolean result = false;
     if (directory.exists()) {
       for (File file : directory.listFiles()) {
@@ -116,7 +116,7 @@ public class FileManager {
    * @param key A string for the key that will be used to retrieve the value in the future.
    * @param value A long representing the value to be inserted.
    */
-  public void writeToPreferences(Context context, String preferenceFileName, String key,
+  void writeToPreferences(Context context, String preferenceFileName, String key,
       long value) {
 
     SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
@@ -134,7 +134,7 @@ public class FileManager {
    * @param key A key that will be used to retrieve the value from the preference file.
    * @return A long representing the value retrieved from the preferences file.
    */
-  public long getFromPreferences(Context context, String preferenceFileName, String key) {
+  long getFromPreferences(Context context, String preferenceFileName, String key) {
     SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
         Context.MODE_PRIVATE);
     return sharedPreferences.getLong(key, 0);

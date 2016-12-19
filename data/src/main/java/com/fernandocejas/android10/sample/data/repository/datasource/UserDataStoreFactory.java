@@ -34,7 +34,7 @@ public class UserDataStoreFactory {
   private final UserCache userCache;
 
   @Inject
-  public UserDataStoreFactory(@NonNull Context context, @NonNull UserCache userCache) {
+  UserDataStoreFactory(@NonNull Context context, @NonNull UserCache userCache) {
     this.context = context.getApplicationContext();
     this.userCache = userCache;
   }

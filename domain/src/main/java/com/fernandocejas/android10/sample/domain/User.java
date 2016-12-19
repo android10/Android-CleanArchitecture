@@ -77,7 +77,7 @@ public class User {
   }
 
   @Override public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
+    final StringBuilder stringBuilder = new StringBuilder();
 
     stringBuilder.append("***** User Details *****\n");
     stringBuilder.append("id=" + this.getUserId() + "\n");

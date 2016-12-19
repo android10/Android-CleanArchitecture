@@ -51,7 +51,7 @@ public class UserCacheImpl implements UserCache {
    * @param fileManager {@link FileManager} for saving serialized objects to the file system.
    */
   @Inject
-  public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
+  UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
       FileManager fileManager, ThreadExecutor executor) {
     if (context == null || userCacheSerializer == null || fileManager == null || executor == null) {
       throw new IllegalArgumentException("Invalid null parameter");
@@ -91,8 +91,8 @@ public class UserCacheImpl implements UserCache {
   }
 
   @Override public boolean isCached(int userId) {
-    File userEntitiyFile = this.buildFile(userId);
-    return this.fileManager.exists(userEntitiyFile);
+    final File userEntityFile = this.buildFile(userId);
+    return this.fileManager.exists(userEntityFile);
   }
 
   @Override public boolean isExpired() {
@@ -119,7 +119,7 @@ public class UserCacheImpl implements UserCache {
    * @return A valid file.
    */
   private File buildFile(int userId) {
-    StringBuilder fileNameBuilder = new StringBuilder();
+    final StringBuilder fileNameBuilder = new StringBuilder();
     fileNameBuilder.append(this.cacheDir.getPath());
     fileNameBuilder.append(File.separator);
     fileNameBuilder.append(DEFAULT_FILE_NAME);

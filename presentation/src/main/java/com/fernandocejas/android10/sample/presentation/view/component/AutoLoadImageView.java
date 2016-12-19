@@ -17,10 +17,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -80,25 +78,6 @@ public class AutoLoadImageView extends ImageView {
       this.loadImageFromUrl(this.imageUrl);
     } else {
       this.loadImagePlaceHolder();
-    }
-  }
-
-  /**
-   * Set a place holder used for loading when an image is being downloaded from the internet.
-   *
-   * @param resourceId The resource id to use as a place holder.
-   */
-  public void setImagePlaceHolder(int resourceId) {
-    this.imagePlaceHolderResId = resourceId;
-    this.loadImagePlaceHolder();
-  }
-
-  /**
-   * Invalidate the internal cache by evicting all cached elements.
-   */
-  public void invalidateImageCache() {
-    if (this.cache != null) {
-      this.cache.evictAll();
     }
   }
 
@@ -195,9 +174,9 @@ public class AutoLoadImageView extends ImageView {
   private boolean isThereInternetConnection() {
     boolean isConnected;
 
-    ConnectivityManager connectivityManager =
+    final ConnectivityManager connectivityManager =
         (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+    final NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
     isConnected = (networkInfo != null && networkInfo.isConnectedOrConnecting());
 
     return isConnected;
@@ -238,14 +217,12 @@ public class AutoLoadImageView extends ImageView {
      */
     void download(String imageUrl, Callback callback) {
       try {
-        URLConnection conn = new URL(imageUrl).openConnection();
+        final URLConnection conn = new URL(imageUrl).openConnection();
         conn.connect();
-        Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
+        final Bitmap bitmap = BitmapFactory.decodeStream(conn.getInputStream());
         if (callback != null) {
           callback.onImageDownloaded(bitmap);
         }
-      } catch (MalformedURLException e) {
-        reportError(callback);
       } catch (IOException e) {
         reportError(callback);
       }
@@ -298,28 +275,15 @@ public class AutoLoadImageView extends ImageView {
      * @param fileName A string representing the name of the file to be cached.
      */
     synchronized void put(Bitmap bitmap, String fileName) {
-      File file = buildFileFromFilename(fileName);
+      final File file = buildFileFromFilename(fileName);
       if (!file.exists()) {
         try {
-          FileOutputStream fileOutputStream = new FileOutputStream(file);
+          final FileOutputStream fileOutputStream = new FileOutputStream(file);
           bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
           fileOutputStream.flush();
           fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-          Log.e(TAG, e.getMessage());
         } catch (IOException e) {
           Log.e(TAG, e.getMessage());
-        }
-      }
-    }
-
-    /**
-     * Invalidate and expire the cache.
-     */
-    void evictAll() {
-      if (cacheDir.exists()) {
-        for (File file : cacheDir.listFiles()) {
-          file.delete();
         }
       }
     }
