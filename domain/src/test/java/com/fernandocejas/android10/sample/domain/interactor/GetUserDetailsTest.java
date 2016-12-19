@@ -20,13 +20,15 @@ import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GetUserDetailsTest {
 
   private static final int FAKE_USER_ID = 123;
@@ -39,7 +41,6 @@ public class GetUserDetailsTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     getUserDetails = new GetUserDetails(FAKE_USER_ID, mockUserRepository,
         mockThreadExecutor, mockPostExecutionThread);
   }

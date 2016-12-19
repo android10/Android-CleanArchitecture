@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.data.repository;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
@@ -27,15 +26,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import rx.Observable;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 
-public class UserDataRepositoryTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class UserDataRepositoryTest {
 
   private static final int FAKE_USER_ID = 123;
 
@@ -52,7 +53,6 @@ public class UserDataRepositoryTest extends ApplicationTestCase {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     userDataRepository = new UserDataRepository(mockUserDataStoreFactory,
         mockUserEntityDataMapper);
 

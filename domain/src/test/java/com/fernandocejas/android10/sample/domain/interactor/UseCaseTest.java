@@ -19,8 +19,9 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.TestSubscriber;
@@ -30,6 +31,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UseCaseTest {
 
   private UseCaseTestClass useCase;
@@ -39,7 +41,6 @@ public class UseCaseTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     this.useCase = new UseCaseTestClass(mockThreadExecutor, mockPostExecutionThread);
   }
 
@@ -67,7 +68,7 @@ public class UseCaseTest {
 
   private static class UseCaseTestClass extends UseCase {
 
-    protected UseCaseTestClass(
+    UseCaseTestClass(
         ThreadExecutor threadExecutor,
         PostExecutionThread postExecutionThread) {
       super(threadExecutor, postExecutionThread);

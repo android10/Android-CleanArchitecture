@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,8 +15,13 @@
  */
 package com.fernandocejas.android10.sample.data;
 
+import android.content.Context;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 /**
@@ -25,4 +30,14 @@ import org.robolectric.annotation.Config;
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, application = ApplicationStub.class, sdk = 21)
-public abstract class ApplicationTestCase {}
+public abstract class ApplicationTestCase {
+
+  @Rule public TestRule injectMocksRule = (base, description) -> {
+    MockitoAnnotations.initMocks(ApplicationTestCase.this);
+    return base;
+  };
+
+  public static Context context() {
+    return RuntimeEnvironment.application;
+  }
+}
