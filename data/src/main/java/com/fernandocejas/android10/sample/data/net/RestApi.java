@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,8 @@ import rx.Observable;
  * RestApi for retrieving data from the network.
  */
 public interface RestApi {
-  String API_BASE_URL = "http://www.android10.org/myapi/";
+  String API_BASE_URL =
+      "https://raw.githubusercontent.com/android10/Sample-Data/master/Android-CleanArchitecture/";
 
   /** Api url for getting all users */
   String API_URL_GET_USER_LIST = API_BASE_URL + "users.json";
