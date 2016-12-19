@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class JsonSerializerTest extends ApplicationTestCase {
+public class SerializerTest extends ApplicationTestCase {
 
   private static final String JSON_RESPONSE = "{\n"
       + "    \"id\": 1,\n"
@@ -35,18 +35,18 @@ public class JsonSerializerTest extends ApplicationTestCase {
       + "    \"email\": \"jcooper@babbleset.edu\"\n"
       + "}";
 
-  private JsonSerializer jsonSerializer;
+  private Serializer serializer;
 
   @Before
   public void setUp() {
-    jsonSerializer = new JsonSerializer();
+    serializer = new Serializer();
   }
 
   @Test
   public void testSerializeHappyCase() {
-    UserEntity userEntityOne = jsonSerializer.deserialize(JSON_RESPONSE);
-    String jsonString = jsonSerializer.serialize(userEntityOne);
-    UserEntity userEntityTwo = jsonSerializer.deserialize(jsonString);
+    final UserEntity userEntityOne = serializer.deserialize(JSON_RESPONSE, UserEntity.class);
+    final String jsonString = serializer.serialize(userEntityOne, UserEntity.class);
+    final UserEntity userEntityTwo = serializer.deserialize(jsonString, UserEntity.class);
 
     assertThat(userEntityOne.getUserId(), is(userEntityTwo.getUserId()));
     assertThat(userEntityOne.getFullname(), is(equalTo(userEntityTwo.getFullname())));
@@ -55,7 +55,7 @@ public class JsonSerializerTest extends ApplicationTestCase {
 
   @Test
   public void testDesearializeHappyCase() {
-    UserEntity userEntity = jsonSerializer.deserialize(JSON_RESPONSE);
+    final UserEntity userEntity = serializer.deserialize(JSON_RESPONSE, UserEntity.class);
 
     assertThat(userEntity.getUserId(), is(1));
     assertThat(userEntity.getFullname(), is("Simon Hill"));
