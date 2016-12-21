@@ -16,11 +16,12 @@
 package com.fernandocejas.android10.sample.data;
 
 import android.content.Context;
+import java.io.File;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
@@ -28,7 +29,7 @@ import org.robolectric.annotation.Config;
  * Base class for Robolectric data layer tests.
  * Inherit from this class to create a test.
  */
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, application = ApplicationStub.class, sdk = 21)
 public abstract class ApplicationTestCase {
 
@@ -39,5 +40,9 @@ public abstract class ApplicationTestCase {
 
   public static Context context() {
     return RuntimeEnvironment.application;
+  }
+
+  public static File cacheDir() {
+    return RuntimeEnvironment.application.getCacheDir();
   }
 }
