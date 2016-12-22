@@ -20,6 +20,7 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
@@ -44,7 +45,7 @@ public class UserListPresenter implements Presenter {
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase,
+  public UserListPresenter(@Named(GetUserList.NAME) UseCase getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;

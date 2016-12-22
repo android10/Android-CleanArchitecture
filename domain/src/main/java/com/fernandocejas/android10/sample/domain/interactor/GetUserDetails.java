@@ -28,6 +28,8 @@ import rx.Observable;
  */
 public class GetUserDetails extends UseCase {
 
+  public static final String NAME = "userDetails";
+
   private final int userId;
   private final UserRepository userRepository;
 

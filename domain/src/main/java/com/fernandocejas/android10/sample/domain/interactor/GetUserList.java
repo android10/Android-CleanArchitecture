@@ -28,6 +28,8 @@ import rx.Observable;
  */
 public class GetUserList extends UseCase {
 
+  public static final String NAME = "userList";
+
   private final UserRepository userRepository;
 
   @Inject

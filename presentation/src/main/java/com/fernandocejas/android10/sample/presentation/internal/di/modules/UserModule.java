@@ -40,12 +40,12 @@ public class UserModule {
     this.userId = userId;
   }
 
-  @Provides @PerActivity @Named("userList") UseCase provideGetUserListUseCase(
+  @Provides @PerActivity @Named(GetUserList.NAME) UseCase provideGetUserListUseCase(
       GetUserList getUserList) {
     return getUserList;
   }
 
-  @Provides @PerActivity @Named("userDetails") UseCase provideGetUserDetailsUseCase(
+  @Provides @PerActivity @Named(GetUserDetails.NAME) UseCase provideGetUserDetailsUseCase(
       UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
     return new GetUserDetails(userId, userRepository, threadExecutor, postExecutionThread);
