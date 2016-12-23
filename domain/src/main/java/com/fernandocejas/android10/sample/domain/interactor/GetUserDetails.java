@@ -19,6 +19,8 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
+import com.fernandocejas.arrow.annotations.VisibleForTesting;
+import com.fernandocejas.arrow.optional.Optional;
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -29,19 +31,26 @@ import rx.Observable;
 public class GetUserDetails extends UseCase {
 
   public static final String NAME = "userDetails";
+  public static final String PARAM_USER_ID_KEY = "userId";
 
-  private final int userId;
+  @VisibleForTesting
+  static final int PARAM_USER_ID_DEFAULT_VALUE = -1;
+
   private final UserRepository userRepository;
 
   @Inject
-  public GetUserDetails(int userId, UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  public GetUserDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
+      PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
-    this.userId = userId;
     this.userRepository = userRepository;
   }
 
-  @Override protected Observable buildUseCaseObservable() {
-    return this.userRepository.user(this.userId);
+  @Override protected Observable buildUseCaseObservable(Optional<Params> params) {
+    if (params.isPresent()) {
+      final int userId = params.get().getInt(PARAM_USER_ID_KEY, PARAM_USER_ID_DEFAULT_VALUE);
+      return this.userRepository.user(userId);
+    } else {
+      return Observable.empty();
+    }
   }
 }

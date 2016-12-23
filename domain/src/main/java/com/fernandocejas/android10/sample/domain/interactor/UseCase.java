@@ -17,8 +17,9 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import rx.Subscriber;
+import com.fernandocejas.arrow.optional.Optional;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
@@ -38,8 +39,7 @@ public abstract class UseCase {
 
   private Subscription subscription = Subscriptions.empty();
 
-  protected UseCase(ThreadExecutor threadExecutor,
-      PostExecutionThread postExecutionThread) {
+  protected UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
     this.threadExecutor = threadExecutor;
     this.postExecutionThread = postExecutionThread;
   }
@@ -47,17 +47,18 @@ public abstract class UseCase {
   /**
    * Builds an {@link rx.Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable();
+  protected abstract Observable buildUseCaseObservable(Optional<Params> params);
 
   /**
    * Executes the current use case.
    *
-   * @param useCaseSubscriber The guy who will be listen to the observable build
-   * with {@link #buildUseCaseObservable()}.
+   * @param useCaseSubscriber Subscriber which will be listening to the observable build
+   * by {@link #buildUseCaseObservable(Optional)} ()} method.
+   * @param params Parameters used to build execute this use case.
    */
   @SuppressWarnings("unchecked")
-  public void execute(Subscriber useCaseSubscriber) {
-    this.subscription = this.buildUseCaseObservable()
+  public void execute(Subscriber useCaseSubscriber, Params params) {
+    this.subscription = this.buildUseCaseObservable(Optional.of(params))
         .subscribeOn(Schedulers.from(threadExecutor))
         .observeOn(postExecutionThread.getScheduler())
         .subscribe(useCaseSubscriber);

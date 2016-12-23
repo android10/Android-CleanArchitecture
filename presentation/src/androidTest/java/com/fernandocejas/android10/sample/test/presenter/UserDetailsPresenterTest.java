@@ -27,12 +27,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import rx.Subscriber;
 
+import com.fernandocejas.android10.sample.domain.interactor.Params;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserDetailsPresenterTest {
+
+  private static final int USER_ID = 1;
 
   private UserDetailsPresenter userDetailsPresenter;
 
@@ -51,10 +54,10 @@ public class UserDetailsPresenterTest {
   public void testUserDetailsPresenterInitialize() {
     given(mockUserDetailsView.context()).willReturn(mockContext);
 
-    userDetailsPresenter.initialize();
+    userDetailsPresenter.initialize(USER_ID);
 
     verify(mockUserDetailsView).hideRetry();
     verify(mockUserDetailsView).showLoading();
-    verify(mockGetUserDetails).execute(any(Subscriber.class));
+    verify(mockGetUserDetails).execute(any(Subscriber.class), any(Params.class));
   }
 }

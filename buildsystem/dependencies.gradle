@@ -22,6 +22,7 @@ ext {
   gsonVersion = '2.3'
   okHttpVersion = '2.5.0'
   androidAnnotationsVersion = '21.0.3'
+  arrowVersion = '1.0.0'
 
   //Testing
   robolectricVersion = '3.1.1'
@@ -42,7 +43,7 @@ ext {
       recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
       rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
-      javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+      javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
   ]
 
   presentationTestDependencies = [
@@ -57,11 +58,13 @@ ext {
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
       rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+      arrow:              "com.fernandocejas:arrow:${arrowVersion}"
   ]
 
   domainTestDependencies = [
       junit:              "junit:junit:${jUnitVersion}",
       mockito:            "org.mockito:mockito-core:${mockitoVersion}",
+      assertj:            "org.assertj:assertj-core:${assertJVersion}"
   ]
 
   dataDependencies = [

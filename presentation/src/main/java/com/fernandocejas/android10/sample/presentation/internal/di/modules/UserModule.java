@@ -32,13 +32,7 @@ import javax.inject.Named;
 @Module
 public class UserModule {
 
-  private int userId = -1;
-
   public UserModule() {}
-
-  public UserModule(int userId) {
-    this.userId = userId;
-  }
 
   @Provides @PerActivity @Named(GetUserList.NAME) UseCase provideGetUserListUseCase(
       GetUserList getUserList) {
@@ -48,6 +42,6 @@ public class UserModule {
   @Provides @PerActivity @Named(GetUserDetails.NAME) UseCase provideGetUserDetailsUseCase(
       UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
-    return new GetUserDetails(userId, userRepository, threadExecutor, postExecutionThread);
+    return new GetUserDetails(userRepository, threadExecutor, postExecutionThread);
   }
 }

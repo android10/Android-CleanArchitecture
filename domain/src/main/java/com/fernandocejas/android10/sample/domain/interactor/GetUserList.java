@@ -19,6 +19,7 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
+import com.fernandocejas.arrow.optional.Optional;
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -39,7 +40,7 @@ public class GetUserList extends UseCase {
     this.userRepository = userRepository;
   }
 
-  @Override public Observable buildUseCaseObservable() {
+  @Override public Observable buildUseCaseObservable(Optional<Params> params) {
     return this.userRepository.users();
   }
 }

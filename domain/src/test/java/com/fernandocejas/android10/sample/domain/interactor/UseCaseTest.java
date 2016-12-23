@@ -17,6 +17,7 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.arrow.optional.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +28,7 @@ import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.TestScheduler;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,35 +51,33 @@ public class UseCaseTest {
     TestScheduler testScheduler = new TestScheduler();
     given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
 
-    useCase.execute(testSubscriber);
+    useCase.execute(testSubscriber, Params.EMPTY);
 
-    assertThat(testSubscriber.getOnNextEvents().size(), is(0));
+    assertThat(testSubscriber.getOnNextEvents().size()).isZero();
   }
 
   @Test
   public void testSubscriptionWhenExecutingUseCase() {
     TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
 
-    useCase.execute(testSubscriber);
+    useCase.execute(testSubscriber, Params.EMPTY);
     useCase.unsubscribe();
 
-    assertThat(testSubscriber.isUnsubscribed(), is(true));
+    assertThat(testSubscriber.isUnsubscribed()).isTrue();
   }
 
   private static class UseCaseTestClass extends UseCase {
 
-    UseCaseTestClass(
-        ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread) {
+    UseCaseTestClass(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
       super(threadExecutor, postExecutionThread);
     }
 
-    @Override protected Observable buildUseCaseObservable() {
+    @Override protected Observable buildUseCaseObservable(Optional<Params> params) {
       return Observable.empty();
     }
 
-    @Override public void execute(Subscriber UseCaseSubscriber) {
-      super.execute(UseCaseSubscriber);
+    @Override public void execute(Subscriber useCaseSubscriber, Params params) {
+      super.execute(useCaseSubscriber, Params.EMPTY);
     }
   }
 }

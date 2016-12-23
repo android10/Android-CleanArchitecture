@@ -13,7 +13,6 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
-import com.fernandocejas.android10.sample.presentation.internal.di.modules.UserModule;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
 
 /**
@@ -55,7 +54,7 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
   private void initializeActivity(Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       this.userId = getIntent().getIntExtra(INTENT_EXTRA_PARAM_USER_ID, -1);
-      addFragment(R.id.fragmentContainer, new UserDetailsFragment());
+      addFragment(R.id.fragmentContainer, UserDetailsFragment.forUser(userId));
     } else {
       this.userId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_USER_ID);
     }
@@ -65,7 +64,6 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     this.userComponent = DaggerUserComponent.builder()
         .applicationComponent(getApplicationComponent())
         .activityModule(getActivityModule())
-        .userModule(new UserModule(this.userId))
         .build();
   }
 

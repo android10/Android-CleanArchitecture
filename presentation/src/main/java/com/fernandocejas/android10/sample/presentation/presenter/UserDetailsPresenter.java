@@ -22,6 +22,7 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
+import com.fernandocejas.android10.sample.domain.interactor.Params;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -64,19 +65,19 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   /**
-   * Initializes the presenter by start retrieving user details.
+   * Initializes the presenter by showing/hiding proper views
+   * and retrieving user details.
    */
-  public void initialize() {
-    this.loadUserDetails();
-  }
-
-  /**
-   * Loads user details.
-   */
-  private void loadUserDetails() {
+  public void initialize(int userId) {
     this.hideViewRetry();
     this.showViewLoading();
-    this.getUserDetails();
+    this.getUserDetails(userId);
+  }
+
+  private void getUserDetails(int userId) {
+    final Params params = Params.create();
+    params.putInt(GetUserDetails.PARAM_USER_ID_KEY, userId);
+    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber(), params);
   }
 
   private void showViewLoading() {
@@ -104,10 +105,6 @@ public class UserDetailsPresenter implements Presenter {
   private void showUserDetailsInView(User user) {
     final UserModel userModel = this.userModelDataMapper.transform(user);
     this.viewDetailsView.renderUser(userModel);
-  }
-
-  private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
   }
 
   @RxLogSubscriber
