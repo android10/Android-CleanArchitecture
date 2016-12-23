@@ -20,8 +20,8 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.arrow.optional.Optional;
+import io.reactivex.Observable;
 import javax.inject.Inject;
-import rx.Observable;
 
 /**
  * This class is an implementation of {@link UseCase} that represents a use case for

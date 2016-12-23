@@ -18,12 +18,12 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.net.RestApi;
+import io.reactivex.Observable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.Observable;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

@@ -19,7 +19,7 @@ import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
 import com.fernandocejas.android10.sample.domain.interactor.UseCase;
 import com.fernandocejas.android10.sample.domain.interactor.Params;
@@ -59,7 +59,7 @@ public class UserDetailsPresenter implements Presenter {
   @Override public void pause() {}
 
   @Override public void destroy() {
-    this.getUserDetailsUseCase.unsubscribe();
+    this.getUserDetailsUseCase.dispose();
     this.viewDetailsView = null;
   }
 
@@ -76,7 +76,7 @@ public class UserDetailsPresenter implements Presenter {
   private void getUserDetails(int userId) {
     final Params params = Params.create();
     params.putInt(GetUserDetails.PARAM_USER_ID_KEY, userId);
-    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber(), params);
+    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), params);
   }
 
   private void showViewLoading() {
@@ -106,9 +106,9 @@ public class UserDetailsPresenter implements Presenter {
     this.viewDetailsView.renderUser(userModel);
   }
 
-  private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
+  private final class UserDetailsObserver extends DefaultObserver<User> {
 
-    @Override public void onCompleted() {
+    @Override public void onComplete() {
       UserDetailsPresenter.this.hideViewLoading();
     }
 
