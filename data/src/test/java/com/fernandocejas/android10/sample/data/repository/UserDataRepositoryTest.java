@@ -20,6 +20,7 @@ import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMappe
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.User;
+import io.reactivex.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -29,7 +30,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.Observable;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;

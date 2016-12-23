@@ -20,10 +20,10 @@ import com.fernandocejas.android10.sample.data.cache.serializer.Serializer;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import io.reactivex.Observable;
 import java.io.File;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import rx.Observable;
 
 /**
  * {@link UserCache} implementation.
@@ -63,17 +63,17 @@ public class UserCacheImpl implements UserCache {
   }
 
   @Override public Observable<UserEntity> get(final int userId) {
-    return Observable.create(subscriber -> {
+    return Observable.create(emitter -> {
       final File userEntityFile = UserCacheImpl.this.buildFile(userId);
       final String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
       final UserEntity userEntity =
           UserCacheImpl.this.serializer.deserialize(fileContent, UserEntity.class);
 
       if (userEntity != null) {
-        subscriber.onNext(userEntity);
-        subscriber.onCompleted();
+        emitter.onNext(userEntity);
+        emitter.onComplete();
       } else {
-        subscriber.onError(new UserNotFoundException());
+        emitter.onError(new UserNotFoundException());
       }
     });
   }

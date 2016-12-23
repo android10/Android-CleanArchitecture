@@ -15,8 +15,8 @@ ext {
   daggerVersion = '2.8'
   butterKnifeVersion = '7.0.1'
   recyclerViewVersion = '21.0.3'
-  rxJavaVersion = '1.0.14'
-  rxAndroidVersion = '1.0.1'
+  rxJavaVersion = '2.0.2'
+  rxAndroidVersion = '2.0.1'
   javaxAnnotationVersion = '1.0'
   javaxInjectVersion = '1'
   gsonVersion = '2.3'
@@ -41,8 +41,8 @@ ext {
       dagger:             "com.google.dagger:dagger:${daggerVersion}",
       butterKnife:        "com.jakewharton:butterknife:${butterKnifeVersion}",
       recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
-      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
-      rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
+      rxJava:             "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+      rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
   ]
 
@@ -57,7 +57,7 @@ ext {
   domainDependencies = [
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
-      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
+      rxJava:             "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
       arrow:              "com.fernandocejas:arrow:${arrowVersion}"
   ]
 
@@ -72,8 +72,8 @@ ext {
       dagger:             "com.google.dagger:dagger:${daggerVersion}",
       okHttp:             "com.squareup.okhttp:okhttp:${okHttpVersion}",
       gson:               "com.google.code.gson:gson:${gsonVersion}",
-      rxJava:             "io.reactivex:rxjava:${rxJavaVersion}",
-      rxAndroid:          "io.reactivex:rxandroid:${rxAndroidVersion}",
+      rxJava:             "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+      rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
       javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
       javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
       androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"

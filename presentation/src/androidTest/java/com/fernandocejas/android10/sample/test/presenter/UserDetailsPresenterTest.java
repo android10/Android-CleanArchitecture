@@ -20,12 +20,12 @@ import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.presenter.UserDetailsPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
+import io.reactivex.observers.DisposableObserver;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.Subscriber;
 
 import com.fernandocejas.android10.sample.domain.interactor.Params;
 import static org.mockito.BDDMockito.given;
@@ -58,6 +58,6 @@ public class UserDetailsPresenterTest {
 
     verify(mockUserDetailsView).hideRetry();
     verify(mockUserDetailsView).showLoading();
-    verify(mockGetUserDetails).execute(any(Subscriber.class), any(Params.class));
+    verify(mockGetUserDetails).execute(any(DisposableObserver.class), any(Params.class));
   }
 }
