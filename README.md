@@ -9,6 +9,8 @@ This is a sample app that is part of a blog post I have written about how to arc
 
 [Tasting Dagger 2 on Android](http://fernandocejas.com/2015/04/11/tasting-dagger-2-on-android/)
 
+[Clean Architecture…Dynamic Parameters in Use Cases](http://fernandocejas.com/2016/12/24/clean-architecture-dynamic-parameters-in-use-cases/)
+
 [Demo video of this sample](http://youtu.be/XSjV4sG3ni0)
 
 Clean architecture
