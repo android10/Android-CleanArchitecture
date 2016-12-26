@@ -17,7 +17,6 @@ package com.fernandocejas.android10.sample.test.presenter;
 
 import android.content.Context;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
-import com.fernandocejas.android10.sample.domain.interactor.Params;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.presenter.UserListPresenter;
 import com.fernandocejas.android10.sample.presentation.view.UserListView;
@@ -49,6 +48,7 @@ public class UserListPresenterTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testUserListPresenterInitialize() {
     given(mockUserListView.context()).willReturn(mockContext);
 
@@ -56,6 +56,6 @@ public class UserListPresenterTest {
 
     verify(mockUserListView).hideRetry();
     verify(mockUserListView).showLoading();
-    verify(mockGetUserList).execute(any(DisposableObserver.class), any(Params.class));
+    verify(mockGetUserList).execute(any(DisposableObserver.class), any(Void.class));
   }
 }

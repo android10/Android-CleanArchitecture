@@ -18,14 +18,12 @@ package com.fernandocejas.android10.sample.domain.interactor;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
-import com.fernandocejas.arrow.optional.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -47,22 +45,11 @@ public class GetUserListTest {
 
   @Test
   public void testGetUserListUseCaseObservableHappyCase() {
-    getUserList.buildUseCaseObservable(Optional.of(Params.EMPTY));
+    getUserList.buildUseCaseObservable(null);
 
     verify(mockUserRepository).users();
     verifyNoMoreInteractions(mockUserRepository);
     verifyZeroInteractions(mockThreadExecutor);
     verifyZeroInteractions(mockPostExecutionThread);
-  }
-
-  @Test
-  @SuppressWarnings("unchecked")
-  public void testThereShouldNotBeAnyInteractionWithParams() {
-    Optional params = mock(Optional.class);
-
-    getUserList.buildUseCaseObservable(params);
-
-    verify(mockUserRepository).users();
-    verifyZeroInteractions(params);
   }
 }

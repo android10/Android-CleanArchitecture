@@ -24,9 +24,7 @@ import io.reactivex.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -48,14 +46,9 @@ public class UserDataRepositoryTest {
   @Mock private UserEntity mockUserEntity;
   @Mock private User mockUser;
 
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
-
   @Before
   public void setUp() {
-    userDataRepository = new UserDataRepository(mockUserDataStoreFactory,
-        mockUserEntityDataMapper);
-
+    userDataRepository = new UserDataRepository(mockUserDataStoreFactory, mockUserEntityDataMapper);
     given(mockUserDataStoreFactory.create(anyInt())).willReturn(mockUserDataStore);
     given(mockUserDataStoreFactory.createCloudDataStore()).willReturn(mockUserDataStore);
   }

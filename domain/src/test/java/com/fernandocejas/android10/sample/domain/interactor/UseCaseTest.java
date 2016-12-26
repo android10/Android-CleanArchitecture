@@ -17,12 +17,13 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import com.fernandocejas.arrow.optional.Optional;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.TestScheduler;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -35,10 +36,12 @@ public class UseCaseTest {
 
   private UseCaseTestClass useCase;
 
-  private TestDisposableObserver testObserver;
+  private TestDisposableObserver<Object> testObserver;
 
   @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
+
+  @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void setUp() {
@@ -48,7 +51,6 @@ public class UseCaseTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testBuildUseCaseObservableReturnCorrectResult() {
     useCase.execute(testObserver, Params.EMPTY);
 
@@ -63,18 +65,25 @@ public class UseCaseTest {
     assertThat(testObserver.isDisposed()).isTrue();
   }
 
-  private static class UseCaseTestClass extends UseCase<Object> {
+  @Test
+  public void testShouldFailWhenExecuteWithNullObserver() {
+    expectedException.expect(NullPointerException.class);
+    useCase.execute(null, Params.EMPTY);
+  }
+
+  private static class UseCaseTestClass extends UseCase<Object, Params> {
 
     UseCaseTestClass(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
       super(threadExecutor, postExecutionThread);
     }
 
-    @Override protected Observable buildUseCaseObservable(Optional<Params> params) {
+    @Override Observable<Object> buildUseCaseObservable(Params params) {
       return Observable.empty();
     }
 
-    @Override public void execute(DisposableObserver observer, Params params) {
-      super.execute(observer, Params.EMPTY);
+    @Override
+    public void execute(DisposableObserver<Object> observer, Params params) {
+      super.execute(observer, params);
     }
   }
 
@@ -92,5 +101,10 @@ public class UseCaseTest {
     @Override public void onComplete() {
       // no-op by default.
     }
+  }
+
+  private static class Params {
+    private static Params EMPTY = new Params();
+    private Params() {}
   }
 }

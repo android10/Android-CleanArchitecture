@@ -21,7 +21,7 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
-import com.fernandocejas.android10.sample.domain.interactor.Params;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -72,9 +72,7 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void getUserDetails(int userId) {
-    final Params params = Params.create();
-    params.putInt(GetUserDetails.PARAM_USER_ID_KEY, userId);
-    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), params);
+    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
   }
 
   private void showViewLoading() {

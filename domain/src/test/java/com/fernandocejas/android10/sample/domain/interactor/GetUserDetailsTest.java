@@ -17,16 +17,16 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
-import com.fernandocejas.arrow.optional.Optional;
-import io.reactivex.Observable;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -42,6 +42,8 @@ public class GetUserDetailsTest {
   @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
 
+  @Rule public ExpectedException expectedException = ExpectedException.none();
+
   @Before
   public void setUp() {
     getUserDetails = new GetUserDetails(mockUserRepository, mockThreadExecutor,
@@ -50,10 +52,7 @@ public class GetUserDetailsTest {
 
   @Test
   public void testGetUserDetailsUseCaseObservableHappyCase() {
-    final Params params = Params.create();
-    params.putInt(GetUserDetails.PARAM_USER_ID_KEY, USER_ID);
-
-    getUserDetails.buildUseCaseObservable(Optional.of(params));
+    getUserDetails.buildUseCaseObservable(Params.forUser(USER_ID));
 
     verify(mockUserRepository).user(USER_ID);
     verifyNoMoreInteractions(mockUserRepository);
@@ -62,22 +61,8 @@ public class GetUserDetailsTest {
   }
 
   @Test
-  public void testShouldReturnEmptyObservableWhenNoParameters() {
-    final Observable observable = getUserDetails.buildUseCaseObservable(Optional.<Params>absent());
-
-    assertThat(observable).isEqualTo(Observable.empty());
-    verifyZeroInteractions(mockUserRepository);
-    verifyZeroInteractions(mockPostExecutionThread);
-    verifyZeroInteractions(mockThreadExecutor);
-  }
-
-  @Test
-  public void testShouldUseDefaultUserIdValueWhenNoUserIdParameter() {
-    getUserDetails.buildUseCaseObservable(Optional.of(Params.create()));
-
-    verify(mockUserRepository).user(GetUserDetails.PARAM_USER_ID_DEFAULT_VALUE);
-    verifyNoMoreInteractions(mockUserRepository);
-    verifyZeroInteractions(mockPostExecutionThread);
-    verifyZeroInteractions(mockThreadExecutor);
+  public void testShouldFailWhenNoOrEmptyParameters() {
+    expectedException.expect(NullPointerException.class);
+    getUserDetails.buildUseCaseObservable(null);
   }
 }
