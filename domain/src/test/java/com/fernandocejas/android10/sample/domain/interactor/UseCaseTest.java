@@ -63,7 +63,7 @@ public class UseCaseTest {
     assertThat(testObserver.isDisposed()).isTrue();
   }
 
-  private static class UseCaseTestClass extends UseCase {
+  private static class UseCaseTestClass extends UseCase<Object> {
 
     UseCaseTestClass(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
       super(threadExecutor, postExecutionThread);

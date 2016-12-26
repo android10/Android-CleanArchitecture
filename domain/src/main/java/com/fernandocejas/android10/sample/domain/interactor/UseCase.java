@@ -33,7 +33,7 @@ import io.reactivex.schedulers.Schedulers;
  * By convention each UseCase implementation will return the result using a {@link DisposableObserver}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase {
+public abstract class UseCase<T> {
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -48,7 +48,7 @@ public abstract class UseCase {
   /**
    * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable(Optional<Params> params);
+  abstract Observable<T> buildUseCaseObservable(Optional<Params> params);
 
   /**
    * Executes the current use case.
@@ -57,9 +57,8 @@ public abstract class UseCase {
    * by {@link #buildUseCaseObservable(Optional)} ()} method.
    * @param params Parameters used to build execute this use case.
    */
-  @SuppressWarnings("unchecked")
-  public void execute(DisposableObserver observer, Params params) {
-    final Observable<?> observable = this.buildUseCaseObservable(Optional.of(params))
+  public void execute(DisposableObserver<T> observer, Params params) {
+    final Observable<T> observable = this.buildUseCaseObservable(Optional.of(params))
         .subscribeOn(Schedulers.from(threadExecutor))
         .observeOn(postExecutionThread.getScheduler());
     addDisposable(observable.subscribeWith(observer));

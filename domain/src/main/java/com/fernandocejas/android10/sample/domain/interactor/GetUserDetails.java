@@ -28,9 +28,8 @@ import javax.inject.Inject;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving data related to an specific {@link User}.
  */
-public class GetUserDetails extends UseCase {
+public class GetUserDetails extends UseCase<User> {
 
-  public static final String NAME = "userDetails";
   public static final String PARAM_USER_ID_KEY = "userId";
 
   @VisibleForTesting
@@ -39,13 +38,13 @@ public class GetUserDetails extends UseCase {
   private final UserRepository userRepository;
 
   @Inject
-  public GetUserDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
+  GetUserDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
       PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
     this.userRepository = userRepository;
   }
 
-  @Override protected Observable buildUseCaseObservable(Optional<Params> params) {
+  @Override protected Observable<User> buildUseCaseObservable(Optional<Params> params) {
     if (params.isPresent()) {
       final int userId = params.get().getInt(PARAM_USER_ID_KEY, PARAM_USER_ID_DEFAULT_VALUE);
       return this.userRepository.user(userId);
