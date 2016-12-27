@@ -21,15 +21,13 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
-import com.fernandocejas.android10.sample.domain.interactor.UseCase;
-import com.fernandocejas.android10.sample.domain.interactor.Params;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
@@ -40,11 +38,11 @@ public class UserDetailsPresenter implements Presenter {
 
   private UserDetailsView viewDetailsView;
 
-  private final UseCase getUserDetailsUseCase;
+  private final GetUserDetails getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserDetailsPresenter(@Named(GetUserDetails.NAME) UseCase getUserDetailsUseCase,
+  public UserDetailsPresenter(GetUserDetails getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -74,9 +72,7 @@ public class UserDetailsPresenter implements Presenter {
   }
 
   private void getUserDetails(int userId) {
-    final Params params = Params.create();
-    params.putInt(GetUserDetails.PARAM_USER_ID_KEY, userId);
-    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), params);
+    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
   }
 
   private void showViewLoading() {

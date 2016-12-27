@@ -15,16 +15,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.internal.di.modules;
 
-import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
-import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
-import com.fernandocejas.android10.sample.domain.interactor.UseCase;
-import com.fernandocejas.android10.sample.domain.repository.UserRepository;
-import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import dagger.Module;
-import dagger.Provides;
-import javax.inject.Named;
 
 /**
  * Dagger module that provides user related collaborators.
@@ -33,15 +24,4 @@ import javax.inject.Named;
 public class UserModule {
 
   public UserModule() {}
-
-  @Provides @PerActivity @Named(GetUserList.NAME) UseCase provideGetUserListUseCase(
-      GetUserList getUserList) {
-    return getUserList;
-  }
-
-  @Provides @PerActivity @Named(GetUserDetails.NAME) UseCase provideGetUserDetailsUseCase(
-      UserRepository userRepository, ThreadExecutor threadExecutor,
-      PostExecutionThread postExecutionThread) {
-    return new GetUserDetails(userRepository, threadExecutor, postExecutionThread);
-  }
 }

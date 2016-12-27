@@ -18,7 +18,6 @@ package com.fernandocejas.android10.sample.domain.interactor;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.arrow.checks.Preconditions;
-import com.fernandocejas.arrow.optional.Optional;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -33,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * By convention each UseCase implementation will return the result using a {@link DisposableObserver}
  * that will execute its job in a background thread and will post the result in the UI thread.
  */
-public abstract class UseCase {
+public abstract class UseCase<T, Params> {
 
   private final ThreadExecutor threadExecutor;
   private final PostExecutionThread postExecutionThread;
@@ -48,18 +47,18 @@ public abstract class UseCase {
   /**
    * Builds an {@link Observable} which will be used when executing the current {@link UseCase}.
    */
-  protected abstract Observable buildUseCaseObservable(Optional<Params> params);
+  abstract Observable<T> buildUseCaseObservable(Params params);
 
   /**
    * Executes the current use case.
    *
    * @param observer {@link DisposableObserver} which will be listening to the observable build
-   * by {@link #buildUseCaseObservable(Optional)} ()} method.
-   * @param params Parameters used to build execute this use case.
+   * by {@link #buildUseCaseObservable(Params)} ()} method.
+   * @param params Parameters (Optional) used to build/execute this use case.
    */
-  @SuppressWarnings("unchecked")
-  public void execute(DisposableObserver observer, Params params) {
-    final Observable<?> observable = this.buildUseCaseObservable(Optional.of(params))
+  public void execute(DisposableObserver<T> observer, Params params) {
+    Preconditions.checkNotNull(observer);
+    final Observable<T> observable = this.buildUseCaseObservable(params)
         .subscribeOn(Schedulers.from(threadExecutor))
         .observeOn(postExecutionThread.getScheduler());
     addDisposable(observable.subscribeWith(observer));
