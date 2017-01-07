@@ -30,7 +30,7 @@ public interface UserCache {
   Observable<UserEntity> get(final int userId);
 
   /**
-   * Puts and element into the cache.
+   * Puts an element into the cache.
    *
    * @param userEntity Element to insert in the cache.
    */
