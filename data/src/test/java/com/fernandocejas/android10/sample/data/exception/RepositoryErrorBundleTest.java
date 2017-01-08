@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.data.exception;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +24,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RepositoryErrorBundleTest extends ApplicationTestCase {
+public class RepositoryErrorBundleTest {
 
   private RepositoryErrorBundle repositoryErrorBundle;
 

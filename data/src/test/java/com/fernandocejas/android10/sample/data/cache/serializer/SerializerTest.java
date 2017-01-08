@@ -15,16 +15,18 @@
  */
 package com.fernandocejas.android10.sample.data.cache.serializer;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SerializerTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class SerializerTest {
 
   private static final String JSON_RESPONSE = "{\n"
       + "    \"id\": 1,\n"

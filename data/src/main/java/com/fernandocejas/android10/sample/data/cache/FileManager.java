@@ -44,7 +44,7 @@ public class FileManager {
   void writeToFile(File file, String fileContent) {
     if (!file.exists()) {
       try {
-        FileWriter writer = new FileWriter(file);
+        final FileWriter writer = new FileWriter(file);
         writer.write(fileContent);
         writer.close();
       } catch (IOException e) {
@@ -62,12 +62,12 @@ public class FileManager {
    * @return A string with the content of the file.
    */
   String readFileContent(File file) {
-    StringBuilder fileContentBuilder = new StringBuilder();
+    final StringBuilder fileContentBuilder = new StringBuilder();
     if (file.exists()) {
       String stringLine;
       try {
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        final FileReader fileReader = new FileReader(file);
+        final BufferedReader bufferedReader = new BufferedReader(fileReader);
         while ((stringLine = bufferedReader.readLine()) != null) {
           fileContentBuilder.append(stringLine).append("\n");
         }
@@ -77,7 +77,6 @@ public class FileManager {
         e.printStackTrace();
       }
     }
-
     return fileContentBuilder.toString();
   }
 
@@ -119,9 +118,9 @@ public class FileManager {
   void writeToPreferences(Context context, String preferenceFileName, String key,
       long value) {
 
-    SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
+    final SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
         Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedPreferences.edit();
+    final SharedPreferences.Editor editor = sharedPreferences.edit();
     editor.putLong(key, value);
     editor.apply();
   }
@@ -135,7 +134,7 @@ public class FileManager {
    * @return A long representing the value retrieved from the preferences file.
    */
   long getFromPreferences(Context context, String preferenceFileName, String key) {
-    SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
+    final SharedPreferences sharedPreferences = context.getSharedPreferences(preferenceFileName,
         Context.MODE_PRIVATE);
     return sharedPreferences.getLong(key, 0);
   }

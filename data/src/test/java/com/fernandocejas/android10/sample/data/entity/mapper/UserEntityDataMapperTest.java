@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.data.entity.mapper;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.User;
 import java.util.ArrayList;
@@ -23,13 +22,16 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class UserEntityDataMapperTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class UserEntityDataMapperTest {
 
   private static final int FAKE_USER_ID = 123;
   private static final String FAKE_FULLNAME = "Tony Stark";
