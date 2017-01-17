@@ -26,10 +26,16 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UseCaseTest {
@@ -47,7 +53,19 @@ public class UseCaseTest {
   public void setUp() {
     this.useCase = new UseCaseTestClass(mockThreadExecutor, mockPostExecutionThread);
     this.testObserver = new TestDisposableObserver<>();
-    given(mockPostExecutionThread.getScheduler()).willReturn(new TestScheduler());
+
+    // Setup mocked schedulers to run in the same thread where tests are run.
+    final TestScheduler testScheduler = new TestScheduler();
+    // Setup mockThreadExecutor behavior
+    doAnswer(new Answer<Void>() {
+      @Override public Void answer(InvocationOnMock invocation) throws Throwable {
+        Runnable arg = (Runnable) invocation.getArguments()[0];
+        testScheduler.scheduleDirect(arg);
+        return null;
+      }
+    }).when(mockThreadExecutor)
+      .execute(any(Runnable.class));
+    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
   }
 
   @Test
@@ -69,6 +87,16 @@ public class UseCaseTest {
   public void testShouldFailWhenExecuteWithNullObserver() {
     expectedException.expect(NullPointerException.class);
     useCase.execute(null, Params.EMPTY);
+  }
+
+  @Test public void testUseCaseSchedulersUsedCorrectly() throws Exception {
+    useCase.execute(testObserver, Params.EMPTY);
+    // Assert correct result
+    assertThat(testObserver.valuesCount).isZero();
+
+    // Verify that executors were used  when executing observable
+    verify(mockPostExecutionThread, times(1)).getScheduler();
+    verify(mockThreadExecutor, times(1)).execute(any(Runnable.class));
   }
 
   private static class UseCaseTestClass extends UseCase<Object, Params> {
