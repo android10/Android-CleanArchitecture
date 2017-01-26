@@ -3,7 +3,7 @@
  *
  * @author Fernando Cejas (the android10 coder)
  */
-package com.fernandocejas.android10.sample.presentation.view.activity;
+package com.fernandocejas.android10.sample.presentation.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
-import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
+import com.fernandocejas.android10.sample.presentation.ui.fragment.UserDetailsFragment;
 
 /**
  * Activity that shows details of a certain user.

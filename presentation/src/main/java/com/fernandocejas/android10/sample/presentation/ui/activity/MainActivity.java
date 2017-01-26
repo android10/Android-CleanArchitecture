@@ -1,4 +1,4 @@
-package com.fernandocejas.android10.sample.presentation.view.activity;
+package com.fernandocejas.android10.sample.presentation.ui.activity;
 
 import android.os.Bundle;
 import android.widget.Button;
