@@ -5,6 +5,7 @@
  */
 package com.fernandocejas.android10.sample.presentation.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -64,10 +65,10 @@ public class UserListFragment extends BaseFragment<UserListPresenter, UserListVi
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof UserListListener) {
-            this.userListListener = (UserListListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof UserListListener) {
+            this.userListListener = (UserListListener) activity;
         }
     }
 
