@@ -15,7 +15,7 @@ import com.fernandocejas.android10.sample.presentation.mvp.view.View;
 /**
  * Base {@link android.app.Fragment} class for every fragment in this application.
  */
-public abstract class BaseFragment<PRESENTER extends Presenter, VIEW extends View> extends Fragment {
+public abstract class BaseFragment<PRESENTER extends Presenter<VIEW>, VIEW extends View> extends Fragment {
 
     protected PRESENTER presenter;
 
