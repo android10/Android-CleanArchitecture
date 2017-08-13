@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 public class UserModelDataMapperTest extends TestCase {
 
   private static final int FAKE_USER_ID = 123;
-  private static final String FAKE_FULLNAME = "Tony Stark";
+  private static final String FAKE_FULL_NAME = "Tony Stark";
 
   private UserModelDataMapper userModelDataMapper;
 
@@ -46,7 +46,7 @@ public class UserModelDataMapperTest extends TestCase {
 
     assertThat(userModel, is(instanceOf(UserModel.class)));
     assertThat(userModel.getUserId(), is(FAKE_USER_ID));
-    assertThat(userModel.getFullName(), is(FAKE_FULLNAME));
+    assertThat(userModel.getFullName(), is(FAKE_FULL_NAME));
   }
 
   public void testTransformUserCollection() {
@@ -66,7 +66,7 @@ public class UserModelDataMapperTest extends TestCase {
 
   private User createFakeUser() {
     User user = new User(FAKE_USER_ID);
-    user.setFullName(FAKE_FULLNAME);
+    user.setFullName(FAKE_FULL_NAME);
 
     return user;
   }

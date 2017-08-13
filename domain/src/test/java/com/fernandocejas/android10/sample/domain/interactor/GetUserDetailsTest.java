@@ -17,19 +17,24 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GetUserDetailsTest {
 
-  private static final int FAKE_USER_ID = 123;
+  private static final int USER_ID = 123;
 
   private GetUserDetails getUserDetails;
 
@@ -37,20 +42,27 @@ public class GetUserDetailsTest {
   @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
 
+  @Rule public ExpectedException expectedException = ExpectedException.none();
+
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    getUserDetails = new GetUserDetails(FAKE_USER_ID, mockUserRepository,
-        mockThreadExecutor, mockPostExecutionThread);
+    getUserDetails = new GetUserDetails(mockUserRepository, mockThreadExecutor,
+        mockPostExecutionThread);
   }
 
   @Test
   public void testGetUserDetailsUseCaseObservableHappyCase() {
-    getUserDetails.buildUseCaseObservable();
+    getUserDetails.buildUseCaseObservable(Params.forUser(USER_ID));
 
-    verify(mockUserRepository).user(FAKE_USER_ID);
+    verify(mockUserRepository).user(USER_ID);
     verifyNoMoreInteractions(mockUserRepository);
     verifyZeroInteractions(mockPostExecutionThread);
     verifyZeroInteractions(mockThreadExecutor);
+  }
+
+  @Test
+  public void testShouldFailWhenNoOrEmptyParameters() {
+    expectedException.expect(NullPointerException.class);
+    getUserDetails.buildUseCaseObservable(null);
   }
 }

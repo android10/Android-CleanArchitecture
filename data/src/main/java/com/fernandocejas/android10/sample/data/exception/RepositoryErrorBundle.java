@@ -20,11 +20,11 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 /**
  * Wrapper around Exceptions used to manage errors in the repository.
  */
-public class RepositoryErrorBundle implements ErrorBundle {
+class RepositoryErrorBundle implements ErrorBundle {
 
   private final Exception exception;
 
-  public RepositoryErrorBundle(Exception exception) {
+  RepositoryErrorBundle(Exception exception) {
     this.exception = exception;
   }
 

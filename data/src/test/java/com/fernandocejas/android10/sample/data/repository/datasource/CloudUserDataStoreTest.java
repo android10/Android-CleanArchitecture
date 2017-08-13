@@ -15,20 +15,21 @@
  */
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.net.RestApi;
+import io.reactivex.Observable;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import rx.Observable;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-public class CloudUserDataStoreTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class CloudUserDataStoreTest {
 
   private static final int FAKE_USER_ID = 765;
 
@@ -39,7 +40,6 @@ public class CloudUserDataStoreTest extends ApplicationTestCase {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     cloudUserDataStore = new CloudUserDataStore(mockRestApi, mockUserCache);
   }
 

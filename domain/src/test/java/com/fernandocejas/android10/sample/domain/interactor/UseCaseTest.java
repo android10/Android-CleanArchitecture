@@ -17,68 +17,94 @@ package com.fernandocejas.android10.sample.domain.interactor;
 
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.TestScheduler;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import rx.Observable;
-import rx.Subscriber;
-import rx.observers.TestSubscriber;
-import rx.schedulers.TestScheduler;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UseCaseTest {
 
   private UseCaseTestClass useCase;
 
+  private TestDisposableObserver<Object> testObserver;
+
   @Mock private ThreadExecutor mockThreadExecutor;
   @Mock private PostExecutionThread mockPostExecutionThread;
 
+  @Rule public ExpectedException expectedException = ExpectedException.none();
+
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
     this.useCase = new UseCaseTestClass(mockThreadExecutor, mockPostExecutionThread);
+    this.testObserver = new TestDisposableObserver<>();
+    given(mockPostExecutionThread.getScheduler()).willReturn(new TestScheduler());
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testBuildUseCaseObservableReturnCorrectResult() {
-    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
-    TestScheduler testScheduler = new TestScheduler();
-    given(mockPostExecutionThread.getScheduler()).willReturn(testScheduler);
+    useCase.execute(testObserver, Params.EMPTY);
 
-    useCase.execute(testSubscriber);
-
-    assertThat(testSubscriber.getOnNextEvents().size(), is(0));
+    assertThat(testObserver.valuesCount).isZero();
   }
 
   @Test
   public void testSubscriptionWhenExecutingUseCase() {
-    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+    useCase.execute(testObserver, Params.EMPTY);
+    useCase.dispose();
 
-    useCase.execute(testSubscriber);
-    useCase.unsubscribe();
-
-    assertThat(testSubscriber.isUnsubscribed(), is(true));
+    assertThat(testObserver.isDisposed()).isTrue();
   }
 
-  private static class UseCaseTestClass extends UseCase {
+  @Test
+  public void testShouldFailWhenExecuteWithNullObserver() {
+    expectedException.expect(NullPointerException.class);
+    useCase.execute(null, Params.EMPTY);
+  }
 
-    protected UseCaseTestClass(
-        ThreadExecutor threadExecutor,
-        PostExecutionThread postExecutionThread) {
+  private static class UseCaseTestClass extends UseCase<Object, Params> {
+
+    UseCaseTestClass(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
       super(threadExecutor, postExecutionThread);
     }
 
-    @Override protected Observable buildUseCaseObservable() {
+    @Override Observable<Object> buildUseCaseObservable(Params params) {
       return Observable.empty();
     }
 
-    @Override public void execute(Subscriber UseCaseSubscriber) {
-      super.execute(UseCaseSubscriber);
+    @Override
+    public void execute(DisposableObserver<Object> observer, Params params) {
+      super.execute(observer, params);
     }
+  }
+
+  private static class TestDisposableObserver<T> extends DisposableObserver<T> {
+    private int valuesCount = 0;
+
+    @Override public void onNext(T value) {
+      valuesCount++;
+    }
+
+    @Override public void onError(Throwable e) {
+      // no-op by default.
+    }
+
+    @Override public void onComplete() {
+      // no-op by default.
+    }
+  }
+
+  private static class Params {
+    private static Params EMPTY = new Params();
+    private Params() {}
   }
 }

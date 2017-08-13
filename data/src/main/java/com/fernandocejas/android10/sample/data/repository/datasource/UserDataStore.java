@@ -16,20 +16,20 @@
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import io.reactivex.Observable;
 import java.util.List;
-import rx.Observable;
 
 /**
  * Interface that represents a data store from where data is retrieved.
  */
 public interface UserDataStore {
   /**
-   * Get an {@link rx.Observable} which will emit a List of {@link UserEntity}.
+   * Get an {@link Observable} which will emit a List of {@link UserEntity}.
    */
   Observable<List<UserEntity>> userEntityList();
 
   /**
-   * Get an {@link rx.Observable} which will emit a {@link UserEntity} by its id.
+   * Get an {@link Observable} which will emit a {@link UserEntity} by its id.
    *
    * @param userId The id to retrieve user data.
    */

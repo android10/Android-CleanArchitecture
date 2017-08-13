@@ -19,27 +19,40 @@ import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
+import com.fernandocejas.arrow.checks.Preconditions;
+import io.reactivex.Observable;
 import javax.inject.Inject;
-import rx.Observable;
 
 /**
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving data related to an specific {@link User}.
  */
-public class GetUserDetails extends UseCase {
+public class GetUserDetails extends UseCase<User, GetUserDetails.Params> {
 
-  private final int userId;
   private final UserRepository userRepository;
 
   @Inject
-  public GetUserDetails(int userId, UserRepository userRepository,
-      ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  GetUserDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
+      PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
-    this.userId = userId;
     this.userRepository = userRepository;
   }
 
-  @Override protected Observable buildUseCaseObservable() {
-    return this.userRepository.user(this.userId);
+  @Override Observable<User> buildUseCaseObservable(Params params) {
+    Preconditions.checkNotNull(params);
+    return this.userRepository.user(params.userId);
+  }
+
+  public static final class Params {
+
+    private final int userId;
+
+    private Params(int userId) {
+      this.userId = userId;
+    }
+
+    public static Params forUser(int userId) {
+      return new Params(userId);
+    }
   }
 }

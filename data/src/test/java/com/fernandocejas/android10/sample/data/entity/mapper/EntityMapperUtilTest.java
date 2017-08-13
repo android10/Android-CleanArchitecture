@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.data.entity.mapper;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.google.gson.JsonSyntaxException;
 import java.util.Collection;
@@ -23,12 +22,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class EntityMapperUtilTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class EntityMapperUtilTest {
 
   private static final String JSON_RESPONSE_USER_DETAILS = "{\n"
       + "    \"id\": 1,\n"

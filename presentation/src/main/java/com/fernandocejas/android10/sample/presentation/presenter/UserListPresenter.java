@@ -19,8 +19,8 @@ import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
-import com.fernandocejas.android10.sample.domain.interactor.UseCase;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
@@ -29,7 +29,6 @@ import com.fernandocejas.android10.sample.presentation.view.UserListView;
 import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
@@ -40,11 +39,11 @@ public class UserListPresenter implements Presenter {
 
   private UserListView viewListView;
 
-  private final UseCase getUserListUseCase;
+  private final GetUserList getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase,
+  public UserListPresenter(GetUserList getUserListUserCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -59,7 +58,7 @@ public class UserListPresenter implements Presenter {
   @Override public void pause() {}
 
   @Override public void destroy() {
-    this.getUserListUseCase.unsubscribe();
+    this.getUserListUseCase.dispose();
     this.viewListView = null;
   }
 
@@ -112,12 +111,12 @@ public class UserListPresenter implements Presenter {
   }
 
   private void getUserList() {
-    this.getUserListUseCase.execute(new UserListSubscriber());
+    this.getUserListUseCase.execute(new UserListObserver(), null);
   }
 
-  private final class UserListSubscriber extends DefaultSubscriber<List<User>> {
+  private final class UserListObserver extends DefaultObserver<List<User>> {
 
-    @Override public void onCompleted() {
+    @Override public void onComplete() {
       UserListPresenter.this.hideViewLoading();
     }
 

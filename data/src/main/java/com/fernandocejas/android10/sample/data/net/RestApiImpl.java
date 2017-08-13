@@ -21,10 +21,9 @@ import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.EntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import com.fernandocejas.frodo.annotation.RxLogObservable;
+import io.reactivex.Observable;
 import java.net.MalformedURLException;
 import java.util.List;
-import rx.Observable;
 
 /**
  * {@link RestApi} implementation for retrieving data from the network.
@@ -48,45 +47,43 @@ public class RestApiImpl implements RestApi {
     this.entityJsonMapper = entityJsonMapper;
   }
 
-  @RxLogObservable
   @Override public Observable<List<UserEntity>> userEntityList() {
-    return Observable.create(subscriber -> {
+    return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
           String responseUserEntities = getUserEntitiesFromApi();
           if (responseUserEntities != null) {
-            subscriber.onNext(entityJsonMapper.transformEntityCollection(
+            emitter.onNext(entityJsonMapper.transformEntityCollection(
                 responseUserEntities));
-            subscriber.onCompleted();
+            emitter.onComplete();
           } else {
-            subscriber.onError(new NetworkConnectionException());
+            emitter.onError(new NetworkConnectionException());
           }
         } catch (Exception e) {
-          subscriber.onError(new NetworkConnectionException(e.getCause()));
+          emitter.onError(new NetworkConnectionException(e.getCause()));
         }
       } else {
-        subscriber.onError(new NetworkConnectionException());
+        emitter.onError(new NetworkConnectionException());
       }
     });
   }
 
-  @RxLogObservable
   @Override public Observable<UserEntity> userEntityById(final int userId) {
-    return Observable.create(subscriber -> {
+    return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
           String responseUserDetails = getUserDetailsFromApi(userId);
           if (responseUserDetails != null) {
-            subscriber.onNext(entityJsonMapper.transformEntity(responseUserDetails));
-            subscriber.onCompleted();
+            emitter.onNext(entityJsonMapper.transformEntity(responseUserDetails));
+            emitter.onComplete();
           } else {
-            subscriber.onError(new NetworkConnectionException());
+            emitter.onError(new NetworkConnectionException());
           }
         } catch (Exception e) {
-          subscriber.onError(new NetworkConnectionException(e.getCause()));
+          emitter.onError(new NetworkConnectionException(e.getCause()));
         }
       } else {
-        subscriber.onError(new NetworkConnectionException());
+        emitter.onError(new NetworkConnectionException());
       }
     });
   }

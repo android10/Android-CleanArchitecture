@@ -20,7 +20,6 @@ import com.fernandocejas.android10.sample.data.cache.UserCache;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -36,14 +35,11 @@ public class UserDataStoreFactoryTest extends ApplicationTestCase {
 
   private UserDataStoreFactory userDataStoreFactory;
 
-  @Mock
-  private UserCache mockUserCache;
+  @Mock private UserCache mockUserCache;
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    userDataStoreFactory =
-        new UserDataStoreFactory(RuntimeEnvironment.application, mockUserCache);
+    userDataStoreFactory = new UserDataStoreFactory(RuntimeEnvironment.application, mockUserCache);
   }
 
   @Test

@@ -18,8 +18,7 @@ package com.fernandocejas.android10.sample.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
 
@@ -34,8 +33,8 @@ public class UserTest {
 
   @Test
   public void testUserConstructorHappyCase() {
-    int userId = user.getUserId();
+    final int userId = user.getUserId();
 
-    assertThat(userId, is(FAKE_USER_ID));
+    assertThat(userId).isEqualTo(FAKE_USER_ID);
   }
 }

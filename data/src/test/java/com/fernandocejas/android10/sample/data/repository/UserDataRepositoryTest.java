@@ -15,27 +15,26 @@
  */
 package com.fernandocejas.android10.sample.data.repository;
 
-import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.User;
+import io.reactivex.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import rx.Observable;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 
-public class UserDataRepositoryTest extends ApplicationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class UserDataRepositoryTest {
 
   private static final int FAKE_USER_ID = 123;
 
@@ -47,15 +46,9 @@ public class UserDataRepositoryTest extends ApplicationTestCase {
   @Mock private UserEntity mockUserEntity;
   @Mock private User mockUser;
 
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
-
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-    userDataRepository = new UserDataRepository(mockUserDataStoreFactory,
-        mockUserEntityDataMapper);
-
+    userDataRepository = new UserDataRepository(mockUserDataStoreFactory, mockUserEntityDataMapper);
     given(mockUserDataStoreFactory.create(anyInt())).willReturn(mockUserDataStore);
     given(mockUserDataStoreFactory.createCloudDataStore()).willReturn(mockUserDataStore);
   }

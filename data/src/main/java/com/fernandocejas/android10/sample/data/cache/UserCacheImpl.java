@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,14 +16,14 @@
 package com.fernandocejas.android10.sample.data.cache;
 
 import android.content.Context;
-import com.fernandocejas.android10.sample.data.cache.serializer.JsonSerializer;
+import com.fernandocejas.android10.sample.data.cache.serializer.Serializer;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
+import io.reactivex.Observable;
 import java.io.File;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import rx.Observable;
 
 /**
  * {@link UserCache} implementation.
@@ -39,7 +39,7 @@ public class UserCacheImpl implements UserCache {
 
   private final Context context;
   private final File cacheDir;
-  private final JsonSerializer serializer;
+  private final Serializer serializer;
   private final FileManager fileManager;
   private final ThreadExecutor threadExecutor;
 
@@ -47,52 +47,51 @@ public class UserCacheImpl implements UserCache {
    * Constructor of the class {@link UserCacheImpl}.
    *
    * @param context A
-   * @param userCacheSerializer {@link JsonSerializer} for object serialization.
+   * @param serializer {@link Serializer} for object serialization.
    * @param fileManager {@link FileManager} for saving serialized objects to the file system.
    */
-  @Inject
-  public UserCacheImpl(Context context, JsonSerializer userCacheSerializer,
+  @Inject UserCacheImpl(Context context, Serializer serializer,
       FileManager fileManager, ThreadExecutor executor) {
-    if (context == null || userCacheSerializer == null || fileManager == null || executor == null) {
+    if (context == null || serializer == null || fileManager == null || executor == null) {
       throw new IllegalArgumentException("Invalid null parameter");
     }
     this.context = context.getApplicationContext();
     this.cacheDir = this.context.getCacheDir();
-    this.serializer = userCacheSerializer;
+    this.serializer = serializer;
     this.fileManager = fileManager;
     this.threadExecutor = executor;
   }
 
   @Override public Observable<UserEntity> get(final int userId) {
-    return Observable.create(subscriber -> {
-      File userEntityFile = UserCacheImpl.this.buildFile(userId);
-      String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
-      UserEntity userEntity = UserCacheImpl.this.serializer.deserialize(fileContent);
+    return Observable.create(emitter -> {
+      final File userEntityFile = UserCacheImpl.this.buildFile(userId);
+      final String fileContent = UserCacheImpl.this.fileManager.readFileContent(userEntityFile);
+      final UserEntity userEntity =
+          UserCacheImpl.this.serializer.deserialize(fileContent, UserEntity.class);
 
       if (userEntity != null) {
-        subscriber.onNext(userEntity);
-        subscriber.onCompleted();
+        emitter.onNext(userEntity);
+        emitter.onComplete();
       } else {
-        subscriber.onError(new UserNotFoundException());
+        emitter.onError(new UserNotFoundException());
       }
     });
   }
 
   @Override public void put(UserEntity userEntity) {
     if (userEntity != null) {
-      File userEntityFile = this.buildFile(userEntity.getUserId());
+      final File userEntityFile = this.buildFile(userEntity.getUserId());
       if (!isCached(userEntity.getUserId())) {
-        String jsonString = this.serializer.serialize(userEntity);
-        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntityFile,
-            jsonString));
+        final String jsonString = this.serializer.serialize(userEntity, UserEntity.class);
+        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntityFile, jsonString));
         setLastCacheUpdateTimeMillis();
       }
     }
   }
 
   @Override public boolean isCached(int userId) {
-    File userEntitiyFile = this.buildFile(userId);
-    return this.fileManager.exists(userEntitiyFile);
+    final File userEntityFile = this.buildFile(userId);
+    return this.fileManager.exists(userEntityFile);
   }
 
   @Override public boolean isExpired() {
@@ -119,7 +118,7 @@ public class UserCacheImpl implements UserCache {
    * @return A valid file.
    */
   private File buildFile(int userId) {
-    StringBuilder fileNameBuilder = new StringBuilder();
+    final StringBuilder fileNameBuilder = new StringBuilder();
     fileNameBuilder.append(this.cacheDir.getPath());
     fileNameBuilder.append(File.separator);
     fileNameBuilder.append(DEFAULT_FILE_NAME);
@@ -132,7 +131,7 @@ public class UserCacheImpl implements UserCache {
    * Set in millis, the last time the cache was accessed.
    */
   private void setLastCacheUpdateTimeMillis() {
-    long currentMillis = System.currentTimeMillis();
+    final long currentMillis = System.currentTimeMillis();
     this.fileManager.writeToPreferences(this.context, SETTINGS_FILE_NAME,
         SETTINGS_KEY_LAST_CACHE_UPDATE, currentMillis);
   }

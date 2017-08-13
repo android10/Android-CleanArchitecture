@@ -19,16 +19,15 @@ import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
-import com.fernandocejas.android10.sample.domain.interactor.DefaultSubscriber;
-import com.fernandocejas.android10.sample.domain.interactor.UseCase;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.fernandocejas.android10.sample.presentation.internal.di.PerActivity;
 import com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.UserDetailsView;
-import com.fernandocejas.frodo.annotation.RxLogSubscriber;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
@@ -39,11 +38,11 @@ public class UserDetailsPresenter implements Presenter {
 
   private UserDetailsView viewDetailsView;
 
-  private final UseCase getUserDetailsUseCase;
+  private final GetUserDetails getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase,
+  public UserDetailsPresenter(GetUserDetails getUserDetailsUseCase,
       UserModelDataMapper userModelDataMapper) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
@@ -58,24 +57,22 @@ public class UserDetailsPresenter implements Presenter {
   @Override public void pause() {}
 
   @Override public void destroy() {
-    this.getUserDetailsUseCase.unsubscribe();
+    this.getUserDetailsUseCase.dispose();
     this.viewDetailsView = null;
   }
 
   /**
-   * Initializes the presenter by start retrieving user details.
+   * Initializes the presenter by showing/hiding proper views
+   * and retrieving user details.
    */
-  public void initialize() {
-    this.loadUserDetails();
-  }
-
-  /**
-   * Loads user details.
-   */
-  private void loadUserDetails() {
+  public void initialize(int userId) {
     this.hideViewRetry();
     this.showViewLoading();
-    this.getUserDetails();
+    this.getUserDetails(userId);
+  }
+
+  private void getUserDetails(int userId) {
+    this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
   }
 
   private void showViewLoading() {
@@ -105,14 +102,9 @@ public class UserDetailsPresenter implements Presenter {
     this.viewDetailsView.renderUser(userModel);
   }
 
-  private void getUserDetails() {
-    this.getUserDetailsUseCase.execute(new UserDetailsSubscriber());
-  }
+  private final class UserDetailsObserver extends DefaultObserver<User> {
 
-  @RxLogSubscriber
-  private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
-
-    @Override public void onCompleted() {
+    @Override public void onComplete() {
       UserDetailsPresenter.this.hideViewLoading();
     }
 
