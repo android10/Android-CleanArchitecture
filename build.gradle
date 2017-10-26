@@ -2,17 +2,16 @@ apply from: 'buildsystem/ci.gradle'
 apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
-  def gradleVersion = '2.3.0'
-  def androidAptVersion = '1.4'
+  def androidGradleVersion = '3.0.0'
   def frodoVersion = '0.8.3'
 
   repositories {
+    google()
     jcenter()
     mavenCentral()
   }
   dependencies {
-    classpath "com.android.tools.build:gradle:${gradleVersion}"
-    classpath "com.neenbedankt.gradle.plugins:android-apt:${androidAptVersion}"
+    classpath "com.android.tools.build:gradle:${androidGradleVersion}"
     classpath "com.fernandocejas.frodo:frodo-plugin:${frodoVersion}"
   }
 }
