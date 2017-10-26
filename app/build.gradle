@@ -3,14 +3,11 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:3.2.3'
   }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.fernandocejas.frodo'
-apply plugin: 'me.tatarka.retrolambda'
 
 frodo {
   enabled = true
@@ -79,28 +76,30 @@ dependencies {
   def testDependencies = rootProject.ext.dataTestDependencies
   def developmentDependencies = rootProject.ext.developmentDependencies
 
-  apt presentationDependencies.daggerCompiler
-  compile presentationDependencies.dagger
-  compile dataDependencies.okHttp
-  compile dataDependencies.gson
-  compile presentationDependencies.butterKnife
-  compile presentationDependencies.recyclerView
-  compile presentationDependencies.rxJava
-  compile presentationDependencies.rxAndroid
-  compile dataDependencies.androidAnnotations
-  provided presentationDependencies.javaxAnnotation
+  annotationProcessor presentationDependencies.daggerCompiler
+  annotationProcessor presentationDependencies.butterKnife
 
-  androidTestCompile presentationTestDependencies.mockito
-  androidTestCompile presentationTestDependencies.dexmaker
-  androidTestCompile presentationTestDependencies.dexmakerMockito
-  androidTestCompile presentationTestDependencies.espresso
-  androidTestCompile presentationTestDependencies.testingSupportLib
+  implementation presentationDependencies.butterKnife
+  implementation presentationDependencies.dagger
+  implementation dataDependencies.okHttp
+  implementation dataDependencies.gson
+  implementation presentationDependencies.recyclerView
+  implementation presentationDependencies.rxJava
+  implementation presentationDependencies.rxAndroid
+  implementation dataDependencies.androidAnnotations
+  compileOnly presentationDependencies.javaxAnnotation
 
-  testCompile testDependencies.junit
-  testCompile testDependencies.assertj
-  testCompile testDependencies.mockito
-  testCompile testDependencies.robolectric
+  androidTestImplementation presentationTestDependencies.mockito
+  androidTestImplementation presentationTestDependencies.dexmaker
+  androidTestImplementation presentationTestDependencies.dexmakerMockito
+  androidTestImplementation presentationTestDependencies.espresso
+  androidTestImplementation presentationTestDependencies.testingSupportLib
+
+  testImplementation testDependencies.junit
+  testImplementation testDependencies.assertj
+  testImplementation testDependencies.mockito
+  testImplementation testDependencies.robolectric
 
   //Development
-  compile developmentDependencies.leakCanary
+  implementation developmentDependencies.leakCanary
 }
