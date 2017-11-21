@@ -5,10 +5,11 @@ buildscript {
   repositories {
     jcenter()
     mavenCentral()
+    google()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.2.2'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    classpath 'com.android.tools.build:gradle:3.0.0'
+//    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
 
