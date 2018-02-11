@@ -3,7 +3,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+    classpath 'me.tatarka:gradle-retrolambda:3.7.0'
   }
 }
 
@@ -51,19 +51,19 @@ dependencies {
   def dataDependencies = rootProject.ext.dataDependencies
   def testDependencies = rootProject.ext.dataTestDependencies
 
-  compile project(':domain')
-  provided dataDependencies.javaxAnnotation
-  compile dataDependencies.javaxInject
-  compile dataDependencies.okHttp
-  compile dataDependencies.gson
-  compile dataDependencies.rxJava
-  compile dataDependencies.rxAndroid
-  compile dataDependencies.androidAnnotations
+  implementation project(':domain')
+  compileOnly dataDependencies.javaxAnnotation
+  implementation dataDependencies.javaxInject
+  implementation dataDependencies.okHttp
+  implementation dataDependencies.gson
+  implementation dataDependencies.rxJava
+  implementation dataDependencies.rxAndroid
+  implementation dataDependencies.androidAnnotations
 
-  testCompile testDependencies.junit
-  testCompile testDependencies.assertj
-  testCompile testDependencies.mockito
-  testCompile testDependencies.robolectric
+  testImplementation testDependencies.junit
+  testImplementation testDependencies.assertj
+  testImplementation testDependencies.mockito
+  testImplementation testDependencies.robolectric
 }
 
 repositories {
