@@ -1,6 +1,11 @@
-Android-CleanArchitecture [![Build Status](https://travis-ci.org/android10/Android-CleanArchitecture.svg?branch=master)](https://travis-ci.org/android10/Android-CleanArchitecture)
+Android-CleanArchitecture 
 =========================
 
+## New version available written in Kotlin:
+[Architecting Android… Reloaded](https://fernandocejas.com/2018/05/07/architecting-android-reloaded/)
+
+Introduction
+-----------------
 This is a sample app that is part of a blog post I have written about how to architect android application using the Uncle Bob's clean architecture approach. 
 
 [Architecting Android…The clean way?](http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/)
