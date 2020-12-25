@@ -2,14 +2,9 @@ buildscript {
   repositories {
     mavenCentral()
   }
-  dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:3.2.3'
-  }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
   defaultPublishConfig "debug"
