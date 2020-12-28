@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 
 android {
   def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -62,23 +62,28 @@ dependencies {
   def presentationTestDependencies = rootProject.ext.presentationTestDependencies
   def developmentDependencies = rootProject.ext.developmentDependencies
 
-  compile project(':domain')
-  compile project(':data')
+  implementation project(':domain')
+  implementation project(':data')
 
-  apt presentationDependencies.daggerCompiler
-  compile presentationDependencies.dagger
-  compile presentationDependencies.butterKnife
-  compile presentationDependencies.recyclerView
-  compile presentationDependencies.rxJava
-  compile presentationDependencies.rxAndroid
-  provided presentationDependencies.javaxAnnotation
+  annotationProcessor presentationDependencies.daggerCompiler
+  implementation presentationDependencies.dagger
+  implementation presentationDependencies.butterKnife
+  annotationProcessor presentationDependencies.butterKnife
+  implementation presentationDependencies.recyclerView
+  implementation presentationDependencies.rxJava
+  implementation presentationDependencies.rxAndroid
+  compileOnly presentationDependencies.javaxAnnotation
 
-  androidTestCompile presentationTestDependencies.mockito
-  androidTestCompile presentationTestDependencies.dexmaker
-  androidTestCompile presentationTestDependencies.dexmakerMockito
-  androidTestCompile presentationTestDependencies.espresso
-  androidTestCompile presentationTestDependencies.testingSupportLib
+  androidTestImplementation presentationTestDependencies.mockito
+  androidTestImplementation presentationTestDependencies.dexmaker
+  androidTestImplementation presentationTestDependencies.dexmakerMockito
+  androidTestImplementation presentationTestDependencies.espresso
+  androidTestImplementation presentationTestDependencies.testingSupportLib
 
   //Development
-  compile developmentDependencies.leakCanary
+  implementation developmentDependencies.leakCanary
+}
+
+repositories {
+  google()
 }
