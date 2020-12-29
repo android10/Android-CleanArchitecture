@@ -53,20 +53,20 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     setRetainInstance(true);
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @Override protected boolean onInjectView() throws IllegalStateException {
     this.getComponent(UserComponent.class).inject(this);
+    return true;
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+                                     Bundle savedInstanceState) {
     final View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
     ButterKnife.bind(this, fragmentView);
     return fragmentView;
   }
 
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+  @Override protected void onViewInjected(Bundle savedInstanceState) {
+    super.onViewInjected(savedInstanceState);
     this.userDetailsPresenter.setView(this);
     if (savedInstanceState == null) {
       this.loadUserDetails();
