@@ -18,7 +18,8 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
+import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.mapper.EntityJsonMapper;
 import com.fernandocejas.android10.sample.data.net.RestApi;
 import com.fernandocejas.android10.sample.data.net.RestApiImpl;
 import javax.inject.Inject;
@@ -58,8 +59,8 @@ public class UserDataStoreFactory {
    * Create {@link UserDataStore} to retrieve data from the Cloud.
    */
   public UserDataStore createCloudDataStore() {
-    final UserEntityJsonMapper userEntityJsonMapper = new UserEntityJsonMapper();
-    final RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+    final EntityJsonMapper<UserEntity> entityJsonMapper = new EntityJsonMapper<>(UserEntity.class);
+    final RestApi restApi = new RestApiImpl(this.context, entityJsonMapper);
 
     return new CloudUserDataStore(restApi, this.userCache);
   }

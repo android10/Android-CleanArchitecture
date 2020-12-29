@@ -19,7 +19,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
+import com.fernandocejas.android10.sample.data.entity.mapper.EntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
 import io.reactivex.Observable;
 import java.net.MalformedURLException;
@@ -31,20 +31,20 @@ import java.util.List;
 public class RestApiImpl implements RestApi {
 
   private final Context context;
-  private final UserEntityJsonMapper userEntityJsonMapper;
+  private final EntityJsonMapper<UserEntity> entityJsonMapper;
 
   /**
    * Constructor of the class
    *
    * @param context {@link android.content.Context}.
-   * @param userEntityJsonMapper {@link UserEntityJsonMapper}.
+   * @param entityJsonMapper {@link EntityJsonMapper}.
    */
-  public RestApiImpl(Context context, UserEntityJsonMapper userEntityJsonMapper) {
-    if (context == null || userEntityJsonMapper == null) {
+  public RestApiImpl(Context context, EntityJsonMapper entityJsonMapper) {
+    if (context == null || entityJsonMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
-    this.userEntityJsonMapper = userEntityJsonMapper;
+    this.entityJsonMapper = entityJsonMapper;
   }
 
   @Override public Observable<List<UserEntity>> userEntityList() {
@@ -53,7 +53,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserEntities = getUserEntitiesFromApi();
           if (responseUserEntities != null) {
-            emitter.onNext(userEntityJsonMapper.transformUserEntityCollection(
+            emitter.onNext(entityJsonMapper.transformEntityCollection(
                 responseUserEntities));
             emitter.onComplete();
           } else {
@@ -74,7 +74,7 @@ public class RestApiImpl implements RestApi {
         try {
           String responseUserDetails = getUserDetailsFromApi(userId);
           if (responseUserDetails != null) {
-            emitter.onNext(userEntityJsonMapper.transformUserEntity(responseUserDetails));
+            emitter.onNext(entityJsonMapper.transformEntity(responseUserDetails));
             emitter.onComplete();
           } else {
             emitter.onError(new NetworkConnectionException());
