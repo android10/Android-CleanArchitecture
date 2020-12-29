@@ -18,6 +18,7 @@ package com.fernandocejas.android10.sample.presentation.model;
 /**
  * Class that represents a user in the presentation layer.
  */
+//model class business logic
 public class UserModel {
 
   private final int userId;
