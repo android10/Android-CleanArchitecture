@@ -70,9 +70,21 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-
-![http://www.fernandocejas.com](https://github.com/android10/Sample-Data/blob/master/android10/android10_logo_big.png)
+### Build Status
+[![http://www.fernandocejas.com](https://github.com/android10/Sample-Data/blob/master/android10/android10_logo_big.png)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--CleanArchitecture-brightgreen.svg?style=flat)](https://android-arsenal.com/details/3/909)
 
 <a href="https://www.buymeacoffee.com/android10" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+[![Build Status](https://travis-ci.org/Teradata/covalent.svg?branch=develop)](https://travis-ci.org/Teradata/covalent)
+[![npm](https://img.shields.io/npm/v/%40covalent/core.svg)](https://www.npmjs.com/package/@covalent/core)
+[![npm](https://img.shields.io/npm/v/%40covalent/core/next.svg)](https://www.npmjs.com/package/@covalent/core/v/next)
+[![Join the chat at https://gitter.im/Teradata/covalent](https://badges.gitter.im/Teradata/covalent.svg)](https://gitter.im/Teradata/covalent?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+-
+<a href="https://www.codefactor.io/repository/bitbucket/buckobit/bucksbitties-.github-workflows-name-bucksbitties-ci-bitbucket"><img src="https://www.codefactor.io/repository/bitbucket/buckobit/bucksbitties-.github-workflows-name-bucksbitties-ci-bitbucket/badge" alt="CodeFactor" /></a>
+-
+[![Coverage Status](https://coveralls.io/repos/github/Teradata/covalent/badge.svg)](https://coveralls.io/github/Teradata/covalent)
+[![npm](https://img.shields.io/npm/l/@covalent/core.svg)](LICENSE)
+
+<img alt="Covalent" src="https://gitcdn.link/repo/Teradata/covalent/develop/src/assets/icons/covalent.svg" width="150">
