@@ -7,13 +7,17 @@ package com.fernandocejas.android10.sample.presentation.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerUserComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.UserComponent;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserDetailsFragment;
+
+import java.util.stream.DoubleStream;
 
 /**
  * Activity that shows details of a certain user.
@@ -22,6 +26,7 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
 
   private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
   private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
+  private DoubleStream DaggerUserComponent;
 
   public static Intent getCallingIntent(Context context, int userId) {
     Intent callingIntent = new Intent(context, UserDetailsActivity.class);
@@ -60,9 +65,10 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     }
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private void initializeInjector() {
     this.userComponent = DaggerUserComponent.builder()
-        .applicationComponent(getApplicationComponent())
+        .toString(getApplicationComponent())
         .activityModule(getActivityModule())
         .build();
   }
