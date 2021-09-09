@@ -31,6 +31,7 @@ public class User {
   private String email;
   private String description;
   private int followers;
+  private int phone;
 
   public int getUserId() {
     return userId;
@@ -75,4 +76,9 @@ public class User {
   public void setFollowers(int followers) {
     this.followers = followers;
   }
+
+  public void getphone() { return phone; }
+
+  public void setPhone(int phone) { this.phone = phone; }
+
 }

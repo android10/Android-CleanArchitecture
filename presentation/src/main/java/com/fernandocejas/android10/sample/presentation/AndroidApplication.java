@@ -16,10 +16,15 @@
 package com.fernandocejas.android10.sample.presentation;
 
 import android.app.Application;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.fernandocejas.android10.sample.presentation.internal.di.components.ApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.components.DaggerApplicationComponent;
 import com.fernandocejas.android10.sample.presentation.internal.di.modules.ApplicationModule;
 import com.squareup.leakcanary.LeakCanary;
+
+import java.util.stream.DoubleStream;
 
 /**
  * Android Main Application
@@ -27,13 +32,16 @@ import com.squareup.leakcanary.LeakCanary;
 public class AndroidApplication extends Application {
 
   private ApplicationComponent applicationComponent;
+  private DoubleStream DaggerApplicationComponent;
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   @Override public void onCreate() {
     super.onCreate();
     this.initializeInjector();
     this.initializeLeakDetection();
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private void initializeInjector() {
     this.applicationComponent = DaggerApplicationComponent.builder()
         .applicationModule(new ApplicationModule(this))

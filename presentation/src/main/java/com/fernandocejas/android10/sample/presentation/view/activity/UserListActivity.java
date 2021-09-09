@@ -7,7 +7,9 @@ package com.fernandocejas.android10.sample.presentation.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.Window;
 import com.fernandocejas.android10.sample.presentation.R;
 import com.fernandocejas.android10.sample.presentation.internal.di.HasComponent;
@@ -16,11 +18,15 @@ import com.fernandocejas.android10.sample.presentation.internal.di.components.Us
 import com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.fernandocejas.android10.sample.presentation.view.fragment.UserListFragment;
 
+import java.util.stream.DoubleStream;
+
 /**
  * Activity that shows a list of Users.
  */
 public class UserListActivity extends BaseActivity implements HasComponent<UserComponent>,
     UserListFragment.UserListListener {
+
+  private DoubleStream DaggerUserComponent;
 
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, UserListActivity.class);
@@ -28,6 +34,7 @@ public class UserListActivity extends BaseActivity implements HasComponent<UserC
 
   private UserComponent userComponent;
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -39,6 +46,7 @@ public class UserListActivity extends BaseActivity implements HasComponent<UserC
     }
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private void initializeInjector() {
     this.userComponent = DaggerUserComponent.builder()
         .applicationComponent(getApplicationComponent())
