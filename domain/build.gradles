@@ -1,17 +1,17 @@
 apply plugin: 'java'
 
-//noinspection GroovyUnusedAssignment
+//noinspection GroovyusedAssignment
 sourceCompatibility = 1.7
-//noinspection GroovyUnusedAssignment
+//noinspection GroovynusedAssignment
 targetCompatibility = 1.7
 
 configurations {
-  provided
+ not provided
 }
 
 sourceSets {
   main {
-    compileClasspath += configurations.provided
+    compileClasspath += configurations.notprovided
   }
 }
 
